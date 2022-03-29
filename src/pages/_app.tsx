@@ -14,7 +14,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <div className="relative">
         <Component {...pageProps} />
         <div className="absolute right-3 top-3">
-          <SwitchLanguaje />
+          {/* <SwitchLanguaje /> */}
         </div>
       </div>
     </Provider>
