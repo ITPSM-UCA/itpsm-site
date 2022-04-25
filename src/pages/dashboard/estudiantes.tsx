@@ -7,6 +7,11 @@ import CustomTable from 'components/UI/CustomTable/CustomTable'
 const Students: NextPage = () => {
   const tableRef = useRef()
 
+  const refreshTableAction = () => {
+    console.log(tableRef.current)
+    // tableRef.current && tableRef.current.onQueryChange()
+  }
+
   const fetchData = () => new Promise((resolve) => {
     //const { rows, page, records } = await BaptismManagement.getBaptisms(query, token)
 
@@ -29,6 +34,14 @@ const Students: NextPage = () => {
         </h1>
         <div>
           <CustomTable
+            data={data}
+            ref={tableRef}
+            columns={columns}
+            title="Estudiantes"
+            onRefreshTableClicked={refreshTableAction}
+            onEditClickedAction={() => {}}
+          />
+          {/* <CustomTable
             title="Registro de bautismos"
             columns={columns}
             data={fetchData}
@@ -36,35 +49,27 @@ const Students: NextPage = () => {
             confirmDeleteAction={() => {}}
             onEditClickedAction={() => {}}
             onRefreshTableClicked={() => {}}
-          />
+          /> */}
         </div>
       </div>
     </Layout>
   )
 }
 
-const defaultCellStyles = {
-  padding: '5px 8px',
-  fontSize: '14px',
-  whiteSpace: 'nowrap',
-}
-
 const columns = [
-  { field: 'id', hidden: true },
-  { field: 'organization_id', hidden: true },
-  { field: 'date', hidden: true },
-  { field: 'birth_date', hidden: true },
-  { title: 'Fecha', field: 'date_with_format', cellStyle: defaultCellStyles },
-  { title: 'Libro N°', field: 'book_number', cellStyle:{ ...defaultCellStyles, textAlign: 'center' }, headerStyle: { ...defaultCellStyles } },
-  { title: 'Folio N°', field: 'folio_number', cellStyle:{ ...defaultCellStyles }, headerStyle: defaultCellStyles },
-  { title: 'Acta N°', field: 'record_number', cellStyle:{ ...defaultCellStyles }, headerStyle: defaultCellStyles },
-  { title: 'Nombre', field: 'name', cellStyle: defaultCellStyles },
-  { title: 'Fecha de nacimiento', field: 'birth_date_with_format', cellStyle: { padding: '8px', fontSize: '14px' } },
-  { title: 'Padre', field: 'father_name', cellStyle: defaultCellStyles },
-  { title: 'Madre', field: 'mother_name', cellStyle: defaultCellStyles },
-  { title: 'Padrino', field: 'godfather_name', cellStyle: defaultCellStyles },
-  { title: 'Madrina', field: 'godmother_name', cellStyle: defaultCellStyles },
-  { title: 'Sacerdote', field: 'celebrating_priest', cellStyle: defaultCellStyles },
+  { title: 'Name', field: 'name' },
+  { title: 'Surname', field: 'surname' },
+  { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+  {
+    title: 'Birth Place',
+    field: 'birthCity',
+    lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+  },
+]
+
+const data = [
+  { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+  { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
 ]
 
 export default Students

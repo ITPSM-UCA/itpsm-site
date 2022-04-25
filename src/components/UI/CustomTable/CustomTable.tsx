@@ -2,125 +2,83 @@ import { forwardRef } from 'react'
 import MaterialTable from 'material-table'
 
 interface Props {
-  columns: any
-  data: any,
   title: string,
-  small?: boolean,
-  toolbar?: boolean,
-  grouping?: boolean,
-  exportDefault?: boolean,
-  onRowClicked?: any,
-  onRefreshTableClicked?: (event: any) => void,
-  onCreatePDF?: (event: any, rowData: any) => void,
-  onEditClickedAction?: (event: any, rowData: any) => void,
-  confirmDeleteAction?: (event: any, rowData: any) => void,
+  columns: any[],
+  data: any[],
+  onEditClickedAction?: () => void,
+  onRefreshTableClicked?: () => void,
 }
 
-const CustomTable = forwardRef((props:Props, ref) => {
-  const padding = props.small ? 'dense' : 'default'
-  const toolbar = props.toolbar === false ? false : true
-  const grouping = props.grouping ? props.grouping : false
-  const exportDefault = props.exportDefault === false ? props.exportDefault : true
+const CustomTable = forwardRef(({
+  title,
+  columns,
+  data,
+  onEditClickedAction,
+  onRefreshTableClicked,
+}:Props, ref) => {
+  const actions = []
 
-  let onRowClick = null
-
-  let actions = []
-
-  if (props.onRowClicked) {
-    onRowClick = props.onRowClicked
-  }
-
-  if (props.onRefreshTableClicked) {
+  if (onRefreshTableClicked) {
     actions.push({
       icon: 'refresh',
       tooltip: 'Actualizar',
       isFreeAction: true,
-      onClick: props.onRefreshTableClicked,
+      onClick: onRefreshTableClicked,
     })
   }
 
-  if (props.onEditClickedAction) {
+  if (onEditClickedAction) {
     actions.push({
       icon: 'edit',
       tooltip: 'Editar registro',
-      onClick: props.onEditClickedAction,
-    })
-  }
-
-  if (props.confirmDeleteAction) {
-    actions.push({
-      icon: 'delete',
-      tooltip: 'Eliminar registro',
-      onClick: props.confirmDeleteAction,
-    })
-  }
-
-  if (props.onCreatePDF) {
-    actions.push({
-      icon: 'picture_as_pdf',
-      tooltip: 'Fé de bautismo',
-      onClick: props.onCreatePDF,
+      onClick: onEditClickedAction,
     })
   }
 
   return (
-    <div style={{ maxWidth: '100%' }} >
-      <MaterialTable
-        columns={props.columns}
-        data={props.data}
-        title={props.title}
-        tableRef={ref}
-        actions={actions}
-        onRowClick={onRowClick}
-        options={{
-          search: false,
-          selection: false,
-          grouping: grouping,
-          toolbar: toolbar,
-          padding: padding,
-          exportButton: exportDefault,
-          actionsColumnIndex: 0,
-          pageSize: 8,
-          pageSizeOptions: [5, 8, 10, 20, 50],
-          headerStyle: {
-            fontWeight: 'bold',
-            textAlign: 'center',
-            padding: '0.5rem',
-            zIndex: 0,
-          },
-          // cellStyle: {
-          //   padding: '8px',
-          //   fontSize: '14px',
-          // },
-        }}
-        localization={{
-          body: {
-            emptyDataSourceMessage: 'No hay registros que mostrar',
-          },
-          toolbar: {
-            searchTooltip: 'Buscar',
-            searchPlaceholder: 'Buscar',
-            exportTitle: 'Exportar',
-            exportCSVName: 'Exportar a CSV',
-            exportPDFName: 'Exportar a PDF',
-          },
-          header: {
-            actions: '',
-          },
-          grouping: {
-            placeholder: 'Arrastre las columnas que desea agrupar',
-          },
-          pagination: {
-            labelRowsSelect: 'Registros',
-            labelDisplayedRows: ' Mostrando {from}-{to} de {count}',
-            firstTooltip: 'Primera página',
-            previousTooltip: 'Página anterior',
-            nextTooltip: 'Página siguiente',
-            lastTooltip: 'Ultima página',
-          },
-        }}
-      />
-    </div>
+    <MaterialTable
+      title={title}
+      columns={columns}
+      data={data}
+      tableRef={ref}
+      actions={actions}
+      options={{
+        actionsColumnIndex: -1,
+        pageSizeOptions: [5, 8, 10, 20, 50],
+        headerStyle: {
+          fontWeight: 'bold',
+          textAlign: 'center',
+          padding: '0.5rem',
+          zIndex: 0,
+        },
+      }}
+      localization={{
+        body: {
+          emptyDataSourceMessage: 'No hay registros que mostrar',
+        },
+        toolbar: {
+          searchTooltip: 'Buscar',
+          searchPlaceholder: 'Buscar',
+          exportTitle: 'Exportar',
+          exportCSVName: 'Exportar a CSV',
+          exportPDFName: 'Exportar a PDF',
+        },
+        header: {
+          actions: '',
+        },
+        grouping: {
+          placeholder: 'Arrastre las columnas que desea agrupar',
+        },
+        pagination: {
+          labelRowsSelect: 'Registros',
+          labelDisplayedRows: ' Mostrando {from}-{to} de {count}',
+          firstTooltip: 'Primera página',
+          previousTooltip: 'Página anterior',
+          nextTooltip: 'Página siguiente',
+          lastTooltip: 'Ultima página',
+        },
+      }}
+    />
   )
 })
 

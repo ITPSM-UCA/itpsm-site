@@ -20,10 +20,16 @@
   "plugins": ["react", "@typescript-eslint", "react-hooks"],
   "rules": {
     "semi": "off",
+    "linebreak-style": 0,
     "react/react-in-jsx-scope": "off",
     "import/prefer-default-export": "off",
     "jsx-a11y/label-has-associated-control": "off",
-    "max-len": ["warn", { "code": 175 }],
+    "max-len": ["warn", { "code": 150 }],
+    "react/require-default-props": "off",
+    "no-use-before-define": ["error", { 
+      "functions": false,
+      "variables": false
+    }],
     "react/jsx-filename-extension": [
       2,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
@@ -48,10 +54,6 @@
       "components": [ "Link" ],
       "specialLink": [ "hrefLeft", "hrefRight" ],
       "aspects": [ "invalidHref", "preferButton" ]
-    }],
-    "no-use-before-define": ["error", {
-      "functions": false,
-      "variables": false
     }]
   }
 }
