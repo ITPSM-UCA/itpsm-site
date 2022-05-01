@@ -4,17 +4,19 @@ import { AUTH_SUCCESS, LOGOUT } from './userActions'
 
 const INITIAL_STATE = {
   id: null,
-  name: 'Alvaro Garcia',
   token: null,
+  tokenType: null,
   expirationDate: null,
+  userInformation: {},
 }
 
 const authSuccess = (state:any, { payload }:any) => ({
   ...state,
-  id: payload.userId,
-  name: payload.name,
-  token: payload.idToken,
+  id: payload.id,
+  token: payload.token,
+  tokenType: payload.token_type,
   expirationDate: payload.expirationDate,
+  userInformation: payload.attributes,
 })
 
 const logout = () => (INITIAL_STATE)

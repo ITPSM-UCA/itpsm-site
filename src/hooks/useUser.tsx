@@ -13,7 +13,7 @@ const useUser = () => {
   const user = useSelector((state: any) => state.user)
 
   const onSuccessfulLogin = (userInfo:any) => {
-    const expiresIn = userInfo.expiresIn ?? 0
+    const expiresIn = userInfo.expires_at ?? 0
     const expirationDate = new Date(new Date().getTime() + (expiresIn * 1000))
 
     dispatch(authSuccess({

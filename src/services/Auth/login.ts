@@ -1,24 +1,18 @@
+import axios from 'axios'
+import { API_URL } from 'config'
+
 interface LoginRequest {
   email: string,
   password: string,
 }
 
 const login = async (data: LoginRequest) => {
-  const LoginPromise = new Promise((resolve) => {
-    setTimeout(async () => {
-      resolve({
-        success: true,
-        userInfo: {
-          name: 'Alvaro Garcia',
-          userId: 1,
-          idToken: 'ijKZwl0skAS',
-          expiresIn: 200,
-        },
-      })
-      // resolve({ error: 'The operation could not be completed, please try again later or contact our customer support team.' })
-    }, 8000)
-  })
-  return LoginPromise
+  try {
+    const response = await axios.post(`${API_URL}/api/login`, data)
+    return response.data.data
+  } catch (error: any) {
+    return { error: error?.response?.errors?.title ?? 'Su correo electrónico o contraseña es incorrecto. Revise e intente nuevamente.' }
+  }
 }
 
 export default login

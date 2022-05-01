@@ -64,7 +64,6 @@ const LoginForm = () => {
     }
     onSuccessfulLogin({
       ...data,
-      token: data?.idToken,
     })
     setLoading(false)
   }
