@@ -8,7 +8,7 @@ interface LoginRequest {
 
 const login = async (data: LoginRequest) => {
   try {
-    const response = await axios.post(`${API_URL}/api/login`, data)
+    const response = await axios.post(`${API_URL}/login`, data)
     return response.data.data
   } catch (error: any) {
     return { error: error?.response?.errors?.title ?? 'Su correo electrónico o contraseña es incorrecto. Revise e intente nuevamente.' }

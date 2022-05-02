@@ -1,11 +1,14 @@
-import { useRef } from 'react'
+import { useState, useRef } from 'react'
 import Head from 'next/head'
 import type { NextPage } from 'next'
 import Layout from 'components/Layout/Layout'
-import CustomTable from 'components/UI/CustomTable/CustomTable'
+import StudentForm from 'components/Students/StudentForm'
+import StudentsTable from 'components/Students/StudentsTable'
 
 const Students: NextPage = () => {
   const tableRef = useRef()
+  const [showForm, setShowForm] = useState(false)
+  const [currentStudent, setCurrentStudent] = useState(initialData)
 
   const refreshTableAction = () => {
     console.log(tableRef.current)
@@ -22,6 +25,8 @@ const Students: NextPage = () => {
     })
   })
 
+  const toggleForm = () => setShowForm((prev:boolean) => !prev)
+
   return (
     <Layout>
       <Head>
@@ -29,28 +34,20 @@ const Students: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
-        <h1 className="text-2xl font-semibold text-gray-900">
-          Estudiantes
-        </h1>
-        <div>
-          <CustomTable
-            data={data}
-            ref={tableRef}
-            columns={columns}
-            title="Estudiantes"
-            onRefreshTableClicked={refreshTableAction}
-            onEditClickedAction={() => {}}
+        {showForm ? (
+          <StudentForm
+            data={currentStudent}
+            toggleForm={toggleForm}
           />
-          {/* <CustomTable
-            title="Registro de bautismos"
+        ) : (
+          <StudentsTable
+            data={data}
             columns={columns}
-            data={fetchData}
-            ref={tableRef}
-            confirmDeleteAction={() => {}}
-            onEditClickedAction={() => {}}
-            onRefreshTableClicked={() => {}}
-          /> */}
-        </div>
+            tableRef={tableRef}
+            toggleForm={toggleForm}
+            refreshTableAction={refreshTableAction}
+          />
+        )}
       </div>
     </Layout>
   )
@@ -71,5 +68,30 @@ const data = [
   { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
   { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
 ]
+
+const initialData = {
+  carnet: '999999999',
+  name: 'Alvaro',
+  last_name: 'Garcia',
+  email: 'alvaro1@gmail.com',
+  birth_date: '1998-09-10',
+  address: 'En Tepecoyo',
+  phone_number: '7777-7777',
+  home_phone_number: '2222-2222',
+  gender: 'M',
+  relationship: 'S',
+  status: 'A',
+  blood_type: 'RH+',
+  mother_name: 'Nombre de la madre',
+  mother_phone_number: '7777-7777',
+  father_name: '',
+  father_phone_number: '',
+  emergency_contact_name: 'Contacto de emergencia',
+  emergency_contact_phone: '7777-7777',
+  municipality_id: 3,
+  department_id: 14,
+  country_id: 1,
+  status_id: 1,
+}
 
 export default Students

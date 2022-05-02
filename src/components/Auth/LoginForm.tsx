@@ -49,7 +49,7 @@ const LoginForm = () => {
   }
 
   useEffect(() => {
-    if (isAuthenticated) router.replace('/')
+    if (isAuthenticated) router.replace('/dashboard')
   }, [isAuthenticated])
 
   const onLogin = async (formData: any) => {
