@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   id: null,
   token: null,
   tokenType: null,
-  expirationDate: null,
+  expires_at: null,
   userInformation: {},
 }
 
@@ -15,7 +15,7 @@ const authSuccess = (state:any, { payload }:any) => ({
   id: payload.id,
   token: payload.token,
   tokenType: payload.token_type,
-  expirationDate: payload.expirationDate,
+  expires_at: payload.expires_at,
   userInformation: payload.attributes,
 })
 

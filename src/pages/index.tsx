@@ -3,9 +3,18 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import useUser from 'hooks/useUser'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 const Home: NextPage = () => {
   const { t } = useTranslation()
+  const router = useRouter()
+  const { isAuthenticated } = useUser()
+
+  useEffect(() => {
+    if (isAuthenticated) router.replace('/dashboard')
+  }, [isAuthenticated])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">

@@ -5,9 +5,15 @@ import { useStore } from 'store'
 import { Provider } from 'react-redux'
 import type { AppProps } from 'next/app'
 import { appWithTranslation } from 'next-i18next'
+import { useEffect } from 'react'
+import { authCheckState } from 'store/User/userActions'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const store = useStore(pageProps.initialReduxState)
+
+  useEffect(() => {
+    store.dispatch(authCheckState())
+  }, [])
 
   return (
     <Provider store={store}>
