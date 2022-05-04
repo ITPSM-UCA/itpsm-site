@@ -20,6 +20,7 @@
   "plugins": ["react", "@typescript-eslint", "react-hooks"],
   "rules": {
     "semi": "off",
+    "brace-style": "off",
     "linebreak-style": 0,
     "react/react-in-jsx-scope": "off",
     "import/prefer-default-export": "off",
