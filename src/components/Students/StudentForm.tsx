@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import CustomInput from 'components/UI/Form/CustomInput'
 import PhoneNumberInput from 'components/UI/Form/PhoneNumberInput'
+import CustomCombobox from 'components/UI/Form/CustomCombobox'
 
 interface Props {
   data: any
@@ -274,6 +275,36 @@ const StudentForm = ({ data, toggleForm }: Props) => {
             placeholder="1"
           />
         </div>
+        <div className="w-1/4 p-2">
+          <CustomCombobox
+            name="gender"
+            label="Genero"
+            error={errors?.gender}
+            control={control}
+            placeholder="M"
+            options={[{ id: 1, name: 'M' }, { id: 2, name: 'F' }]}
+          />
+        </div>
+        <div className="w-1/4 p-2">
+          <CustomCombobox
+            name="relationship"
+            label="Estado civil"
+            error={errors?.relationship}
+            control={control}
+            placeholder="Solter@"
+            options={[{ id: 1, name: 'Solter@' }, { id: 2, name: 'Casad@' }, { id: 3, name: 'Acompañad@' }]}
+          />
+        </div>
+        <div className="w-1/4 p-2">
+          <CustomCombobox
+            name="blood_type"
+            label="Tipo de sangre"
+            error={errors?.blood_type}
+            control={control}
+            placeholder="A-"
+            options={[{ id: 1, name: 'A-' }, { id: 2, name: 'A+' }, { id: 3, name: 'B-' }, { id: 4, name: 'B+' }, { id: 5, name: 'AB-' }, { id: 6, name: 'AB+' }, { id: 7, name: 'O-' }, { id: 8, name: 'O+' }]}
+          />
+        </div>
       </div>
     </form>
   )
@@ -288,10 +319,10 @@ const schema = yup.object().shape({
   address: yup.string().nullable(),
   phone_number: yup.string().nullable(),
   home_phone_number: yup.string().nullable(),
-  gender: yup.string().required('Este campo es obligatorio.'), // queda pendiente
-  relationship: yup.string().required('Este campo es obligatorio.'), // queda pendiente
+  gender: yup.string().required('Este campo es obligatorio.'),
+  relationship: yup.string().required('Este campo es obligatorio.'),
   status_id: yup.string().required('Este campo es obligatorio.'), // queda pendiente
-  blood_type: yup.string().nullable(), // queda pendiente
+  blood_type: yup.string().nullable(),
   mother_name: yup.string().nullable(),
   mother_phone_number: yup.string().nullable(),
   father_name: yup.string().nullable(),
