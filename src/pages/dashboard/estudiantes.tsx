@@ -25,7 +25,7 @@ const Students: NextPage = () => {
     })
   })
 
-  const toggleForm = () => setShowForm((prev:boolean) => !prev)
+  const toggleForm = () => setShowForm((prev: boolean) => !prev)
 
   return (
     <Layout>
@@ -69,29 +69,59 @@ const data = [
   { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
 ]
 
+// const initialData = {
+//   carnet: '999999999',
+//   name: 'Alvaro',
+//   last_name: 'Garcia',
+//   email: 'alvaro1@gmail.com',
+//   birth_date: '1998-09-10',
+//   address: 'En Tepecoyo',
+//   phone_number: '7777-5555',
+//   home_phone_number: '2222-2222',
+//   gender: 'M',
+//   relationship: 'S',
+//   status: 'A',
+//   blood_type: 'RH+',
+//   mother_name: 'Nombre de la madre',
+//   mother_phone_number: '7777-7777',
+//   father_name: '',
+//   father_phone_number: '',
+//   emergency_contact_name: 'Contacto de emergencia',
+//   emergency_contact_phone: '7777-7777',
+//   municipality_id: 3,
+//   department_id: 14,
+//   country_id: 1,
+//   status_id: 1,
+// }
+
 const initialData = {
-  carnet: '999999999',
-  name: 'Alvaro',
-  last_name: 'Garcia',
-  email: 'alvaro1@gmail.com',
-  birth_date: '1998-09-10',
-  address: 'En Tepecoyo',
-  phone_number: '7777-7777',
-  home_phone_number: '2222-2222',
+  carnet: '',
+  name: '',
+  last_name: '',
+  email: '',
+  birth_date: '',
+  address: '',
+  phone_number: '',
+  home_phone_number: '',
   gender: 'M',
   relationship: 'S',
-  status: 'A',
+  status_id: '',
   blood_type: 'RH+',
-  mother_name: 'Nombre de la madre',
-  mother_phone_number: '7777-7777',
+  mother_name: '',
+  mother_phone_number: '',
   father_name: '',
   father_phone_number: '',
-  emergency_contact_name: 'Contacto de emergencia',
-  emergency_contact_phone: '7777-7777',
+  emergency_contact_name: '',
+  emergency_contact_phone: '',
+  diseases: '',
+  allergies: '',
+  entry_date: '',
+  date_high_school_degree: '',
   municipality_id: 3,
   department_id: 14,
   country_id: 1,
-  status_id: 1,
+  medicines: '',
+  current_school_cycle: '',
 }
 
 export default Students
