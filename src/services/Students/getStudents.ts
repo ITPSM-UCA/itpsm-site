@@ -2,7 +2,7 @@ import { empty } from 'utils/helpers'
 import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
-const getStudents = async (query:any, token:string) => {
+const getStudents = async (query:any) => {
   try {
     let url = `${apiInstance.defaults.baseURL}/students?`
     url += `page[size]=${query.pageSize}&page[number]=${query.page + 1}&filter=${query.search}`
@@ -14,11 +14,7 @@ const getStudents = async (query:any, token:string) => {
     if (query?.orderBy) {
       url += `&sortColumn=${query.orderBy.field}`
     }
-    const response = await apiInstance.get(url, {
-      headers: {
-        Authorization: token,
-      },
-    })
+    const response = await apiInstance.get(url)
 
     const rows:any = []
 

@@ -58,19 +58,15 @@ const Students: NextPage = () => {
 }
 
 const columns = [
-  { title: 'Name', field: 'name' },
-  { title: 'Surname', field: 'surname' },
-  { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+  { title: 'Carnet', field: 'carnet' },
+  { title: 'Nombre', field: 'name' },
+  { title: 'Apellido', field: 'last_name' },
+  { title: 'Fecha de Nacimiento', field: 'birth_date_with_format' },
   {
-    title: 'Birth Place',
-    field: 'birthCity',
-    lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+    title: 'Genero',
+    field: 'gender',
+    lookup: { M: 'Masculino', F: 'Femenino' },
   },
-]
-
-const data = [
-  { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-  { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
 ]
 
 // const initialData = {
