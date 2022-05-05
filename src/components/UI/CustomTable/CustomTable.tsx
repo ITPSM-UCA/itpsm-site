@@ -4,7 +4,8 @@ import MaterialTable from 'material-table'
 interface Props {
   title: string,
   columns: any[],
-  data: any[],
+  data: any,
+  getData: (query:any) => Promise<any>,
   onEditClickedAction?: () => void,
   onRefreshTableClicked?: () => void,
 }
@@ -13,6 +14,7 @@ const CustomTable = forwardRef(({
   title,
   columns,
   data,
+  getData,
   onEditClickedAction,
   onRefreshTableClicked,
 }:Props, ref) => {
@@ -39,7 +41,19 @@ const CustomTable = forwardRef(({
     <MaterialTable
       title={title}
       columns={columns}
-      data={data}
+      // data={data}
+      data={(query:any) =>
+        new Promise((resolve) => {
+          getData(query).then((result:any) => {
+            console.log(result, 'result')
+            resolve({
+              data: result.rows,
+              page: result.page - 1,
+              totalCount: result.records,
+            })
+          })
+        })
+      }
       tableRef={ref}
       actions={actions}
       options={{

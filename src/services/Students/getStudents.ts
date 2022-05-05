@@ -1,15 +1,8 @@
-/* eslint-disable no-unsafe-finally */
 import { empty } from 'utils/helpers'
 import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
 const getStudents = async (query:any, token:string) => {
-  let studentsData = {
-    rows: [],
-    page: 1,
-    records: 0,
-  }
-
   try {
     let url = `${apiInstance.defaults.baseURL}/students?`
     url += `page[size]=${query.pageSize}&page[number]=${query.page + 1}&filter=${query.search}`
@@ -18,10 +11,9 @@ const getStudents = async (query:any, token:string) => {
       url += `&sortOrder=${query.orderDirection}`
     }
 
-    if (!empty(query.orderBy)) {
+    if (query?.orderBy) {
       url += `&sortColumn=${query.orderBy.field}`
     }
-
     const response = await apiInstance.get(url, {
       headers: {
         Authorization: token,
@@ -37,18 +29,23 @@ const getStudents = async (query:any, token:string) => {
       })
     })
 
-    studentsData = {
+    return {
       rows,
       page: response.data.meta.page,
       records: response.data.meta.records,
     }
   }
   catch (error:any) {
+    console.log(error)
     onErrorHandler(error.response)
-  }
-  finally {
     return studentsData
   }
+}
+
+const studentsData = {
+  rows: [],
+  page: 1,
+  records: 0,
 }
 
 export default getStudents
