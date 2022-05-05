@@ -38,7 +38,7 @@ const Home: NextPage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by Decima
+          Powered by
         </a>
       </footer>
     </div>
