@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-unreachable-loop */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
@@ -36,11 +37,11 @@ const empty = (mixedVar: any) => {
     '0.000000',
   ]
 
-  emptyValues.forEach((element:any) => {
-    if (mixedVar === element) {
+  for (let i = 0; i < emptyValues.length; i++) {
+    if (mixedVar === emptyValues[i]) {
       return true
     }
-  });
+  }
 
   if (typeof mixedVar === 'object') {
     for (const key in mixedVar) {

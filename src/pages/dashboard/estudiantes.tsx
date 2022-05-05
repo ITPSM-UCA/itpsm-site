@@ -1,29 +1,33 @@
 import { useState, useRef } from 'react'
 import Head from 'next/head'
+import useUser from 'hooks/useUser'
 import type { NextPage } from 'next'
 import Layout from 'components/Layout/Layout'
 import StudentForm from 'components/Students/StudentForm'
 import StudentsTable from 'components/Students/StudentsTable'
+import getStudents from 'services/Students/getStudents'
+import { empty } from 'utils/helpers'
 
 const Students: NextPage = () => {
   const tableRef = useRef()
+  const { token } = useUser()
   const [showForm, setShowForm] = useState(false)
   const [currentStudent, setCurrentStudent] = useState(initialData)
 
   const refreshTableAction = () => {
     console.log(tableRef.current)
-    // tableRef.current && tableRef.current.onQueryChange()
+    tableRef.current && tableRef.current.onQueryChange()
   }
 
-  const fetchData = () => new Promise((resolve) => {
-    //const { rows, page, records } = await BaptismManagement.getBaptisms(query, token)
-
-    resolve({
-      data: [],
-      page: 1,
-      totalCount: 0,
-    })
-  })
+  const fetchData = async (query:any) => {
+    const { rows, page, records } = await getStudents(query, token)
+    console.log(rows, page, records, 'rows')
+    return {
+      rows,
+      page,
+      records,
+    }
+  }
 
   const toggleForm = () => setShowForm((prev: boolean) => !prev)
 
@@ -41,7 +45,7 @@ const Students: NextPage = () => {
           />
         ) : (
           <StudentsTable
-            data={data}
+            data={fetchData}
             columns={columns}
             tableRef={tableRef}
             toggleForm={toggleForm}

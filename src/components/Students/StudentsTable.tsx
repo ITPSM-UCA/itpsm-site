@@ -2,7 +2,7 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import CustomTable from 'components/UI/CustomTable/CustomTable'
 
 interface Props {
-  data: any[],
+  data: any,
   columns: any[],
   tableRef: any,
   toggleForm: () => void,
@@ -33,6 +33,7 @@ const StudentsTable = ({
       <div>
         <CustomTable
           data={data}
+          getData={data}
           ref={tableRef}
           columns={columns}
           title="Estudiantes"
