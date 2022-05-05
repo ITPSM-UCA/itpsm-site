@@ -13,11 +13,13 @@ interface Props {
   placeholder?: string,
   required?: boolean,
   label: string,
+  setValue: any,
+  isIdValue?: boolean,
 }
 const inputClassName = 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
 
 const CustomCombobox = ({
-  control, name, error, options, placeholder, required, label,
+  control, name, error, options, placeholder, required, label, setValue, isIdValue = false,
 }: Props) => {
   const [filteredOptions, setFilteredOptions] = useState([])
 
@@ -33,6 +35,8 @@ const CustomCombobox = ({
 
   const handleOnSelect = (item: any) => {
     setOptionSelected(item)
+    if (isIdValue) return setValue(name, item?.id ?? '')
+    setValue(name, item?.name ?? '')
   }
 
   return (

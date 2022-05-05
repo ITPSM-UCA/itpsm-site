@@ -16,6 +16,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     handleSubmit,
     formState,
     control,
+    setValue,
     // reset,
     // watch
   } = useForm({
@@ -49,6 +50,8 @@ const StudentForm = ({ data, toggleForm }: Props) => {
 
           <button
             type="submit"
+            onSubmit={handleSubmit(onSubmit)}
+            onClick={handleSubmit(onSubmit)}
             className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2">
             Guardar Estudiante
           </button>
@@ -283,6 +286,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
             control={control}
             placeholder="M"
             options={[{ id: 1, name: 'M' }, { id: 2, name: 'F' }]}
+            setValue={setValue}
           />
         </div>
         <div className="w-1/4 p-2">
@@ -293,6 +297,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
             control={control}
             placeholder="Solter@"
             options={[{ id: 1, name: 'Solter@' }, { id: 2, name: 'Casad@' }, { id: 3, name: 'Acompañad@' }]}
+            setValue={setValue}
           />
         </div>
         <div className="w-1/4 p-2">
@@ -303,6 +308,55 @@ const StudentForm = ({ data, toggleForm }: Props) => {
             control={control}
             placeholder="A-"
             options={[{ id: 1, name: 'A-' }, { id: 2, name: 'A+' }, { id: 3, name: 'B-' }, { id: 4, name: 'B+' }, { id: 5, name: 'AB-' }, { id: 6, name: 'AB+' }, { id: 7, name: 'O-' }, { id: 8, name: 'O+' }]}
+            setValue={setValue}
+          />
+        </div>
+        <div className="w-1/4 p-2">
+          <CustomCombobox
+            name="municipality_id"
+            label="Municipio"
+            error={errors?.municipality_id}
+            control={control}
+            placeholder="Ciudad Delgado"
+            options={[{ id: 1, name: 'Ciudad Delgado' }, { id: 2, name: 'Soyapango' }, { id: 3, name: 'Tepecoyo' }]}
+            setValue={setValue}
+            isIdValue
+          />
+        </div>
+        <div className="w-1/4 p-2">
+          <CustomCombobox
+            name="department_id"
+            label="Departamento"
+            error={errors?.department_id}
+            control={control}
+            placeholder="San Salvador"
+            options={[{ id: 1, name: 'San Salvador' }, { id: 2, name: 'La Libertad' }, { id: 3, name: 'Sonsonate' }]}
+            setValue={setValue}
+            isIdValue
+          />
+        </div>
+        <div className="w-1/4 p-2">
+          <CustomCombobox
+            name="country_id"
+            label="País"
+            error={errors?.country_id}
+            control={control}
+            placeholder="El Salvador"
+            options={[{ id: 1, name: 'El Salvador' }, { id: 2, name: 'Guatemala' }, { id: 3, name: 'Honduras' }]}
+            setValue={setValue}
+            isIdValue
+          />
+        </div>
+        <div className="w-1/4 p-2">
+          <CustomCombobox
+            name="status_id"
+            label="Estado"
+            error={errors?.status_id}
+            control={control}
+            placeholder="Activo"
+            options={[{ id: 1, name: 'Activo' }, { id: 2, name: 'Egresado' }, { id: 3, name: 'Graduado' }]}
+            setValue={setValue}
+            isIdValue
           />
         </div>
       </div>
@@ -321,7 +375,7 @@ const schema = yup.object().shape({
   home_phone_number: yup.string().nullable(),
   gender: yup.string().required('Este campo es obligatorio.'),
   relationship: yup.string().required('Este campo es obligatorio.'),
-  status_id: yup.string().required('Este campo es obligatorio.'), // queda pendiente
+  status_id: yup.string().required('Este campo es obligatorio.'),
   blood_type: yup.string().nullable(),
   mother_name: yup.string().nullable(),
   mother_phone_number: yup.string().nullable(),
@@ -333,9 +387,9 @@ const schema = yup.object().shape({
   allergies: yup.string().nullable(),
   entry_date: yup.string().required('Este campo es obligatorio.'),
   date_high_school_degree: yup.string().required('Este campo es obligatorio.'),
-  municipality_id: yup.string().required('Este campo es obligatorio.'), // queda pendiente
-  department_id: yup.string().required('Este campo es obligatorio.'), // queda pendiente
-  country_id: yup.string().required('Este campo es obligatorio.'), // queda pendiente
+  municipality_id: yup.string().required('Este campo es obligatorio.'),
+  department_id: yup.string().required('Este campo es obligatorio.'),
+  country_id: yup.string().required('Este campo es obligatorio.'),
   medicines: yup.string().nullable(),
   current_school_cycle: yup.number(),
 })
