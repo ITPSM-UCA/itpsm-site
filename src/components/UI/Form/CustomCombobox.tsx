@@ -40,7 +40,7 @@ const CustomCombobox = ({
   }
 
   return (
-    <div>
+    <div className="relative">
       <label
         aria-required={required}
         htmlFor={name}
@@ -66,7 +66,7 @@ const CustomCombobox = ({
               {
                 !empty(filteredOptions)
                 && (
-                  <Combobox.Options as="span" className="overflow-auto mt-4 flex flex-col space-y-2 text-lg border 'h-60' border-black rounded-md px-2 py-3 bg-white w-full top-10 inset-x-0">
+                  <Combobox.Options as="span" className="absolute overflow-auto mt-4 flex flex-col space-y-2 text-lg border max-h-60 border-black rounded-md px-2 py-3 bg-white w-full top-10 inset-x-0">
                     {filteredOptions?.map((option: any) => (
                       <Combobox.Option as="option" className="block text-secondary-100" key={option.id} value={option}>
                         {option.name}
