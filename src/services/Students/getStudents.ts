@@ -5,7 +5,11 @@ import { onErrorHandler } from 'utils/alerts'
 const getStudents = async (query:any) => {
   try {
     let url = `${apiInstance.defaults.baseURL}/students?`
-    url += `page[size]=${query.pageSize}&page[number]=${query.page + 1}&filter=${query.search}`
+    url += `page[size]=${query.pageSize}&page[number]=${query.page + 1}`
+
+    if (!empty(query.search)) {
+      url += `&filter=${query.search}`
+    }
 
     if (!empty(query.orderDirection)) {
       url += `&sortOrder=${query.orderDirection}`

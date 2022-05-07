@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react'
 import Head from 'next/head'
-import useUser from 'hooks/useUser'
 import type { NextPage } from 'next'
 import Layout from 'components/Layout/Layout'
 import StudentForm from 'components/Students/StudentForm'
@@ -9,24 +8,30 @@ import getStudents from 'services/Students/getStudents'
 import { empty } from 'utils/helpers'
 
 const Students: NextPage = () => {
-  const tableRef = useRef()
-  const { token } = useUser()
+  const tableRef:any = useRef()
   const [showForm, setShowForm] = useState(false)
   const [currentStudent, setCurrentStudent] = useState(initialData)
 
   const refreshTableAction = () => {
-    console.log(tableRef.current)
-    tableRef.current && tableRef.current.onQueryChange()
+    if (tableRef.current) {
+      tableRef.current.onQueryChange()
+    }
   }
 
   const fetchData = async (query:any) => {
-    const { rows, page, records } = await getStudents(query, token)
-    console.log(rows, page, records, 'rows')
+    const { rows, page, records } = await getStudents(query)
     return {
       rows,
       page,
       records,
     }
+  }
+
+  const editRowAction = (event:any, rowData:any) => {
+    event.stopPropagation();
+    console.log(rowData)
+    setCurrentStudent(rowData)
+    setShowForm(true)
   }
 
   const toggleForm = () => setShowForm((prev: boolean) => !prev)
@@ -45,10 +50,11 @@ const Students: NextPage = () => {
           />
         ) : (
           <StudentsTable
-            data={fetchData}
             columns={columns}
             tableRef={tableRef}
+            fetchData={fetchData}
             toggleForm={toggleForm}
+            editRowAction={editRowAction}
             refreshTableAction={refreshTableAction}
           />
         )}
@@ -62,10 +68,17 @@ const columns = [
   { title: 'Nombre', field: 'name' },
   { title: 'Apellido', field: 'last_name' },
   { title: 'Fecha de Nacimiento', field: 'birth_date_with_format' },
+  { title: 'Teléfono', field: 'phone_number' },
+  { title: 'Municipio', field: 'municipality' },
   {
     title: 'Genero',
     field: 'gender',
     lookup: { M: 'Masculino', F: 'Femenino' },
+  },
+  {
+    title: 'Estado',
+    field: 'status',
+    lookup: { A: 'Activo', F: 'Graduado' },
   },
 ]
 

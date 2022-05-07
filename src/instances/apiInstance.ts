@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios'
 import { API_URL } from 'config'
-import { initializeStore } from 'store';
-import { empty } from 'utils/helpers';
+import { empty } from 'utils/helpers'
+import { initializeStore } from 'store'
 
 const instance = axios.create({
   baseURL: API_URL,

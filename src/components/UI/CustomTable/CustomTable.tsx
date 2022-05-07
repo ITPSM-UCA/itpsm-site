@@ -1,11 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { forwardRef } from 'react'
-import MaterialTable from 'material-table'
+import MaterialTable, { Query, QueryResult } from 'material-table'
 
 interface Props {
   title: string,
   columns: any[],
-  data: any,
-  getData: (query:any) => Promise<any>,
+  fetchData: (query:any) => Promise<any>,
   onEditClickedAction?: () => void,
   onRefreshTableClicked?: () => void,
 }
@@ -13,8 +13,7 @@ interface Props {
 const CustomTable = forwardRef(({
   title,
   columns,
-  data,
-  getData,
+  fetchData,
   onEditClickedAction,
   onRefreshTableClicked,
 }:Props, ref) => {
@@ -37,23 +36,21 @@ const CustomTable = forwardRef(({
     })
   }
 
+  const getData = (query:Query<object>) : Promise<QueryResult<object>> => new Promise((resolve) => {
+    fetchData(query).then((result:any) => {
+      resolve({
+        data: result.rows,
+        page: result.page - 1,
+        totalCount: result.records,
+      })
+    })
+  })
+
   return (
     <MaterialTable
       title={title}
       columns={columns}
-      // data={data}
-      data={(query:any) =>
-        new Promise((resolve) => {
-          getData(query).then((result:any) => {
-            console.log(result, 'result')
-            resolve({
-              data: result.rows,
-              page: result.page - 1,
-              totalCount: result.records,
-            })
-          })
-        })
-      }
+      data={getData}
       tableRef={ref}
       actions={actions}
       options={{
@@ -64,6 +61,10 @@ const CustomTable = forwardRef(({
           textAlign: 'center',
           padding: '0.5rem',
           zIndex: 0,
+        },
+        rowStyle: {
+          padding: '8px',
+          fontSize: '14px',
         },
       }}
       localization={{
