@@ -13,6 +13,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import CustomAlert from 'components/Alerts/CustomAlert'
 import CustomInput from 'components/UI/Form/CustomInput'
 import { login } from 'services/Auth'
+import { showMessage } from 'utils/alerts'
 
 const initialData = {
   email: '',
@@ -62,9 +63,12 @@ const LoginForm = () => {
       setError(data.error)
       return
     }
+
     onSuccessfulLogin({
       ...data,
     })
+
+    showMessage('¡Bienvenido!', data.message)
     setLoading(false)
   }
 

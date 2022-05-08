@@ -63,7 +63,7 @@ const CustomTable = forwardRef(({
           zIndex: 0,
         },
         rowStyle: {
-          padding: '8px',
+          padding: '4px',
           fontSize: '14px',
         },
       }}

@@ -5,6 +5,7 @@ import Layout from 'components/Layout/Layout'
 import StudentForm from 'components/Students/StudentForm'
 import StudentsTable from 'components/Students/StudentsTable'
 import getStudents from 'services/Students/getStudents'
+// import { empty } from 'utils/helpers'
 
 const Students: NextPage = () => {
   const tableRef:any = useRef()
@@ -28,7 +29,6 @@ const Students: NextPage = () => {
 
   const editRowAction = (event:any, rowData:any) => {
     event.stopPropagation();
-    console.log(rowData)
     setCurrentStudent(rowData)
     setShowForm(true)
   }
@@ -66,13 +66,15 @@ const columns = [
   { title: 'Carnet', field: 'carnet' },
   { title: 'Nombre', field: 'name' },
   { title: 'Apellido', field: 'last_name' },
+  { title: 'Correo Electrónico', field: 'email' },
   { title: 'Fecha de Nacimiento', field: 'birth_date_with_format' },
-  { title: 'Teléfono', field: 'phone_number' },
+  { title: 'Teléfono', field: 'phone_number', width: 250 },
   { title: 'Municipio', field: 'municipality' },
   {
     title: 'Genero',
     field: 'gender',
     lookup: { M: 'Masculino', F: 'Femenino' },
+    hidden: true,
   },
   {
     title: 'Estado',

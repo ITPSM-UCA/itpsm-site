@@ -2,10 +2,11 @@
 import '../styles/globals.css'
 import Head from 'next/head'
 import { useStore } from 'store'
+import { useEffect } from 'react'
 import { Provider } from 'react-redux'
 import type { AppProps } from 'next/app'
+import { Toaster } from 'react-hot-toast'
 import { appWithTranslation } from 'next-i18next'
-import { useEffect } from 'react'
 import { authCheckState } from 'store/User/userActions'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
@@ -29,6 +30,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           {/* <SwitchLanguaje /> */}
         </div>
       </div>
+      <Toaster position="top-right" reverseOrder={false} />
     </Provider>
   )
 }
