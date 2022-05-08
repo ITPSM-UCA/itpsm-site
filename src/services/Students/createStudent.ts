@@ -4,7 +4,7 @@ import { onErrorHandler } from 'utils/alerts'
 const createStudent = async (data:any) => {
   let response
   try {
-    const url = `${apiInstance.defaults.baseURL}/baptisms`
+    const url = `${apiInstance.defaults.baseURL}/students`
 
     response = await apiInstance.post(url, data)
 

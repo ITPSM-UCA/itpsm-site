@@ -5,7 +5,6 @@ import Layout from 'components/Layout/Layout'
 import StudentForm from 'components/Students/StudentForm'
 import StudentsTable from 'components/Students/StudentsTable'
 import getStudents from 'services/Students/getStudents'
-import { empty } from 'utils/helpers'
 
 const Students: NextPage = () => {
   const tableRef:any = useRef()
@@ -116,10 +115,10 @@ const initialData = {
   address: '',
   phone_number: '',
   home_phone_number: '',
-  gender: 'M',
-  relationship: 'S',
-  status_id: '',
-  blood_type: 'RH+',
+  gender: '',
+  relationship: '',
+  status: '',
+  blood_type: '',
   mother_name: '',
   mother_phone_number: '',
   father_name: '',
@@ -130,11 +129,10 @@ const initialData = {
   allergies: '',
   entry_date: '',
   date_high_school_degree: '',
-  municipality_id: 3,
-  department_id: 14,
-  country_id: 1,
+  municipality_id: '',
+  department_id: '',
+  country_id: '',
   medicines: '',
-  current_school_cycle: '',
 }
 
 export default Students

@@ -4,7 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import CustomInput from 'components/UI/Form/CustomInput'
 import PhoneNumberInput from 'components/UI/Form/PhoneNumberInput'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
-import CustomListBox from 'components/UI/Form/CustomListBox'
+import { useState } from 'react'
+import Loader from 'components/UI/Loader'
+import { createStudent } from 'services/Students'
 
 interface Props {
   data: any
@@ -27,16 +29,41 @@ const StudentForm = ({ data, toggleForm }: Props) => {
   })
 
   const { errors, isSubmitting } = formState
+  const [loading, setLoading] = useState(false)
 
-  const onSubmit = (formData: any) => {
+  const onCreateStudent = async (formData: any) => {
+    setLoading(true)
     console.log(formData)
+    const response: any = await createStudent(formData)
+    console.log(response)
+
+    if (response.error) {
+      setLoading(false)
+      return
+    }
+
+    setLoading(false)
+    toggleForm()
+  }
+
+  let buttonText = <span>Guardar Estudiante</span>
+
+  if (loading) {
+    buttonText = (
+      <>
+        <Loader className="h-4 w-4" />
+        <span>
+          Cargando...
+        </span>
+      </>
+    )
   }
 
   return (
     <form
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onCreateStudent)}
     >
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">Estudiantes</h1>
@@ -51,10 +78,8 @@ const StudentForm = ({ data, toggleForm }: Props) => {
 
           <button
             type="submit"
-            onSubmit={handleSubmit(onSubmit)}
-            onClick={handleSubmit(onSubmit)}
             className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2">
-            Guardar Estudiante
+            {buttonText}
           </button>
         </div>
       </div>
@@ -82,6 +107,17 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               disabled={isSubmitting}
               register={register}
               placeholder="García"
+            />
+          </div>
+          <div className="w-1/2 p-2">
+            <CustomInput
+              type="text"
+              name="address"
+              label="Dirección"
+              error={errors?.address}
+              disabled={isSubmitting}
+              register={register}
+              placeholder="Direccion"
             />
           </div>
           <div className="w-1/4 p-2">
@@ -117,17 +153,6 @@ const StudentForm = ({ data, toggleForm }: Props) => {
             />
           </div>
           <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="address"
-              label="Dirección"
-              error={errors?.address}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="Direccion"
-            />
-          </div>
-          <div className="w-1/4 p-2">
             <PhoneNumberInput
               type="tel"
               name="phone_number"
@@ -139,73 +164,81 @@ const StudentForm = ({ data, toggleForm }: Props) => {
             />
           </div>
           <div className="w-1/4 p-2">
-            <CustomListBox
+            <CustomCombobox
               name="gender"
+              control={control}
+              placeholder="M"
+              initialValue={{}}
               label="Genero"
               error={errors?.gender}
-              control={control}
-              options={[{ id: 1, name: 'M' }, { id: 2, name: 'F' }]}
+              options={[{ value: 1, label: 'M' }, { value: 2, label: 'F' }]}
               setValue={setValue}
+              isLabelValue
             />
           </div>
           <div className="w-1/4 p-2">
-            <CustomListBox
+            <CustomCombobox
               name="relationship"
+              control={control}
+              placeholder="Soltero"
+              initialValue={{}}
               label="Estado civil"
               error={errors?.relationship}
-              control={control}
-              options={[{ id: 1, name: 'Soltero' }, { id: 2, name: 'Casado' }, { id: 3, name: 'Acompañado' }]}
+              options={[{ value: 1, label: 'S' }, { value: 2, label: 'C' }]}
               setValue={setValue}
+              isLabelValue
             />
           </div>
           <div className="w-1/4 p-2">
             <CustomCombobox
               name="country_id"
-              label="País"
-              error={errors?.country_id}
               control={control}
               placeholder="El Salvador"
-              options={[{ id: 1, name: 'El Salvador' }, { id: 2, name: 'Guatemala' }, { id: 3, name: 'Honduras' }]}
+              initialValue={{}}
+              label="País"
+              error={errors?.country_id}
+              options={[{ value: 1, label: 'El Salvador' }, { value: 2, label: 'Guatemala' }, { value: 3, label: 'Honduras' }]}
               setValue={setValue}
-              isIdValue
             />
           </div>
           <div className="w-1/4 p-2">
             <CustomCombobox
               name="department_id"
-              label="Departamento"
-              error={errors?.department_id}
               control={control}
               placeholder="San Salvador"
-              options={[{ id: 1, name: 'San Salvador' }, { id: 2, name: 'La Libertad' }, { id: 3, name: 'Sonsonate' }]}
+              initialValue={{}}
+              label="Departamento"
+              error={errors?.department_id}
+              options={[{ value: 1, label: 'San Salvador' }, { value: 2, label: 'La Libertad' }, { value: 3, label: 'Sonsonate' }]}
               setValue={setValue}
-              isIdValue
             />
           </div>
           <div className="w-1/4 p-2">
             <CustomCombobox
               name="municipality_id"
-              label="Municipio"
-              error={errors?.municipality_id}
               control={control}
               placeholder="Ciudad Delgado"
-              options={[{ id: 1, name: 'Ciudad Delgado' }, { id: 2, name: 'Soyapango' }, { id: 3, name: 'Tepecoyo' }]}
+              initialValue={{}}
+              label="Municipio"
+              error={errors?.municipality_id}
+              options={[{ value: 1, label: 'Ciudad Delgado' }, { value: 2, label: 'Soyapango' }, { value: 3, label: 'Tepecoyo' }]}
               setValue={setValue}
-              isIdValue
             />
           </div>
         </fieldset>
         <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
           <legend className="font-medium text-indigo-600">Datos académicos</legend>
           <div className="w-1/4 p-2">
-            <CustomListBox
-              name="status_id"
-              label="Estado"
-              error={errors?.status_id}
+            <CustomCombobox
+              name="status"
               control={control}
-              options={[{ id: 1, name: 'Activo' }, { id: 2, name: 'Egresado' }, { id: 3, name: 'Graduado' }]}
+              placeholder="Activo"
+              initialValue={{}}
+              label="Estado"
+              error={errors?.status}
+              options={[{ value: 1, label: 'Activo' }, { value: 2, label: 'Egresado' }, { value: 3, label: 'Graduado' }]}
               setValue={setValue}
-              isIdValue
+              isLabelValue
             />
           </div>
           <div className="w-1/4 p-2">
@@ -228,32 +261,23 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               register={register}
             />
           </div>
-
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="current_school_cycle"
-              label="Ciclo actual"
-              error={errors?.current_school_cycle}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="1"
-            />
-          </div>
         </fieldset>
         <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
           <legend className="font-medium text-indigo-600">Cuadro clínico</legend>
-          <div className="w-1/4 p-2">
-            <CustomListBox
+          <div className="w-1/2 p-2">
+            <CustomCombobox
               name="blood_type"
+              control={control}
+              placeholder="B-"
+              initialValue={{}}
               label="Tipo de sangre"
               error={errors?.blood_type}
-              control={control}
-              options={[{ id: 1, name: 'A-' }, { id: 2, name: 'A+' }, { id: 3, name: 'B-' }, { id: 4, name: 'B+' }, { id: 5, name: 'AB-' }, { id: 6, name: 'AB+' }, { id: 7, name: 'O-' }, { id: 8, name: 'O+' }]}
+              options={[{ value: 1, label: 'A-' }, { value: 2, label: 'A+' }, { value: 3, label: 'B-' }, { value: 4, label: 'B+' }, { value: 5, label: 'AB-' }, { value: 6, label: 'AB+' }, { value: 7, label: 'O-' }, { value: 8, label: 'O+' }]}
               setValue={setValue}
+              isLabelValue
             />
           </div>
-          <div className="w-1/4 p-2">
+          <div className="w-1/2 p-2">
             <CustomInput
               type="text"
               name="diseases"
@@ -264,7 +288,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               placeholder="Diabetes"
             />
           </div>
-          <div className="w-1/4 p-2">
+          <div className="w-1/2 p-2">
             <CustomInput
               type="text"
               name="allergies"
@@ -275,7 +299,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               placeholder="Abejas"
             />
           </div>
-          <div className="w-1/4 p-2">
+          <div className="w-1/2 p-2">
             <CustomInput
               type="text"
               name="medicines"
@@ -378,13 +402,13 @@ const schema = yup.object().shape({
   last_name: yup.string().required('Este campo es obligatorio.'),
   email: yup.string().required('Este campo es obligatorio.').email('Dirección de correo no válida.'),
   birth_date: yup.string().required('Este campo es obligatorio.'),
-  address: yup.string().nullable(),
+  address: yup.string().required('Este campo es obligatorio.'),
   phone_number: yup.string().nullable(),
   home_phone_number: yup.string().nullable(),
   gender: yup.string().required('Este campo es obligatorio.'),
   relationship: yup.string().required('Este campo es obligatorio.'),
-  status_id: yup.string().required('Este campo es obligatorio.'),
-  blood_type: yup.string().nullable(),
+  status: yup.string().required('Este campo es obligatorio.'),
+  blood_type: yup.string().required('Este campo es obligatorio.'),
   mother_name: yup.string().nullable(),
   mother_phone_number: yup.string().nullable(),
   father_name: yup.string().nullable(),
@@ -399,7 +423,6 @@ const schema = yup.object().shape({
   department_id: yup.string().required('Este campo es obligatorio.'),
   country_id: yup.string().required('Este campo es obligatorio.'),
   medicines: yup.string().nullable(),
-  current_school_cycle: yup.number(),
 })
 
 export default StudentForm
