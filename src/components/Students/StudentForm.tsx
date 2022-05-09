@@ -33,9 +33,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
 
   const onCreateStudent = async (formData: any) => {
     setLoading(true)
-    console.log(formData)
     const response: any = await createStudent(formData)
-    console.log(response)
 
     if (response.error) {
       setLoading(false)
@@ -236,7 +234,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={{}}
               label="Estado"
               error={errors?.status}
-              options={[{ value: 1, label: 'Activo' }, { value: 2, label: 'Egresado' }, { value: 3, label: 'Graduado' }]}
+              options={[{ value: 1, label: 'A' }, { value: 2, label: 'E' }, { value: 3, label: 'G' }]}
               setValue={setValue}
               isLabelValue
             />
@@ -253,9 +251,9 @@ const StudentForm = ({ data, toggleForm }: Props) => {
           </div>
           <div className="w-1/4 p-2">
             <CustomInput
-              type="date"
+              type="text"
               name="date_high_school_degree"
-              label="Fecha de título de Bachillerato"
+              label="Año de título de Bachillerato"
               error={errors?.date_high_school_degree}
               disabled={isSubmitting}
               register={register}

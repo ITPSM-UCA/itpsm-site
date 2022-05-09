@@ -54,17 +54,17 @@ const CustomCombobox = ({
   const onSelectOption = (item: Option, onBlur: any) => {
     setSelectedItem(item)
     if (isLabelValue) {
-      setValue(name, item?.label ?? '')
+      setValue(name, item?.label)
     }
     else {
-      setValue(name, item.value)
+      setValue(name, item?.value)
     }
 
     onBlur()
   }
 
   useEffect(() => {
-    if (initialValue.value === selectedItem.value) return
+    // if (initialValue.value === selectedItem.value) return
     setSelectedItem(initialValue)
   }, [initialValue])
 
