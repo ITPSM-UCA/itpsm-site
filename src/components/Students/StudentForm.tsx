@@ -33,6 +33,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
 
   const onCreateStudent = async (formData: any) => {
     setLoading(true)
+    console.log(formData)
     const response: any = await createStudent(formData)
 
     if (response.error) {
@@ -169,9 +170,8 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={{}}
               label="Genero"
               error={errors?.gender}
-              options={[{ value: 1, label: 'M' }, { value: 2, label: 'F' }]}
+              options={[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Femenino' }]}
               setValue={setValue}
-              isLabelValue
             />
           </div>
           <div className="w-1/4 p-2">
@@ -182,9 +182,8 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={{}}
               label="Estado civil"
               error={errors?.relationship}
-              options={[{ value: 1, label: 'S' }, { value: 2, label: 'C' }]}
+              options={[{ value: 'S', label: 'Soltero' }, { value: 'C', label: 'Casado' }]}
               setValue={setValue}
-              isLabelValue
             />
           </div>
           <div className="w-1/4 p-2">
@@ -234,9 +233,8 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={{}}
               label="Estado"
               error={errors?.status}
-              options={[{ value: 1, label: 'A' }, { value: 2, label: 'E' }, { value: 3, label: 'G' }]}
+              options={[{ value: 'A', label: 'Activo' }, { value: 'E', label: 'Egresado' }, { value: 'G', label: 'Graduado' }]}
               setValue={setValue}
-              isLabelValue
             />
           </div>
           <div className="w-1/4 p-2">
