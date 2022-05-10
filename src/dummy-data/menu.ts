@@ -1,32 +1,35 @@
-import { MdSpaceDashboard } from 'react-icons/md'
+import { MdSchool } from 'react-icons/md'
+import { GiTeacher, GiCalendarHalfYear } from 'react-icons/gi'
+import { AiTwotoneSchedule } from 'react-icons/ai'
+import { GoRepo } from 'react-icons/go'
 
 const menu:Menu[] = [
   {
     id: 1,
     name: 'Estudiantes',
     redirectTo: '/dashboard/estudiantes',
-    icon: MdSpaceDashboard,
+    icon: MdSchool,
     current: true,
   },
   {
     id: 2,
     name: 'Catedráticos',
     redirectTo: '/dashboard/catedraticos',
-    icon: MdSpaceDashboard,
+    icon: GiTeacher,
     current: false,
   },
   {
     id: 3,
     name: 'Plan de estudios',
     redirectTo: '/dashboard/plan-de-estudios',
-    icon: MdSpaceDashboard,
+    icon: AiTwotoneSchedule,
     current: false,
   },
   {
     id: 4,
     name: 'Ciclos',
     redirectTo: '/dashboard',
-    icon: MdSpaceDashboard,
+    icon: GiCalendarHalfYear,
     current: false,
   },
   // {
@@ -40,7 +43,7 @@ const menu:Menu[] = [
     id: 6,
     name: 'Reportes',
     redirectTo: '/dashboard',
-    icon: MdSpaceDashboard,
+    icon: GoRepo,
     current: false,
   },
 ]

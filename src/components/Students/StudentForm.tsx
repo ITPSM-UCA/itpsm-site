@@ -35,7 +35,6 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     setLoading(true)
     console.log(formData)
     const response: any = await createStudent(formData)
-    console.log(response)
 
     if (response.error) {
       setLoading(false)
@@ -171,9 +170,8 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={{}}
               label="Genero"
               error={errors?.gender}
-              options={[{ value: 1, label: 'M' }, { value: 2, label: 'F' }]}
+              options={[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Femenino' }]}
               setValue={setValue}
-              isLabelValue
             />
           </div>
           <div className="w-1/4 p-2">
@@ -184,9 +182,8 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={{}}
               label="Estado civil"
               error={errors?.relationship}
-              options={[{ value: 1, label: 'S' }, { value: 2, label: 'C' }]}
+              options={[{ value: 'S', label: 'Soltero' }, { value: 'C', label: 'Casado' }]}
               setValue={setValue}
-              isLabelValue
             />
           </div>
           <div className="w-1/4 p-2">
@@ -236,9 +233,8 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={{}}
               label="Estado"
               error={errors?.status}
-              options={[{ value: 1, label: 'Activo' }, { value: 2, label: 'Egresado' }, { value: 3, label: 'Graduado' }]}
+              options={[{ value: 'A', label: 'Activo' }, { value: 'E', label: 'Egresado' }, { value: 'G', label: 'Graduado' }]}
               setValue={setValue}
-              isLabelValue
             />
           </div>
           <div className="w-1/4 p-2">
@@ -253,9 +249,9 @@ const StudentForm = ({ data, toggleForm }: Props) => {
           </div>
           <div className="w-1/4 p-2">
             <CustomInput
-              type="date"
+              type="text"
               name="date_high_school_degree"
-              label="Fecha de título de Bachillerato"
+              label="Año de título de Bachillerato"
               error={errors?.date_high_school_degree}
               disabled={isSubmitting}
               register={register}
