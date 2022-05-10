@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { AiOutlinePlus } from 'react-icons/ai'
 import CustomTable from 'components/UI/CustomTable/CustomTable'
+import PDFTest from 'components/PDFTest'
 
 interface Props {
   columns: any[],
@@ -47,6 +48,8 @@ const StudentsTable = ({
         onRefreshTableClicked={refreshTableAction}
       />
     </div>
+
+    <PDFTest />
   </>
 )
 
