@@ -3,12 +3,11 @@ import Head from 'next/head'
 import type { NextPage } from 'next'
 import Layout from 'components/Layout/Layout'
 import TeachersTable from 'components/Teachers/TeachersTable'
-import TeacherForm from 'components/Teachers/TeacherForm'
 import { getTeachers } from 'services/Teachers'
-// import { empty } from 'utils/helpers'
+import TeacherForm from 'components/Teachers/TeacherForm'
 
 const Teachers: NextPage = () => {
-  const tableRef: any = useRef()
+  const tableRef:any = useRef()
   const [showForm, setShowForm] = useState(false)
   const [currentTeacher, setCurrentTeacher] = useState(initialData)
 
@@ -18,9 +17,8 @@ const Teachers: NextPage = () => {
     }
   }
 
-  const fetchData = async (query: any) => {
+  const fetchData = async (query:any) => {
     const { rows, page, records } = await getTeachers(query)
-    console.log(rows, 'esto')
     return {
       rows,
       page,
@@ -28,7 +26,7 @@ const Teachers: NextPage = () => {
     }
   }
 
-  const editRowAction = (event: any, rowData: any) => {
+  const editRowAction = (event:any, rowData:any) => {
     event.stopPropagation();
     setCurrentTeacher(rowData)
     setShowForm(true)
@@ -43,21 +41,21 @@ const Teachers: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
-        {/* {showForm ? (
+        {showForm ? (
           <TeacherForm
             data={currentTeacher}
             toggleForm={toggleForm}
           />
-        ) : ( */}
-        <TeachersTable
-          columns={columns}
-          tableRef={tableRef}
-          fetchData={fetchData}
-          toggleForm={toggleForm}
-          editRowAction={editRowAction}
-          refreshTableAction={refreshTableAction}
-        />
-        {/* )} */}
+        ) : (
+          <TeachersTable
+            columns={columns}
+            tableRef={tableRef}
+            fetchData={fetchData}
+            toggleForm={toggleForm}
+            editRowAction={editRowAction}
+            refreshTableAction={refreshTableAction}
+          />
+        )}
       </div>
     </Layout>
   )
@@ -85,32 +83,22 @@ const columns = [
 ]
 
 const initialData = {
-  carnet: '',
   name: '',
   last_name: '',
-  email: '',
   birth_date: '',
+  nit: '',
+  dui: '',
+  isss_number: '',
+  nup_number: '',
+  email: '',
+  genre: '',
   address: '',
   phone_number: '',
   home_phone_number: '',
-  gender: '',
-  relationship: '',
-  status: '',
-  blood_type: '',
-  mother_name: '',
-  mother_phone_number: '',
-  father_name: '',
-  father_phone_number: '',
-  emergency_contact_name: '',
-  emergency_contact_phone: '',
-  diseases: '',
-  allergies: '',
-  entry_date: '',
-  date_high_school_degree: '',
   municipality_id: '',
   department_id: '',
   country_id: '',
-  medicines: '',
+  status_id: '',
 }
 
 export default Teachers
