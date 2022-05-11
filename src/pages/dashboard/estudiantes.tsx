@@ -79,7 +79,7 @@ const columns = [
   {
     title: 'Estado',
     field: 'status',
-    lookup: { A: 'Activo', F: 'Graduado' },
+    lookup: { A: 'Activo', X: 'Graduado', R: 'Egresado' },
   },
 ]
 

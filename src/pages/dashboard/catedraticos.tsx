@@ -78,7 +78,7 @@ const columns = [
   {
     title: 'Estado',
     field: 'statues_type',
-    lookup: { A: 'Activo', I: 'Inactivo' },
+    lookup: { A: 'Activo', B: 'Inactivo' },
   },
 ]
 

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { authSuccess, logout } from 'store/User/userActions'
 
@@ -10,6 +11,7 @@ type User = {
 
 const useUser = () => {
   const dispatch = useDispatch()
+  const router = useRouter()
   const user = useSelector((state: any) => state.user)
 
   const onSuccessfulLogin = (userInfo:any) => {
@@ -20,6 +22,7 @@ const useUser = () => {
 
   const onLogout = () => {
     dispatch(logout())
+    router.replace('/')
   }
 
   return {

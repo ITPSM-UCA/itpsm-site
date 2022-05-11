@@ -4,9 +4,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import CustomInput from 'components/UI/Form/CustomInput'
 import PhoneNumberInput from 'components/UI/Form/PhoneNumberInput'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Loader from 'components/UI/Loader'
 import { createTeacher } from 'services/Teachers'
+import Departments from 'utils/constants/Departments'
+import { empty } from 'utils/helpers'
+import Municipalities from 'utils/constants/Municipalities'
 
 interface Props {
   data: any
@@ -30,11 +33,20 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
 
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
+  const [department, setDepartment] = useState('')
+  const [municipaltiesOptions, setmunicipaltiesOptions] = useState({})
+
+  useEffect(() => {
+    setmunicipaltiesOptions([])
+    if (!empty(department)) {
+      setValue('municipality_id', undefined)
+      const municipalityFiltered: any = Municipalities.find((value: any) => value.name === department)
+      setmunicipaltiesOptions(...municipalityFiltered.value)
+    }
+  }, [department])
 
   const onCreateTeacher = async (formData: any) => {
-    console.log('aja')
     setLoading(true)
-    console.log(formData)
     const response: any = await createTeacher(formData)
 
     if (response.error) {
@@ -142,69 +154,6 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
             />
           </div>
           <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="genre"
-              control={control}
-              placeholder="M"
-              initialValue={{}}
-              label="Genero"
-              error={errors?.genre}
-              options={[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Femenino' }]}
-              setValue={setValue}
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="country_id"
-              control={control}
-              placeholder="El Salvador"
-              initialValue={{}}
-              label="País"
-              error={errors?.country_id}
-              options={[{ value: 1, label: 'El Salvador' }, { value: 2, label: 'Guatemala' }, { value: 3, label: 'Honduras' }]}
-              setValue={setValue}
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="department_id"
-              control={control}
-              placeholder="San Salvador"
-              initialValue={{}}
-              label="Departamento"
-              error={errors?.department_id}
-              options={[{ value: 1, label: 'San Salvador' }, { value: 2, label: 'La Libertad' }, { value: 3, label: 'Sonsonate' }]}
-              setValue={setValue}
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="municipality_id"
-              control={control}
-              placeholder="Ciudad Delgado"
-              initialValue={{}}
-              label="Municipio"
-              error={errors?.municipality_id}
-              options={[{ value: 1, label: 'Ciudad Delgado' }, { value: 2, label: 'Soyapango' }, { value: 3, label: 'Tepecoyo' }]}
-              setValue={setValue}
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="status_id"
-              control={control}
-              placeholder="Activo"
-              initialValue={{}}
-              label="Estado"
-              error={errors?.status_id}
-              options={[{ value: 'A', label: 'Activo' }, { value: 'E', label: 'Egresado' }, { value: 'G', label: 'Graduado' }]}
-              setValue={setValue}
-            />
-          </div>
-        </fieldset>
-        <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
-          <legend className="font-medium text-indigo-600">Datos de contacto</legend>
-          <div className="w-1/4 p-2">
             <PhoneNumberInput
               type="tel"
               name="phone_number"
@@ -226,6 +175,71 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
               placeholder="2222-5555"
             />
           </div>
+          <div className="w-1/4 p-2">
+            <CustomCombobox
+              name="genre"
+              control={control}
+              placeholder="Masculino"
+              initialValue={{}}
+              label="Genero"
+              error={errors?.genre}
+              options={[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Femenino' }]}
+              setValue={setValue}
+            />
+          </div>
+          <div className="w-1/4 p-2">
+            <CustomCombobox
+              name="status_id"
+              control={control}
+              placeholder="Activo"
+              initialValue={{}}
+              label="Estado"
+              error={errors?.status_id}
+              options={[{ value: 1, label: 'Activo' }, { value: 2, label: 'Inactivo' }]}
+              setValue={setValue}
+            />
+          </div>
+          <div className="w-1/4 p-2">
+            <CustomCombobox
+              name="country_id"
+              control={control}
+              placeholder="El Salvador"
+              initialValue={{}}
+              label="País"
+              error={errors?.country_id}
+              options={[{ value: 1, label: 'El Salvador' }]}
+              setValue={setValue}
+            />
+          </div>
+          <div className="w-1/4 p-2">
+            <CustomCombobox
+              name="department_id"
+              control={control}
+              placeholder="San Salvador"
+              initialValue={{}}
+              label="Departamento"
+              error={errors?.department_id}
+              options={Departments}
+              setValue={setValue}
+              setOtherValue={(departmentName: string) => setDepartment(departmentName)}
+            />
+          </div>
+          {!empty(municipaltiesOptions)
+            && (
+              <div className="w-1/4 p-2">
+                <CustomCombobox
+                  name="municipality_id"
+                  control={control}
+                  placeholder="Ciudad Delgado"
+                  initialValue={{}}
+                  label="Municipio"
+                  error={errors?.municipality_id}
+                  options={[municipaltiesOptions]}
+                  setValue={setValue}
+                />
+              </div>
+            )}
+
         </fieldset>
         <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
           <legend className="font-medium text-indigo-600">Datos de trabajador</legend>
