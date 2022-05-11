@@ -1,12 +1,16 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable no-unused-vars */
 import { forwardRef } from 'react'
-import MaterialTable, { Query, QueryResult } from 'material-table'
+import MaterialTable, { Query, QueryResult, MTableToolbar } from 'material-table'
+import SearchInput from './SearchInput'
 
 interface Props {
   title: string,
   columns: any[],
   fetchData: (query:any) => Promise<any>,
-  onEditClickedAction?: () => void,
+  onEditClickedAction?: any,
   onRefreshTableClicked?: () => void,
 }
 
@@ -48,12 +52,14 @@ const CustomTable = forwardRef(({
 
   return (
     <MaterialTable
-      title={title}
+      title=""
       columns={columns}
       data={getData}
       tableRef={ref}
       actions={actions}
       options={{
+        search: false,
+        exportButton: true,
         actionsColumnIndex: -1,
         pageSizeOptions: [5, 8, 10, 20, 50],
         headerStyle: {
@@ -66,6 +72,21 @@ const CustomTable = forwardRef(({
           padding: '4px',
           fontSize: '14px',
         },
+      }}
+      components={{
+        Toolbar: (props:any) => (
+          <div className="flex flex-row justify-between">
+            <div className="p-4">
+              <SearchInput
+                value={props.searchText}
+                onChanged={props.onSearchChanged}
+              />
+            </div>
+            <div className="flex flex-row grow justify-end">
+              <MTableToolbar {...props} className="flex" />
+            </div>
+          </div>
+        ),
       }}
       localization={{
         body: {

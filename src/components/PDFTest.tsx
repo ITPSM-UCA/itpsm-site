@@ -1,4 +1,4 @@
-import apiInstance from 'instances/apiInstance'
+// import apiInstance from 'instances/apiInstance'
 
 const PDFTest = () => {
   const onSubmit = () => {
@@ -24,6 +24,7 @@ const PDFTest = () => {
         const url = URL.createObjectURL(blob)
 
         const pdfWindow = window.open(url)
+        console.log(pdfWindow)
         // const a = document.createElement('a')
         // a.href = url
         // a.target = '_blank'
@@ -43,7 +44,8 @@ const PDFTest = () => {
       <button
         className="bg-primary text-secondary p-2 rounded"
         type="button"
-        onClick={onSubmit}>
+        onClick={onSubmit}
+      >
         Imprimir PDF
       </button>
     </div>

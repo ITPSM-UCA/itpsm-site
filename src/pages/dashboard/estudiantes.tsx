@@ -38,7 +38,7 @@ const Students: NextPage = () => {
   return (
     <Layout>
       <Head>
-        <title>Estudiantes - Dashboard ITPSM</title>
+        <title>Estudiantes - ITPSM</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">

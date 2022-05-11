@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.MTableToolbar-spacer-7 {
+  flex: 1 1 auto!important;
+}
