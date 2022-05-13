@@ -23,6 +23,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     formState,
     control,
     setValue,
+    clearErrors,
     // reset,
     // watch
   } = useForm({
@@ -174,6 +175,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               error={errors?.gender}
               options={[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Femenino' }]}
               setValue={setValue}
+              clearErrors={clearErrors}
             />
           </div>
           <div className="w-1/4 p-2">
@@ -186,6 +188,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               error={errors?.relationship}
               options={[{ value: 'S', label: 'Soltero' }, { value: 'C', label: 'Casado' }]}
               setValue={setValue}
+              clearErrors={clearErrors}
             />
           </div>
           <div className="w-1/4 p-2">
@@ -198,6 +201,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               error={errors?.country_id}
               options={[{ value: 1, label: 'El Salvador' }]}
               setValue={setValue}
+              clearErrors={clearErrors}
             />
           </div>
           <div className="w-1/4 p-2">
@@ -211,6 +215,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               options={Departments}
               setValue={setValue}
               setOtherValue={(departmentName: string) => setDepartment(departmentName)}
+              clearErrors={clearErrors}
             />
           </div>
           {!empty(municipaltiesOptions)
@@ -225,6 +230,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                   error={errors?.municipality_id}
                   options={[municipaltiesOptions]}
                   setValue={setValue}
+                  clearErrors={clearErrors}
                 />
               </div>
             )}
@@ -264,6 +270,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               error={errors?.status}
               options={[{ value: 'A', label: 'Activo' }, { value: 'E', label: 'Egresado' }, { value: 'G', label: 'Graduado' }]}
               setValue={setValue}
+              clearErrors={clearErrors}
             />
           </div>
           <div className="w-1/4 p-2">
@@ -300,6 +307,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               options={[{ value: 1, label: 'A-' }, { value: 2, label: 'A+' }, { value: 3, label: 'B-' }, { value: 4, label: 'B+' }, { value: 5, label: 'AB-' }, { value: 6, label: 'AB+' }, { value: 7, label: 'O-' }, { value: 8, label: 'O+' }]}
               setValue={setValue}
               isLabelValue
+              clearErrors={clearErrors}
             />
           </div>
           <div className="w-3/4 p-2">

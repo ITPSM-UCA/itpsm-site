@@ -24,6 +24,7 @@ interface Props {
   placeholder?: string,
   isLabelValue?: boolean,
   setOtherValue?: any,
+  clearErrors: any,
 }
 
 const CustomCombobox = ({
@@ -34,6 +35,7 @@ const CustomCombobox = ({
   options,
   setValue,
   required,
+  clearErrors,
   placeholder,
   initialValue,
   setOtherValue,
@@ -63,6 +65,7 @@ const CustomCombobox = ({
     }
 
     if (!empty(setOtherValue)) setOtherValue(item?.label)
+    clearErrors(name)
 
     onBlur()
   }
