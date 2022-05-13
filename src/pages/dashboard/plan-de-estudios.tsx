@@ -5,11 +5,13 @@ import Layout from 'components/Layout/Layout'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { getCurricula } from 'services/Curriculum'
 import CustomTable from 'components/UI/CustomTable/CustomTable'
+import CustomModal from 'components/UI/CustomModal'
 
 const Students: NextPage = () => {
-  const tableRef:any = useRef()
+  const tableRef: any = useRef()
   const [showForm, setShowForm] = useState(false)
   const [currentStudent, setCurrentStudent] = useState(initialData)
+  const [isOpenModal, setIsOpenModal] = useState(false)
 
   const refreshTableAction = () => {
     if (tableRef.current) {
@@ -17,7 +19,7 @@ const Students: NextPage = () => {
     }
   }
 
-  const fetchData = async (query:any) => {
+  const fetchData = async (query: any) => {
     const { rows, page, records } = await getCurricula(query)
     console.log(rows)
     return {
@@ -27,7 +29,7 @@ const Students: NextPage = () => {
     }
   }
 
-  const editRowAction = (event:any, rowData:any) => {
+  const editRowAction = (event: any, rowData: any) => {
     event.stopPropagation();
     setCurrentStudent(rowData)
     setShowForm(true)
@@ -45,7 +47,7 @@ const Students: NextPage = () => {
           <h1 className="text-2xl font-semibold text-gray-900">Plan de estudios</h1>
           <button
             type="button"
-            onClick={() => {}}
+            onClick={() => setIsOpenModal(true)}
             className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2"
           >
             <AiOutlinePlus />
@@ -63,6 +65,9 @@ const Students: NextPage = () => {
           />
         </div>
       </div>
+      <CustomModal showModal={isOpenModal} onToggleModal={() => setIsOpenModal(false)} className="w-96 border border-indigo-800 lg:w-1/3 focus:outline-none px-8 pt-8 pb-2">
+        <p>Nuevo plan de estudio</p>
+      </CustomModal>
     </Layout>
   )
 }
@@ -108,6 +113,5 @@ const initialData = {
   country_id: '',
   medicines: '',
 }
-
 
 export default Students
