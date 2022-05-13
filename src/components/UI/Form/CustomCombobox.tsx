@@ -22,8 +22,6 @@ interface Props {
   required?: boolean,
   error: any,
   placeholder?: string,
-  isLabelValue?: boolean,
-  setOtherValue?: any,
   clearErrors: any,
 }
 
@@ -38,8 +36,6 @@ const CustomCombobox = ({
   clearErrors,
   placeholder,
   initialValue,
-  setOtherValue,
-  isLabelValue = false,
 }: Props) => {
   const [query, setQuery] = useState('')
   const [selectedItem, setSelectedItem] = useState(initialValue)
@@ -57,14 +53,9 @@ const CustomCombobox = ({
 
   const onSelectOption = (item: Option, onBlur: any) => {
     setSelectedItem(item)
-    if (isLabelValue) {
-      setValue(name, item?.label)
-    }
-    else {
-      setValue(name, item?.value)
-    }
 
-    if (!empty(setOtherValue)) setOtherValue(item?.label)
+    setValue(name, item?.value)
+
     clearErrors(name)
 
     onBlur()

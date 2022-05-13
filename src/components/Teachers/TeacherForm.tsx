@@ -9,7 +9,6 @@ import Loader from 'components/UI/Loader'
 import { createTeacher } from 'services/Teachers'
 import Departments from 'utils/constants/Departments'
 import { empty } from 'utils/helpers'
-import Municipalities from 'utils/constants/Municipalities'
 
 interface Props {
   data: any
@@ -23,8 +22,9 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
     formState,
     control,
     setValue,
+    clearErrors,
     // reset,
-    // watch
+    watch,
   } = useForm({
     mode: 'onBlur',
     defaultValues: data,
@@ -33,17 +33,17 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
 
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
-  const [department, setDepartment] = useState('')
+  const currentDepartment = watch('department_id')
   const [municipaltiesOptions, setmunicipaltiesOptions] = useState({})
 
   useEffect(() => {
     setmunicipaltiesOptions([])
-    if (!empty(department)) {
-      setValue('municipality_id', undefined)
-      const municipalityFiltered: any = Municipalities.find((value: any) => value.name === department)
-      setmunicipaltiesOptions(...municipalityFiltered.value)
+    if (!empty(currentDepartment)) {
+      setValue('municipality_id', '')
+      const municipalityFiltered: any = Departments.find((value: any) => value.value === currentDepartment)
+      setmunicipaltiesOptions(...municipalityFiltered.municipios)
     }
-  }, [department])
+  }, [currentDepartment])
 
   const onCreateTeacher = async (formData: any) => {
     setLoading(true)
@@ -185,6 +185,7 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
               error={errors?.genre}
               options={[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Femenino' }]}
               setValue={setValue}
+              clearErrors={clearErrors}
             />
           </div>
           <div className="w-1/4 p-2">
@@ -197,6 +198,7 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
               error={errors?.status_id}
               options={[{ value: 1, label: 'Activo' }, { value: 2, label: 'Inactivo' }]}
               setValue={setValue}
+              clearErrors={clearErrors}
             />
           </div>
           <div className="w-1/4 p-2">
@@ -209,6 +211,7 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
               error={errors?.country_id}
               options={[{ value: 1, label: 'El Salvador' }]}
               setValue={setValue}
+              clearErrors={clearErrors}
             />
           </div>
           <div className="w-1/4 p-2">
@@ -221,7 +224,8 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
               error={errors?.department_id}
               options={Departments}
               setValue={setValue}
-              setOtherValue={(departmentName: string) => setDepartment(departmentName)}
+              clearErrors={clearErrors}
+
             />
           </div>
           {!empty(municipaltiesOptions)
@@ -236,6 +240,7 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
                   error={errors?.municipality_id}
                   options={[municipaltiesOptions]}
                   setValue={setValue}
+                  clearErrors={clearErrors}
                 />
               </div>
             )}

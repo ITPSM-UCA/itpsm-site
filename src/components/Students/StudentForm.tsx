@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react'
 import Loader from 'components/UI/Loader'
 import { createStudent } from 'services/Students'
 import Departments from 'utils/constants/Departments'
-import Municipalities from 'utils/constants/Municipalities'
 import { empty } from 'utils/helpers'
 
 interface Props {
@@ -25,7 +24,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     setValue,
     clearErrors,
     // reset,
-    // watch
+    watch,
   } = useForm({
     mode: 'onBlur',
     defaultValues: data,
@@ -34,17 +33,17 @@ const StudentForm = ({ data, toggleForm }: Props) => {
 
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
-  const [department, setDepartment] = useState('')
+  const currentDepartment = watch('department_id')
   const [municipaltiesOptions, setmunicipaltiesOptions] = useState({})
 
   useEffect(() => {
     setmunicipaltiesOptions([])
-    if (!empty(department)) {
-      setValue('municipality_id', undefined)
-      const municipalityFiltered: any = Municipalities.find((value: any) => value.name === department)
-      setmunicipaltiesOptions(...municipalityFiltered.value)
+    if (!empty(currentDepartment)) {
+      setValue('municipality_id', '')
+      const municipalityFiltered: any = Departments.find((value: any) => value.value === currentDepartment)
+      setmunicipaltiesOptions(...municipalityFiltered.municipios)
     }
-  }, [department])
+  }, [currentDepartment])
 
   const onCreateStudent = async (formData: any) => {
     setLoading(true)
@@ -214,7 +213,6 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               error={errors?.department_id}
               options={Departments}
               setValue={setValue}
-              setOtherValue={(departmentName: string) => setDepartment(departmentName)}
               clearErrors={clearErrors}
             />
           </div>
@@ -304,9 +302,8 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={{}}
               label="Tipo de sangre"
               error={errors?.blood_type}
-              options={[{ value: 1, label: 'A-' }, { value: 2, label: 'A+' }, { value: 3, label: 'B-' }, { value: 4, label: 'B+' }, { value: 5, label: 'AB-' }, { value: 6, label: 'AB+' }, { value: 7, label: 'O-' }, { value: 8, label: 'O+' }]}
+              options={[{ value: 'A-', label: 'A-' }, { value: 'A+', label: 'A+' }, { value: 'B-', label: 'B-' }, { value: 'B+', label: 'B+' }, { value: 'AB-', label: 'AB-' }, { value: 'AB+', label: 'AB+' }, { value: 'O-', label: 'O-' }, { value: 'O+', label: 'O+' }]}
               setValue={setValue}
-              isLabelValue
               clearErrors={clearErrors}
             />
           </div>
