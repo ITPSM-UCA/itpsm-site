@@ -8,6 +8,7 @@ interface Props {
   tableRef: any,
   editRowAction: any,
   toggleForm: () => void,
+  onCreatePDF: any,
   refreshTableAction: () => void,
   fetchData: (query: any) => Promise<any>,
 }
@@ -17,6 +18,7 @@ const StudentsTable = ({
   tableRef,
   fetchData,
   toggleForm,
+  onCreatePDF,
   editRowAction,
   refreshTableAction,
 }:Props) => (
@@ -46,6 +48,7 @@ const StudentsTable = ({
         title="Estudiantes"
         onEditClickedAction={editRowAction}
         onRefreshTableClicked={refreshTableAction}
+        onCreatePDF={onCreatePDF}
       />
     </div>
 
