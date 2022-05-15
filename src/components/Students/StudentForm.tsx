@@ -35,6 +35,47 @@ const StudentForm = ({ data, toggleForm }: Props) => {
   const [loading, setLoading] = useState(false)
   const currentDepartment = watch('department_id')
   const [municipaltiesOptions, setmunicipaltiesOptions] = useState({})
+  const STATUS_LABEL: any = {
+    A: 'Activo',
+    G: 'Graduado',
+    E: 'Egresado',
+    I: 'Inactivo',
+  }
+
+  const initialDepartment = empty(data?.department_id) ? {} : {
+    value: data?.department_id,
+    label: data?.department,
+  }
+
+  const initialMunicipality = empty(data?.municipality_id) ? {} : {
+    value: data?.municipality_id,
+    label: data?.municipality,
+  }
+
+  const initialCountry = empty(data?.country_id) ? {} : {
+    value: data?.country_id,
+    label: data?.country,
+  }
+
+  const initialGender = empty(data?.gender) ? {} : {
+    value: data?.gender,
+    label: data?.gender === 'M' ? 'Masculino' : 'Femenino',
+  }
+
+  const initialRelationship = empty(data?.relationship) ? {} : {
+    value: data?.relationship,
+    label: data?.relationship === 'S' ? 'Soltero' : 'Casado',
+  }
+
+  const initialStatus = empty(data?.status) ? {} : {
+    value: data?.status,
+    label: STATUS_LABEL[data?.status],
+  }
+
+  const initialBloodType = empty(data?.blood_type) ? {} : {
+    value: data?.blood_type,
+    label: data?.blood_type,
+  }
 
   useEffect(() => {
     setmunicipaltiesOptions([])
@@ -169,7 +210,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               name="gender"
               control={control}
               placeholder="Masculino"
-              initialValue={{}}
+              initialValue={initialGender}
               label="Genero"
               error={errors?.gender}
               options={[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Femenino' }]}
@@ -182,7 +223,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               name="relationship"
               control={control}
               placeholder="Soltero"
-              initialValue={{}}
+              initialValue={initialRelationship}
               label="Estado civil"
               error={errors?.relationship}
               options={[{ value: 'S', label: 'Soltero' }, { value: 'C', label: 'Casado' }]}
@@ -195,7 +236,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               name="country_id"
               control={control}
               placeholder="El Salvador"
-              initialValue={{}}
+              initialValue={initialCountry}
               label="País"
               error={errors?.country_id}
               options={[{ value: 1, label: 'El Salvador' }]}
@@ -208,7 +249,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               name="department_id"
               control={control}
               placeholder="San Salvador"
-              initialValue={{}}
+              initialValue={initialDepartment}
               label="Departamento"
               error={errors?.department_id}
               options={Departments}
@@ -223,7 +264,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                   name="municipality_id"
                   control={control}
                   placeholder="Ciudad Delgado"
-                  initialValue={{}}
+                  initialValue={initialMunicipality}
                   label="Municipio"
                   error={errors?.municipality_id}
                   options={[municipaltiesOptions]}
@@ -263,7 +304,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               name="status"
               control={control}
               placeholder="Activo"
-              initialValue={{}}
+              initialValue={initialStatus}
               label="Estado"
               error={errors?.status}
               options={[{ value: 'A', label: 'Activo' }, { value: 'E', label: 'Egresado' }, { value: 'G', label: 'Graduado' }]}
@@ -299,7 +340,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               name="blood_type"
               control={control}
               placeholder="B-"
-              initialValue={{}}
+              initialValue={initialBloodType}
               label="Tipo de sangre"
               error={errors?.blood_type}
               options={[{ value: 'A-', label: 'A-' }, { value: 'A+', label: 'A+' }, { value: 'B-', label: 'B-' }, { value: 'B+', label: 'B+' }, { value: 'AB-', label: 'AB-' }, { value: 'AB+', label: 'AB+' }, { value: 'O-', label: 'O-' }, { value: 'O+', label: 'O+' }]}

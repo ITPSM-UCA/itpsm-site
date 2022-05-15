@@ -8,7 +8,7 @@ import getStudents from 'services/Students/getStudents'
 // import { empty } from 'utils/helpers'
 
 const Students: NextPage = () => {
-  const tableRef:any = useRef()
+  const tableRef: any = useRef()
   const [showForm, setShowForm] = useState(false)
   const [currentStudent, setCurrentStudent] = useState(initialData)
 
@@ -18,7 +18,7 @@ const Students: NextPage = () => {
     }
   }
 
-  const fetchData = async (query:any) => {
+  const fetchData = async (query: any) => {
     const { rows, page, records } = await getStudents(query)
     return {
       rows,
@@ -27,13 +27,16 @@ const Students: NextPage = () => {
     }
   }
 
-  const editRowAction = (event:any, rowData:any) => {
+  const editRowAction = (event: any, rowData: any) => {
     event.stopPropagation();
     setCurrentStudent(rowData)
     setShowForm(true)
   }
 
-  const toggleForm = () => setShowForm((prev: boolean) => !prev)
+  const toggleForm = () => {
+    setCurrentStudent(initialData)
+    setShowForm((prev: boolean) => !prev)
+  }
 
   return (
     <Layout>
