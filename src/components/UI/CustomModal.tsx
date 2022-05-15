@@ -1,6 +1,4 @@
-/* eslint-disable react/button-has-type */
 import { Dialog } from '@headlessui/react'
-import React from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 
 const CustomModal = ({
@@ -17,6 +15,7 @@ const CustomModal = ({
 
     {onToggleModal && (
     <button
+      type="button"
       onClick={onToggleModal}
       className="absolute right-2 top-2 bg-sgray0 rounded-full p-3 focus:outline-none"
     >

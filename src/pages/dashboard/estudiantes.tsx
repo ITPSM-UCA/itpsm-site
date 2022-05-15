@@ -5,6 +5,7 @@ import Layout from 'components/Layout/Layout'
 import StudentForm from 'components/Students/StudentForm'
 import StudentsTable from 'components/Students/StudentsTable'
 import getStudents from 'services/Students/getStudents'
+import createPdf from 'services/CreatePdf'
 // import { empty } from 'utils/helpers'
 
 const Students: NextPage = () => {
@@ -27,8 +28,8 @@ const Students: NextPage = () => {
     }
   }
 
-  const editRowAction = (event: any, rowData: any) => {
-    event.stopPropagation();
+  const editRowAction = (event:any, rowData:any) => {
+    event.stopPropagation()
     setCurrentStudent(rowData)
     setShowForm(true)
   }
@@ -36,6 +37,12 @@ const Students: NextPage = () => {
   const toggleForm = () => {
     setCurrentStudent(initialData)
     setShowForm((prev: boolean) => !prev)
+  }
+
+  const onCreatePDF = (event:any, rowData:any) => {
+    event.stopPropagation()
+
+    createPdf('/students/create-default-pdf', { id: rowData.id })
   }
 
   return (
@@ -56,6 +63,7 @@ const Students: NextPage = () => {
             tableRef={tableRef}
             fetchData={fetchData}
             toggleForm={toggleForm}
+            onCreatePDF={onCreatePDF}
             editRowAction={editRowAction}
             refreshTableAction={refreshTableAction}
           />
@@ -72,7 +80,7 @@ const columns = [
   { title: 'Correo Electrónico', field: 'email' },
   { title: 'Fecha de Nacimiento', field: 'birth_date_with_format' },
   { title: 'Teléfono', field: 'phone_number', width: 250 },
-  { title: 'Municipio', field: 'municipality' },
+  { title: 'Municipio', field: 'municipality', hidden: true },
   {
     title: 'Genero',
     field: 'gender',

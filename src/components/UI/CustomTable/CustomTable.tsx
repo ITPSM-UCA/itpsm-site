@@ -10,6 +10,7 @@ interface Props {
   title: string,
   columns: any[],
   fetchData: (query:any) => Promise<any>,
+  onCreatePDF?: any,
   onEditClickedAction?: any,
   onRefreshTableClicked?: () => void,
 }
@@ -18,6 +19,7 @@ const CustomTable = forwardRef(({
   title,
   columns,
   fetchData,
+  onCreatePDF,
   onEditClickedAction,
   onRefreshTableClicked,
 }:Props, ref) => {
@@ -29,6 +31,14 @@ const CustomTable = forwardRef(({
       tooltip: 'Actualizar',
       isFreeAction: true,
       onClick: onRefreshTableClicked,
+    })
+  }
+
+  if (onCreatePDF) {
+    actions.push({
+      icon: 'picture_as_pdf',
+      tooltip: 'Generar PDF',
+      onClick: onCreatePDF,
     })
   }
 
