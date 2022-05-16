@@ -1,7 +1,7 @@
 interface Props {
-  title: string,
+  title?: string,
   text: string,
-  Icon: any,
+  Icon?: any,
   className: string,
   onClose: () => void,
 }

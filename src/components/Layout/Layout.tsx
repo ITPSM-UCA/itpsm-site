@@ -6,7 +6,7 @@ import SideMenu from './SideMenu/SideMenu'
 import ResponsiveSideMenu from './SideMenu/ResponsiveSideMenu'
 
 interface Props {
-
+  children: any
 }
 
 const Layout : React.FC<Props> = ({ children }) => {

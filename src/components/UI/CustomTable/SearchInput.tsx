@@ -8,12 +8,12 @@ const SearchInput = ({ value, onChanged }: any) => {
     setSearch(event.target.value)
   }
 
-  const handleCleanSearch = (event) => {
-    setSearch('')
-    onChanged('')
-  }
+  // const handleCleanSearch = (event:any) => {
+  //   setSearch('')
+  //   onChanged('')
+  // }
 
-  const onEnterKeyPress = (event) => {
+  const onEnterKeyPress = (event:any) => {
     if (event.key === 'Enter') {
       onChanged(search)
     }

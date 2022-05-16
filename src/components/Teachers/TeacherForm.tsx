@@ -41,7 +41,7 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
     if (!empty(currentDepartment)) {
       setValue('municipality_id', '')
       const municipalityFiltered: any = Departments.find((value: any) => value.value === currentDepartment)
-      setmunicipaltiesOptions(...municipalityFiltered.municipios)
+      setmunicipaltiesOptions(municipalityFiltered.municipios)
     }
   }, [currentDepartment])
 
