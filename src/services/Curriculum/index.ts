@@ -1,4 +1,9 @@
 import getCurricula from './getCurricula'
 import createCurriculum from './createCurriculum'
+import getSubjectsByCurriculumId from './getSubjectsByCurriculumId'
 
-export { getCurricula, createCurriculum }
+export {
+  getCurricula,
+  createCurriculum,
+  getSubjectsByCurriculumId,
+}

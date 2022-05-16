@@ -2,16 +2,14 @@ import Head from 'next/head'
 import type { NextPage } from 'next'
 import { useState, useRef } from 'react'
 import Layout from 'components/Layout/Layout'
-import { AiOutlinePlus } from 'react-icons/ai'
-import { getCurricula } from 'services/Curriculum'
-import CustomTable from 'components/UI/CustomTable/CustomTable'
-import CustomModal from 'components/UI/CustomModal'
+import CurriculaForm from 'components/Curricula/CurriculaForm'
+import CurriculaTable from 'components/Curricula/CurriculaTable'
+import { getCurricula, getSubjectsByCurriculumId } from 'services/Curriculum'
 
 const Students: NextPage = () => {
   const tableRef: any = useRef()
   const [showForm, setShowForm] = useState(false)
   const [currentStudent, setCurrentStudent] = useState(initialData)
-  const [isOpenModal, setIsOpenModal] = useState(false)
 
   const refreshTableAction = () => {
     if (tableRef.current) {
@@ -21,7 +19,6 @@ const Students: NextPage = () => {
 
   const fetchData = async (query: any) => {
     const { rows, page, records } = await getCurricula(query)
-    console.log(rows)
     return {
       rows,
       page,
@@ -29,10 +26,24 @@ const Students: NextPage = () => {
     }
   }
 
-  const editRowAction = (event: any, rowData: any) => {
+  const editRowAction = async (event: any, rowData: any) => {
     event.stopPropagation();
-    setCurrentStudent(rowData)
-    setShowForm(true)
+    // setCurrentStudent(rowData)
+    console.log(rowData)
+    // setShowForm(true)
+    const customQuery = {
+      query: [{
+        field: 'curriculum_id',
+        op: '=',
+        data: rowData.id,
+      }],
+    }
+    const query = {
+      pageSize: 40,
+      page: 0,
+    }
+    const response = await getSubjectsByCurriculumId(query, customQuery)
+    console.log(response)
   }
 
   const toggleForm = () => setShowForm((prev: boolean) => !prev)
@@ -43,31 +54,22 @@ const Students: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
-        <div className="flex justify-between mb-12">
-          <h1 className="text-2xl font-semibold text-gray-900">Plan de estudios</h1>
-          <button
-            type="button"
-            onClick={() => setIsOpenModal(true)}
-            className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2"
-          >
-            <AiOutlinePlus />
-            Nuevo Plan de estudio
-          </button>
-        </div>
-        <div>
-          <CustomTable
-            fetchData={fetchData}
-            ref={tableRef}
-            columns={columns}
-            title="Planes de estudios"
-            onEditClickedAction={editRowAction}
-            onRefreshTableClicked={refreshTableAction}
+        {showForm ? (
+          <CurriculaForm
+            data={currentStudent}
+            toggleForm={toggleForm}
           />
-        </div>
+        ) : (
+          <CurriculaTable
+            columns={columns}
+            tableRef={tableRef}
+            fetchData={fetchData}
+            toggleForm={toggleForm}
+            editRowAction={editRowAction}
+            refreshTableAction={refreshTableAction}
+          />
+        )}
       </div>
-      <CustomModal showModal={isOpenModal} onToggleModal={() => setIsOpenModal(false)} className="w-96 border border-indigo-800 lg:w-1/3 focus:outline-none px-8 pt-8 pb-2">
-        <p>Nuevo plan de estudio</p>
-      </CustomModal>
     </Layout>
   )
 }
@@ -82,6 +84,11 @@ const columns = [
     title: 'Estado',
     field: 'is_active',
     lookup: { 1: 'Activo', 0: 'Desactivado' },
+  },
+  {
+    title: '',
+    field: 'is_approved',
+    lookup: { 1: 'Aprobado', 0: 'En edición' },
   },
 ]
 

@@ -2,10 +2,14 @@ import { empty } from 'utils/helpers'
 import { onErrorHandler } from 'utils/alerts'
 import apiInstance from 'instances/apiInstance'
 
-const getCurricula = async (query:any) => {
+const getSubjectsByCurriculumId = async (query:any, customQuery:any = null) => {
   try {
-    let url = `${apiInstance.defaults.baseURL}/curricula?`
+    let url = `${apiInstance.defaults.baseURL}/curriculum-subjects?`
     url += `page[size]=${query.pageSize}&page[number]=${query.page + 1}`
+
+    if (!empty(customQuery)) {
+      url += `&query=${JSON.stringify(customQuery)}`
+    }
 
     if (!empty(query.search)) {
       url += `&filter=${query.search}`
@@ -47,4 +51,4 @@ const studentsData = {
   records: 0,
 }
 
-export default getCurricula
+export default getSubjectsByCurriculumId
