@@ -93,32 +93,11 @@ const columns = [
 ]
 
 const initialData = {
-  carnet: '',
   name: '',
-  last_name: '',
-  email: '',
-  birth_date: '',
-  address: '',
-  phone_number: '',
-  home_phone_number: '',
-  gender: '',
-  relationship: '',
-  status: '',
-  blood_type: '',
-  mother_name: '',
-  mother_phone_number: '',
-  father_name: '',
-  father_phone_number: '',
-  emergency_contact_name: '',
-  emergency_contact_phone: '',
-  diseases: '',
-  allergies: '',
-  entry_date: '',
-  date_high_school_degree: '',
-  municipality_id: '',
-  department_id: '',
-  country_id: '',
-  medicines: '',
+  career_id: '',
+  year: new Date().getFullYear(),
+  is_active: 1,
+  is_approved: 0,
 }
 
 export default Students

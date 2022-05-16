@@ -134,32 +134,11 @@ const CurriculaForm = ({ data, toggleForm }: Props) => {
 }
 
 const schema = yup.object().shape({
-  carnet: yup.string().required('Este campo es obligatorio.'),
   name: yup.string().required('Este campo es obligatorio.'),
-  last_name: yup.string().required('Este campo es obligatorio.'),
-  email: yup.string().required('Este campo es obligatorio.').email('Dirección de correo no válida.'),
-  birth_date: yup.string().required('Este campo es obligatorio.'),
-  address: yup.string().required('Este campo es obligatorio.'),
-  phone_number: yup.string().nullable(),
-  home_phone_number: yup.string().nullable(),
-  gender: yup.string().required('Este campo es obligatorio.'),
-  relationship: yup.string().required('Este campo es obligatorio.'),
-  status: yup.string().required('Este campo es obligatorio.'),
-  blood_type: yup.string().required('Este campo es obligatorio.'),
-  mother_name: yup.string().nullable(),
-  mother_phone_number: yup.string().nullable(),
-  father_name: yup.string().nullable(),
-  father_phone_number: yup.string().nullable(),
-  emergency_contact_name: yup.string().nullable(),
-  emergency_contact_phone: yup.string().nullable(),
-  diseases: yup.string().nullable(),
-  allergies: yup.string().nullable(),
-  entry_date: yup.string().required('Este campo es obligatorio.'),
-  date_high_school_degree: yup.number().required('Este campo es obligatorio.'),
-  municipality_id: yup.string().required('Este campo es obligatorio.'),
-  department_id: yup.string().required('Este campo es obligatorio.'),
-  country_id: yup.string().required('Este campo es obligatorio.'),
-  medicines: yup.string().nullable(),
+  career_id: yup.string().required('Este campo es obligatorio.'),
+  year: yup.number().required('Este campo es obligatorio.').positive().integer(),
+  is_active: yup.boolean().required('Este campo es obligatorio.'),
+  is_approved: yup.boolean().required('Este campo es obligatorio.'),
 })
 
 export default CurriculaForm
