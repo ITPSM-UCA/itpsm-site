@@ -4,12 +4,13 @@ import { useState, useRef } from 'react'
 import Layout from 'components/Layout/Layout'
 import CurriculaForm from 'components/Curricula/CurriculaForm'
 import CurriculaTable from 'components/Curricula/CurriculaTable'
-import { getCurricula, getSubjectsByCurriculumId } from 'services/Curriculum'
+import SubjectsByCurricula from 'components/Curricula/SubjectsByCurricula'
+import { getCurricula } from 'services/Curriculum'
 
 const Students: NextPage = () => {
   const tableRef: any = useRef()
   const [showForm, setShowForm] = useState(false)
-  const [currentStudent, setCurrentStudent] = useState(initialData)
+  const [currentCurricula, setcurrentCurricula] = useState<any>(initialData)
 
   const refreshTableAction = () => {
     if (tableRef.current) {
@@ -28,25 +29,18 @@ const Students: NextPage = () => {
 
   const editRowAction = async (event: any, rowData: any) => {
     event.stopPropagation();
-    // setCurrentStudent(rowData)
-    console.log(rowData)
-    // setShowForm(true)
-    const customQuery = {
-      query: [{
-        field: 'curriculum_id',
-        op: '=',
-        data: rowData.id,
-      }],
-    }
-    const query = {
-      pageSize: 40,
-      page: 0,
-    }
-    const response = await getSubjectsByCurriculumId(query, customQuery)
-    console.log(response)
+    setcurrentCurricula(rowData)
+    setShowForm(true)
   }
 
-  const toggleForm = () => setShowForm((prev: boolean) => !prev)
+  const toggleForm = () => {
+    setShowForm((prev: boolean) => !prev)
+  }
+
+  const clearData = () => {
+    setcurrentCurricula(initialData)
+  }
+
   return (
     <Layout>
       <Head>
@@ -55,10 +49,18 @@ const Students: NextPage = () => {
       </Head>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
         {showForm ? (
-          <CurriculaForm
-            data={currentStudent}
-            toggleForm={toggleForm}
-          />
+          <>
+            <CurriculaForm
+              clearData={clearData}
+              data={currentCurricula}
+              toggleForm={toggleForm}
+            />
+            {currentCurricula?.id && (
+              <SubjectsByCurricula
+                data={currentCurricula}
+              />
+            )}
+          </>
         ) : (
           <CurriculaTable
             columns={columns}

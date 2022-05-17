@@ -5,13 +5,15 @@ import CustomInput from 'components/UI/Form/CustomInput'
 import { useState } from 'react'
 import Loader from 'components/UI/Loader'
 import { createStudent } from 'services/Students'
+import CustomCheckbox from 'components/UI/Form/CustomCheckbox'
 
 interface Props {
-  data: any
+  data: any,
+  clearData: () => void,
   toggleForm: () => void
 }
 
-const CurriculaForm = ({ data, toggleForm }: Props) => {
+const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
   const {
     register,
     handleSubmit,
@@ -43,7 +45,12 @@ const CurriculaForm = ({ data, toggleForm }: Props) => {
     toggleForm()
   }
 
-  let buttonText = <span>Guardar Estudiante</span>
+  const onCloseForm = () => {
+    clearData()
+    toggleForm()
+  }
+
+  let buttonText = <span>Guardar Plan de estudio</span>
 
   if (loading) {
     buttonText = (
@@ -63,12 +70,12 @@ const CurriculaForm = ({ data, toggleForm }: Props) => {
       onSubmit={handleSubmit(onCreateStudent)}
     >
       <div className="flex justify-between">
-        <h1 className="text-2xl font-semibold text-gray-900">Estudiantes</h1>
+        <h1 className="text-2xl font-semibold text-gray-900">Plan de estudio</h1>
 
         <div className="flex gap-x-4">
           <button
             type="button"
-            onClick={toggleForm}
+            onClick={onCloseForm}
             className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
             Atras
           </button>
@@ -88,41 +95,48 @@ const CurriculaForm = ({ data, toggleForm }: Props) => {
             <CustomInput
               type="text"
               name="name"
-              label="Nombres"
+              label="Nombre"
               error={errors?.name}
               disabled={isSubmitting}
               register={register}
-              placeholder="Álvaro"
+              placeholder="Plan 2022"
             />
           </div>
           <div className="w-1/4 p-2">
             <CustomInput
               type="text"
-              name="last_name"
-              label="Apellidos"
-              error={errors?.last_name}
+              name="career_id"
+              label="Carrera"
+              error={errors?.career_id}
               disabled={isSubmitting}
               register={register}
-              placeholder="García"
-            />
-          </div>
-          <div className="w-1/2 p-2">
-            <CustomInput
-              type="text"
-              name="address"
-              label="Dirección"
-              error={errors?.address}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="Direccion"
+              placeholder="1"
             />
           </div>
           <div className="w-1/4 p-2">
             <CustomInput
-              type="date"
-              name="birth_date"
-              label="Fecha de nacimiento"
-              error={errors?.birth_date}
+              type="number"
+              name="year"
+              label="Año"
+              min="2020"
+              error={errors?.year}
+              disabled={isSubmitting}
+              register={register}
+              placeholder="2022"
+            />
+          </div>
+          <div className="w-1/4 p-2 pb-3 flex items-end gap-x-10">
+            <CustomCheckbox
+              name="is_active"
+              label="Activo"
+              // error={errors?.is_active}
+              disabled={isSubmitting}
+              register={register}
+            />
+            <CustomCheckbox
+              name="is_approved"
+              label="Aprobado"
+              // error={errors?.is_approved}
               disabled={isSubmitting}
               register={register}
             />

@@ -10,6 +10,7 @@ import Loader from 'components/UI/Loader'
 import Colors from 'utils/constants/Colors'
 import { useTranslation } from 'next-i18next'
 import { yupResolver } from '@hookform/resolvers/yup'
+import ErrorIcon from 'assets/icons/Alerts/ErrorIcon'
 import CustomAlert from 'components/Alerts/CustomAlert'
 import CustomInput from 'components/UI/Form/CustomInput'
 import { login } from 'services/Auth'
@@ -135,6 +136,7 @@ const LoginForm = () => {
           {(error !== '') && (
             <CustomAlert
               text={error}
+              Icon={ErrorIcon}
               className="text-red-700 bg-red-100 mb-4"
               onClose={() => setError('')}
             />
