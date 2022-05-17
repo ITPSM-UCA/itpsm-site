@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable max-len */
-import { ChangeEvent, useState, useEffect } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { empty } from 'utils/helpers'
 import { HiSelector } from 'react-icons/hi'
 import { Controller } from 'react-hook-form'
