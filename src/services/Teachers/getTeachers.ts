@@ -36,7 +36,6 @@ const getTeachers = async (query:any) => {
     }
   }
   catch (error:any) {
-    console.log(error)
     onErrorHandler(error.response)
     return TeachersData
   }

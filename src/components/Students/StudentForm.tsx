@@ -6,9 +6,9 @@ import PhoneNumberInput from 'components/UI/Form/PhoneNumberInput'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { useEffect, useState } from 'react'
 import Loader from 'components/UI/Loader'
-import { createStudent } from 'services/Students'
-import Departments from 'utils/constants/Departments'
+import { createStudent, updateStudent } from 'services/Students'
 import { empty } from 'utils/helpers'
+import { useSelector } from 'react-redux'
 
 interface Props {
   data: any
@@ -30,6 +30,10 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     defaultValues: data,
     resolver: yupResolver(schema),
   })
+
+  const countries = useSelector((state: any) => state.config.countries)
+  const { departments } = countries[0]
+  // console.log(departments[0].municipalities)
 
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
@@ -81,14 +85,20 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     setmunicipaltiesOptions([])
     if (!empty(currentDepartment)) {
       setValue('municipality_id', '')
-      const municipalityFiltered: any = Departments.find((value: any) => value.value === currentDepartment)
+      const municipalityFiltered: any = departments.find((value: any) => value.value === currentDepartment)
       setmunicipaltiesOptions(municipalityFiltered.municipios)
     }
   }, [currentDepartment])
 
   const onCreateStudent = async (formData: any) => {
     setLoading(true)
-    const response: any = await createStudent(formData)
+    let response: any
+    if (!empty(formData?.id)) {
+      response = await updateStudent(formData, formData.id)
+    }
+    else {
+      response = await createStudent(formData)
+    }
 
     if (response.error) {
       setLoading(false)
@@ -252,7 +262,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={initialDepartment}
               label="Departamento"
               error={errors?.department_id}
-              options={Departments}
+              options={departments}
               setValue={setValue}
               clearErrors={clearErrors}
             />
@@ -478,7 +488,7 @@ const schema = yup.object().shape({
   diseases: yup.string().nullable(),
   allergies: yup.string().nullable(),
   entry_date: yup.string().required('Este campo es obligatorio.'),
-  date_high_school_degree: yup.number().required('Este campo es obligatorio.'),
+  date_high_school_degree: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.'),
   municipality_id: yup.string().required('Este campo es obligatorio.'),
   department_id: yup.string().required('Este campo es obligatorio.'),
   country_id: yup.string().required('Este campo es obligatorio.'),

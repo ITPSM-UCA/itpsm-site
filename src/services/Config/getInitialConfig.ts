@@ -1,12 +1,12 @@
 import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
-const updateStudent = async (data:any, id: number) => {
+const getConfigurations = async () => {
   let response
   try {
-    const url = `${apiInstance.defaults.baseURL}/students/${id}`
+    const url = `${apiInstance.defaults.baseURL}/initial-config`
 
-    response = await apiInstance.put(url, data)
+    response = await apiInstance.get(url)
 
     response = response.data
 
@@ -18,4 +18,4 @@ const updateStudent = async (data:any, id: number) => {
   }
 }
 
-export default updateStudent
+export default getConfigurations
