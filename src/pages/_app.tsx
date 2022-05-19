@@ -8,12 +8,14 @@ import type { AppProps } from 'next/app'
 import { Toaster } from 'react-hot-toast'
 import { appWithTranslation } from 'next-i18next'
 import { authCheckState } from 'store/User/userActions'
+import { getInitialConfig } from 'store/Config/configActions'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const store = useStore(pageProps.initialReduxState)
 
   useEffect(() => {
     store.dispatch(authCheckState())
+    store.dispatch(getInitialConfig())
   }, [])
 
   return (

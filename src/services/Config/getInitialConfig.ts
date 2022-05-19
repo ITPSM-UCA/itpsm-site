@@ -1,5 +1,4 @@
 import apiInstance from 'instances/apiInstance'
-import { onErrorHandler } from 'utils/alerts'
 
 const getConfigurations = async () => {
   let response
@@ -13,7 +12,6 @@ const getConfigurations = async () => {
     return response.data
   } catch (error:any) {
     response = error.response.data
-    onErrorHandler(error.response)
     return response
   }
 }

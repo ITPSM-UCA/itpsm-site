@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
+import { getInitialConfig } from 'store/Config/configActions'
 import { authSuccess, logout } from 'store/User/userActions'
 
 type User = {
@@ -18,6 +19,8 @@ const useUser = () => {
     dispatch(authSuccess({
       ...userInfo,
     }))
+
+    dispatch(getInitialConfig())
   }
 
   const onLogout = () => {

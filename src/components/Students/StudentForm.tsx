@@ -86,7 +86,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     if (!empty(currentDepartment)) {
       setValue('municipality_id', '')
       const municipalityFiltered: any = departments.find((value: any) => value.value === currentDepartment)
-      setmunicipaltiesOptions(municipalityFiltered.municipios)
+      setmunicipaltiesOptions(municipalityFiltered.municipalities)
     }
   }, [currentDepartment])
 
@@ -277,7 +277,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                   initialValue={initialMunicipality}
                   label="Municipio"
                   error={errors?.municipality_id}
-                  options={[municipaltiesOptions]}
+                  options={municipaltiesOptions}
                   setValue={setValue}
                   clearErrors={clearErrors}
                 />
