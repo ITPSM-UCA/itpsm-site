@@ -9,6 +9,7 @@ import Loader from 'components/UI/Loader'
 import { createStudent, updateStudent } from 'services/Students'
 import { empty } from 'utils/helpers'
 import { useSelector } from 'react-redux'
+import { bloodTypes, genders, relationships } from 'utils/constants/Constants'
 
 interface Props {
   data: any
@@ -32,13 +33,42 @@ const StudentForm = ({ data, toggleForm }: Props) => {
   })
 
   const countries = useSelector((state: any) => state.config.countries)
-  const { departments } = countries[0]
-  // console.log(departments[0].municipalities)
 
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
   const currentDepartment = watch('department_id')
-  const [municipaltiesOptions, setmunicipaltiesOptions] = useState({})
+  const currentCountry = watch('country_id')
+  const [municipaltiesOptions, setMunicipaltiesOptions] = useState([])
+  const [departmentsOptions, setDepartmentsOptions] = useState([])
+
+  useEffect(() => {
+    if (!empty(currentCountry) && empty(data.department_id)) {
+      setDepartmentsOptions([])
+      setValue('department_id', '')
+      const departmentFiltered: any = countries.find((value: any) => value.value === currentCountry)
+      setDepartmentsOptions(departmentFiltered?.departments)
+    }
+
+    if (!empty(data.department_id)) {
+      const departmentFiltered: any = countries.find((value: any) => value.value === currentCountry)
+      setDepartmentsOptions(departmentFiltered?.departments)
+    }
+  }, [currentCountry])
+
+  useEffect(() => {
+    if (!empty(currentDepartment) && empty(data.municipality_id)) {
+      setMunicipaltiesOptions([])
+      setValue('municipality_id', '')
+      const municipalityFiltered: any = departmentsOptions.find((value: any) => value.value === currentDepartment)
+      setMunicipaltiesOptions(municipalityFiltered?.municipalities)
+    }
+
+    if (!empty(data.municipality_id)) {
+      const municipalityFiltered: any = departmentsOptions.find((value: any) => value.value === currentDepartment)
+      setMunicipaltiesOptions(municipalityFiltered?.municipalities)
+    }
+  }, [currentDepartment, departmentsOptions])
+
   const STATUS_LABEL: any = {
     A: 'Activo',
     G: 'Graduado',
@@ -80,15 +110,6 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     value: data?.blood_type,
     label: data?.blood_type,
   }
-
-  useEffect(() => {
-    setmunicipaltiesOptions([])
-    if (!empty(currentDepartment)) {
-      setValue('municipality_id', '')
-      const municipalityFiltered: any = departments.find((value: any) => value.value === currentDepartment)
-      setmunicipaltiesOptions(municipalityFiltered.municipalities)
-    }
-  }, [currentDepartment])
 
   const onCreateStudent = async (formData: any) => {
     setLoading(true)
@@ -223,9 +244,20 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={initialGender}
               label="Genero"
               error={errors?.gender}
-              options={[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Femenino' }]}
+              options={genders}
               setValue={setValue}
               clearErrors={clearErrors}
+            />
+          </div>
+          <div className="w-1/4 p-2">
+            <CustomInput
+              type="text"
+              name="email"
+              label="Correo Personal"
+              error={errors?.email}
+              disabled={isSubmitting}
+              register={register}
+              placeholder="alvaro1@gmail.com"
             />
           </div>
           <div className="w-1/4 p-2">
@@ -236,7 +268,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={initialRelationship}
               label="Estado civil"
               error={errors?.relationship}
-              options={[{ value: 'S', label: 'Soltero' }, { value: 'C', label: 'Casado' }]}
+              options={relationships}
               setValue={setValue}
               clearErrors={clearErrors}
             />
@@ -249,24 +281,27 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={initialCountry}
               label="País"
               error={errors?.country_id}
-              options={[{ value: 1, label: 'El Salvador' }]}
+              options={countries}
               setValue={setValue}
               clearErrors={clearErrors}
             />
           </div>
-          <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="department_id"
-              control={control}
-              placeholder="San Salvador"
-              initialValue={initialDepartment}
-              label="Departamento"
-              error={errors?.department_id}
-              options={departments}
-              setValue={setValue}
-              clearErrors={clearErrors}
-            />
-          </div>
+          {!empty(departmentsOptions)
+            && (
+              <div className="w-1/4 p-2">
+                <CustomCombobox
+                  name="department_id"
+                  control={control}
+                  placeholder="San Salvador"
+                  initialValue={initialDepartment}
+                  label="Departamento"
+                  error={errors?.department_id}
+                  options={departmentsOptions}
+                  setValue={setValue}
+                  clearErrors={clearErrors}
+                />
+              </div>
+            )}
           {!empty(municipaltiesOptions)
             && (
               <div className="w-1/4 p-2">
@@ -299,17 +334,6 @@ const StudentForm = ({ data, toggleForm }: Props) => {
             />
           </div>
           <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="email"
-              label="Correo Electronico"
-              error={errors?.email}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="alvaro1@gmail.com"
-            />
-          </div>
-          <div className="w-1/4 p-2">
             <CustomCombobox
               name="status"
               control={control}
@@ -324,9 +348,19 @@ const StudentForm = ({ data, toggleForm }: Props) => {
           </div>
           <div className="w-1/4 p-2">
             <CustomInput
-              type="date"
+              type="number"
+              name="entry_period"
+              label="Periodo de entrada"
+              error={errors?.entry_period}
+              disabled={isSubmitting}
+              register={register}
+            />
+          </div>
+          <div className="w-1/4 p-2">
+            <CustomInput
+              type="number"
               name="entry_date"
-              label="Fecha de entrada"
+              label="Año de entrada"
               error={errors?.entry_date}
               disabled={isSubmitting}
               register={register}
@@ -353,7 +387,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={initialBloodType}
               label="Tipo de sangre"
               error={errors?.blood_type}
-              options={[{ value: 'A-', label: 'A-' }, { value: 'A+', label: 'A+' }, { value: 'B-', label: 'B-' }, { value: 'B+', label: 'B+' }, { value: 'AB-', label: 'AB-' }, { value: 'AB+', label: 'AB+' }, { value: 'O-', label: 'O-' }, { value: 'O+', label: 'O+' }]}
+              options={bloodTypes}
               setValue={setValue}
               clearErrors={clearErrors}
             />
@@ -487,8 +521,9 @@ const schema = yup.object().shape({
   emergency_contact_phone: yup.string().nullable(),
   diseases: yup.string().nullable(),
   allergies: yup.string().nullable(),
-  entry_date: yup.string().required('Este campo es obligatorio.'),
-  date_high_school_degree: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.'),
+  entry_date: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo'),
+  entry_period: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').max(2, 'El valor máximo es 2').min(1, 'El valor mínimo es 1').positive('El valor debe de ser positivo'),
+  date_high_school_degree: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo'),
   municipality_id: yup.string().required('Este campo es obligatorio.'),
   department_id: yup.string().required('Este campo es obligatorio.'),
   country_id: yup.string().required('Este campo es obligatorio.'),

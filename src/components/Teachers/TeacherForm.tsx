@@ -7,8 +7,9 @@ import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { useEffect, useState } from 'react'
 import Loader from 'components/UI/Loader'
 import { createTeacher } from 'services/Teachers'
-import Departments from 'utils/constants/Departments'
+import { genders } from 'utils/constants/Constants'
 import { empty } from 'utils/helpers'
+import { useSelector } from 'react-redux'
 
 interface Props {
   data: any
@@ -31,19 +32,42 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
     resolver: yupResolver(schema),
   })
 
+  const countries = useSelector((state: any) => state.config.countries)
+
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
   const currentDepartment = watch('department_id')
-  const [municipaltiesOptions, setmunicipaltiesOptions] = useState({})
+  const currentCountry = watch('country_id')
+  const [municipaltiesOptions, setMunicipaltiesOptions] = useState([])
+  const [departmentsOptions, setDepartmentsOptions] = useState([])
 
   useEffect(() => {
-    setmunicipaltiesOptions([])
-    if (!empty(currentDepartment)) {
-      setValue('municipality_id', '')
-      const municipalityFiltered: any = Departments.find((value: any) => value.value === currentDepartment)
-      setmunicipaltiesOptions(municipalityFiltered.municipios)
+    if (!empty(currentCountry) && empty(data.department_id)) {
+      setDepartmentsOptions([])
+      setValue('department_id', '')
+      const departmentFiltered: any = countries.find((value: any) => value.value === currentCountry)
+      setDepartmentsOptions(departmentFiltered?.departments)
     }
-  }, [currentDepartment])
+
+    if (!empty(data.department_id)) {
+      const departmentFiltered: any = countries.find((value: any) => value.value === currentCountry)
+      setDepartmentsOptions(departmentFiltered?.departments)
+    }
+  }, [currentCountry])
+
+  useEffect(() => {
+    if (!empty(currentDepartment) && empty(data.municipality_id)) {
+      setMunicipaltiesOptions([])
+      setValue('municipality_id', '')
+      const municipalityFiltered: any = departmentsOptions.find((value: any) => value.value === currentDepartment)
+      setMunicipaltiesOptions(municipalityFiltered?.municipalities)
+    }
+
+    if (!empty(data.municipality_id)) {
+      const municipalityFiltered: any = departmentsOptions.find((value: any) => value.value === currentDepartment)
+      setMunicipaltiesOptions(municipalityFiltered?.municipalities)
+    }
+  }, [currentDepartment, departmentsOptions])
 
   const onCreateTeacher = async (formData: any) => {
     setLoading(true)
@@ -183,7 +207,7 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
               initialValue={{}}
               label="Genero"
               error={errors?.genre}
-              options={[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Femenino' }]}
+              options={genders}
               setValue={setValue}
               clearErrors={clearErrors}
             />
@@ -209,25 +233,28 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
               initialValue={{}}
               label="País"
               error={errors?.country_id}
-              options={[{ value: 1, label: 'El Salvador' }]}
+              options={countries}
               setValue={setValue}
               clearErrors={clearErrors}
             />
           </div>
-          <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="department_id"
-              control={control}
-              placeholder="San Salvador"
-              initialValue={{}}
-              label="Departamento"
-              error={errors?.department_id}
-              options={Departments}
-              setValue={setValue}
-              clearErrors={clearErrors}
+          {!empty(departmentsOptions)
+            && (
+              <div className="w-1/4 p-2">
+                <CustomCombobox
+                  name="department_id"
+                  control={control}
+                  placeholder="San Salvador"
+                  initialValue={{}}
+                  label="Departamento"
+                  error={errors?.department_id}
+                  options={departmentsOptions}
+                  setValue={setValue}
+                  clearErrors={clearErrors}
 
-            />
-          </div>
+                />
+              </div>
+            )}
           {!empty(municipaltiesOptions)
             && (
               <div className="w-1/4 p-2">
@@ -238,7 +265,7 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
                   initialValue={{}}
                   label="Municipio"
                   error={errors?.municipality_id}
-                  options={[municipaltiesOptions]}
+                  options={municipaltiesOptions}
                   setValue={setValue}
                   clearErrors={clearErrors}
                 />

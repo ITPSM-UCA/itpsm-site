@@ -141,6 +141,7 @@ const initialData = {
   diseases: '',
   allergies: '',
   entry_date: '',
+  entry_period: '',
   date_high_school_degree: '',
   municipality_id: '',
   department_id: '',
