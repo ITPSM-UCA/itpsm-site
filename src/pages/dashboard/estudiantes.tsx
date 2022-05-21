@@ -28,7 +28,7 @@ const Students: NextPage = () => {
     }
   }
 
-  const editRowAction = (event:any, rowData:any) => {
+  const editRowAction = (event: any, rowData: any) => {
     event.stopPropagation()
     setCurrentStudent(rowData)
     setShowForm(true)
@@ -39,7 +39,7 @@ const Students: NextPage = () => {
     setShowForm((prev: boolean) => !prev)
   }
 
-  const onCreatePDF = (event:any, rowData:any) => {
+  const onCreatePDF = (event: any, rowData: any) => {
     event.stopPropagation()
 
     createPdf('/students/create-default-pdf', { id: rowData.id })
@@ -90,7 +90,7 @@ const columns = [
   {
     title: 'Estado',
     field: 'status',
-    lookup: { A: 'Activo', X: 'Graduado', R: 'Egresado' },
+    lookup: { A: 'Activo', G: 'Graduado', E: 'Egresado' },
   },
 ]
 
@@ -124,6 +124,7 @@ const initialData = {
   name: '',
   last_name: '',
   email: '',
+  institutional_email: '',
   birth_date: '',
   address: '',
   phone_number: '',

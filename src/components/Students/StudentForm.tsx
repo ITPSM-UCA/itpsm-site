@@ -127,7 +127,10 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     }
 
     setLoading(false)
-    toggleForm()
+    setValue('carnet', response.attributes?.carnet)
+    setValue('institutional_email', response.attributes?.institutional_email)
+
+    // toggleForm()
   }
 
   let buttonText = <span>Guardar Estudiante</span>
@@ -330,7 +333,20 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               error={errors?.carnet}
               disabled={isSubmitting}
               register={register}
-              placeholder="999999999"
+              placeholder="AL01220001"
+              isReadOnly
+            />
+          </div>
+          <div className="w-1/4 p-2">
+            <CustomInput
+              type="text"
+              name="institutional_email"
+              label="Correo Institucional"
+              error={errors?.institutional_email}
+              disabled={isSubmitting}
+              register={register}
+              placeholder="AL01220001@itpsm.edu.sv"
+              isReadOnly
             />
           </div>
           <div className="w-1/4 p-2">
@@ -501,10 +517,11 @@ const StudentForm = ({ data, toggleForm }: Props) => {
 }
 
 const schema = yup.object().shape({
-  carnet: yup.string().required('Este campo es obligatorio.'),
+  carnet: yup.string(),
   name: yup.string().required('Este campo es obligatorio.'),
   last_name: yup.string().required('Este campo es obligatorio.'),
   email: yup.string().required('Este campo es obligatorio.').email('Dirección de correo no válida.'),
+  institutional_email: yup.string(),
   birth_date: yup.string().required('Este campo es obligatorio.'),
   address: yup.string().required('Este campo es obligatorio.'),
   phone_number: yup.string().nullable(),
