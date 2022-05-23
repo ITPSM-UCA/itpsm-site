@@ -1,12 +1,12 @@
 import { useState, useRef } from 'react'
 import Head from 'next/head'
+import withAuth from 'HOC/withAuth'
 import type { NextPage } from 'next'
+import createPdf from 'services/CreatePdf'
 import Layout from 'components/Layout/Layout'
 import StudentForm from 'components/Students/StudentForm'
 import StudentsTable from 'components/Students/StudentsTable'
 import getStudents from 'services/Students/getStudents'
-import createPdf from 'services/CreatePdf'
-// import { empty } from 'utils/helpers'
 
 const Students: NextPage = () => {
   const tableRef: any = useRef()
@@ -150,4 +150,4 @@ const initialData = {
   medicines: '',
 }
 
-export default Students
+export default withAuth(Students)

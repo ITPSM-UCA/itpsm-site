@@ -1,3 +1,4 @@
+import withAuth from 'HOC/withAuth'
 import type { NextPage } from 'next'
 import Layout from 'components/Layout/Layout'
 
@@ -14,4 +15,4 @@ const Dashboard: NextPage = () => (
   </Layout>
 )
 
-export default Dashboard
+export default withAuth(Dashboard)

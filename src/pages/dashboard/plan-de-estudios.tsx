@@ -6,8 +6,9 @@ import CurriculaForm from 'components/Curricula/CurriculaForm'
 import CurriculaTable from 'components/Curricula/CurriculaTable'
 import SubjectsByCurricula from 'components/Curricula/SubjectsByCurricula'
 import { getCurricula } from 'services/Curriculum'
+import withAuth from 'HOC/withAuth'
 
-const Students: NextPage = () => {
+const Curricula: NextPage = () => {
   const tableRef: any = useRef()
   const [showForm, setShowForm] = useState(false)
   const [currentCurricula, setcurrentCurricula] = useState<any>(initialData)
@@ -102,4 +103,4 @@ const initialData = {
   is_approved: 0,
 }
 
-export default Students
+export default withAuth(Curricula)

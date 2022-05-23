@@ -5,6 +5,7 @@ import Layout from 'components/Layout/Layout'
 import TeachersTable from 'components/Teachers/TeachersTable'
 import { getTeachers } from 'services/Teachers'
 import TeacherForm from 'components/Teachers/TeacherForm'
+import withAuth from 'HOC/withAuth'
 
 const Teachers: NextPage = () => {
   const tableRef:any = useRef()
@@ -101,4 +102,4 @@ const initialData = {
   status_id: '',
 }
 
-export default Teachers
+export default withAuth(Teachers)
