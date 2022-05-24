@@ -4,9 +4,13 @@ export const relationships = [{ value: 'S', label: 'Soltero' }, { value: 'C', la
 
 export const bloodTypes = [{ value: 'A-', label: 'A-' }, { value: 'A+', label: 'A+' }, { value: 'B-', label: 'B-' }, { value: 'B+', label: 'B+' }, { value: 'AB-', label: 'AB-' }, { value: 'AB+', label: 'AB+' }, { value: 'O-', label: 'O-' }, { value: 'O+', label: 'O+' }]
 
-export const STATUS_LABEL_STUDENTS: any = {
+export const STATUS_LABEL: any = {
   A: 'Activo',
   G: 'Graduado',
   E: 'Egresado',
   I: 'Inactivo',
 }
+
+export const studentsStatus = [{ value: 'A', label: 'Activo' }, { value: 'E', label: 'Egresado' }, { value: 'G', label: 'Graduado' }, { value: 'I', label: 'Inactivo' }]
+
+export const teachersStatus = [{ value: 1, label: 'Activo' }, { value: 2, label: 'Inactivo' }]

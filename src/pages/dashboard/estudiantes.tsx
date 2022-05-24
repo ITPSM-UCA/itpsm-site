@@ -90,7 +90,9 @@ const columns = [
   {
     title: 'Estado',
     field: 'status',
-    lookup: { A: 'Activo', G: 'Graduado', E: 'Egresado' },
+    lookup: {
+      A: 'Activo', G: 'Graduado', E: 'Egresado', I: 'Inactivo',
+    },
   },
 ]
 

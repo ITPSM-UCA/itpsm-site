@@ -11,7 +11,7 @@ import { createStudent, updateStudent } from 'services/Students'
 import { empty } from 'utils/helpers'
 import { useSelector } from 'react-redux'
 import {
-  bloodTypes, genders, relationships, STATUS_LABEL_STUDENTS,
+  bloodTypes, genders, relationships, STATUS_LABEL, studentsStatus,
 } from 'utils/constants/Constants'
 
 interface Props {
@@ -72,11 +72,11 @@ const StudentForm = ({ data, toggleForm }: Props) => {
       case 'relationship':
         return empty(data?.relationship) ? {} : { value: data?.relationship, label: data?.relationship === 'S' ? 'Soltero' : 'Casado' }
       case 'status':
-        return empty(data?.status) ? {} : { value: data?.status, label: STATUS_LABEL_STUDENTS[data?.status] }
+        return empty(data?.status) ? {} : { value: data?.status, label: STATUS_LABEL[data?.status] }
       case 'blood_type':
         return empty(data?.blood_type) ? {} : { value: data?.blood_type, label: data?.blood_type }
       default:
-        break;
+        return {}
     }
   }
 
@@ -324,7 +324,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               initialValue={() => getInitialValue('status')}
               label="Estado"
               error={errors?.status}
-              options={[{ value: 'A', label: 'Activo' }, { value: 'E', label: 'Egresado' }, { value: 'G', label: 'Graduado' }]}
+              options={studentsStatus}
               setValue={setValue}
               clearErrors={clearErrors}
             />

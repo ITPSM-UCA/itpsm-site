@@ -79,7 +79,7 @@ const columns = [
   {
     title: 'Estado',
     field: 'statues_type',
-    lookup: { A: 'Activo', B: 'Inactivo' },
+    lookup: { A: 'Activo', I: 'Inactivo' },
   },
 ]
 
@@ -100,6 +100,9 @@ const initialData = {
   department_id: '',
   country_id: '',
   status_id: '',
+  carnet: '',
+  institutional_email: '',
+  entry_date: '',
 }
 
 export default withAuth(Teachers)

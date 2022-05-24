@@ -6,8 +6,8 @@ import PhoneNumberInput from 'components/UI/Form/PhoneNumberInput'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { useEffect, useState } from 'react'
 import Loader from 'components/UI/Loader'
-import { createTeacher } from 'services/Teachers'
-import { genders } from 'utils/constants/Constants'
+import { createTeacher, updateTeacher } from 'services/Teachers'
+import { genders, STATUS_LABEL, teachersStatus } from 'utils/constants/Constants'
 import { empty } from 'utils/helpers'
 import { useSelector } from 'react-redux'
 
@@ -45,41 +45,56 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
     if (!empty(currentCountry) && empty(data.department_id)) {
       setDepartmentsOptions([])
       setValue('department_id', '')
-      const departmentFiltered: any = countries.find((value: any) => value.value === currentCountry)
-      setDepartmentsOptions(departmentFiltered?.departments)
     }
-
-    if (!empty(data.department_id)) {
-      const departmentFiltered: any = countries.find((value: any) => value.value === currentCountry)
-      setDepartmentsOptions(departmentFiltered?.departments)
-    }
+    const departmentFiltered: any = countries?.find((value: any) => value.value === currentCountry)
+    setDepartmentsOptions(departmentFiltered?.departments)
   }, [currentCountry])
 
   useEffect(() => {
     if (!empty(currentDepartment) && empty(data.municipality_id)) {
       setMunicipaltiesOptions([])
       setValue('municipality_id', '')
-      const municipalityFiltered: any = departmentsOptions.find((value: any) => value.value === currentDepartment)
-      setMunicipaltiesOptions(municipalityFiltered?.municipalities)
     }
-
-    if (!empty(data.municipality_id)) {
-      const municipalityFiltered: any = departmentsOptions.find((value: any) => value.value === currentDepartment)
-      setMunicipaltiesOptions(municipalityFiltered?.municipalities)
-    }
+    const municipalityFiltered: any = departmentsOptions?.find((value: any) => value.value === currentDepartment)
+    setMunicipaltiesOptions(municipalityFiltered?.municipalities)
   }, [currentDepartment, departmentsOptions])
+
+  const getInitialValue = (field: string) => {
+    switch (field) {
+      case 'department_id':
+        return empty(data?.department_id) ? {} : { value: data?.department_id, label: data?.department }
+      case 'municipality_id':
+        return empty(data?.municipality_id) ? {} : { value: data?.municipality_id, label: data?.municipality }
+      case 'country_id':
+        return empty(data?.country_id) ? {} : { value: data?.country_id, label: data?.country }
+      case 'genre':
+        return empty(data?.genre) ? {} : { value: data?.genre, label: data?.genre === 'M' ? 'Masculino' : 'Femenino' }
+      case 'status_id':
+        setValue('status_id', data?.statues_type ?? '')
+        return empty(data?.statues_type) ? {} : { value: data?.statues_type, label: STATUS_LABEL[data?.statues_type] }
+      default:
+        return {}
+    }
+  }
 
   const onCreateTeacher = async (formData: any) => {
     setLoading(true)
-    const response: any = await createTeacher(formData)
+    let response: any
+    if (!empty(formData?.id)) {
+      response = await updateTeacher(formData, formData.id)
+    }
+    else {
+      response = await createTeacher(formData)
+    }
 
     if (response.error) {
       setLoading(false)
       return
     }
-
     setLoading(false)
-    toggleForm()
+    setValue('carnet', response.attributes?.carnet)
+    setValue('institutional_email', response.attributes?.institutional_email)
+    setValue('id', response?.id)
   }
 
   let buttonText = <span>Guardar Catedrático</span>
@@ -204,7 +219,7 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
               name="genre"
               control={control}
               placeholder="Masculino"
-              initialValue={{}}
+              initialValue={() => getInitialValue('genre')}
               label="Genero"
               error={errors?.genre}
               options={genders}
@@ -217,10 +232,10 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
               name="status_id"
               control={control}
               placeholder="Activo"
-              initialValue={{}}
+              initialValue={() => getInitialValue('status_id')}
               label="Estado"
               error={errors?.status_id}
-              options={[{ value: 1, label: 'Activo' }, { value: 2, label: 'Inactivo' }]}
+              options={teachersStatus}
               setValue={setValue}
               clearErrors={clearErrors}
             />
@@ -230,7 +245,7 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
               name="country_id"
               control={control}
               placeholder="El Salvador"
-              initialValue={{}}
+              initialValue={() => getInitialValue('country_id')}
               label="País"
               error={errors?.country_id}
               options={countries}
@@ -245,7 +260,7 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
                   name="department_id"
                   control={control}
                   placeholder="San Salvador"
-                  initialValue={{}}
+                  initialValue={() => getInitialValue('department_id')}
                   label="Departamento"
                   error={errors?.department_id}
                   options={departmentsOptions}
@@ -262,7 +277,7 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
                   name="municipality_id"
                   control={control}
                   placeholder="Ciudad Delgado"
-                  initialValue={{}}
+                  initialValue={() => getInitialValue('municipality_id')}
                   label="Municipio"
                   error={errors?.municipality_id}
                   options={municipaltiesOptions}
@@ -272,6 +287,43 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
               </div>
             )}
 
+        </fieldset>
+        <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
+          <legend className="font-medium text-indigo-600">Datos académicos</legend>
+          <div className="w-1/4 p-2">
+            <CustomInput
+              type="text"
+              name="carnet"
+              label="Código de catedrático"
+              error={errors?.carnet}
+              disabled={isSubmitting}
+              register={register}
+              placeholder="AL01220001"
+              isReadOnly
+            />
+          </div>
+          <div className="w-1/4 p-2">
+            <CustomInput
+              type="text"
+              name="institutional_email"
+              label="Correo Institucional"
+              error={errors?.institutional_email}
+              disabled={isSubmitting}
+              register={register}
+              placeholder="AL01220001@itpsm.edu.sv"
+              isReadOnly
+            />
+          </div>
+          <div className="w-1/4 p-2">
+            <CustomInput
+              type="number"
+              name="entry_date"
+              label="Año de entrada"
+              error={errors?.entry_date}
+              disabled={isSubmitting}
+              register={register}
+            />
+          </div>
         </fieldset>
         <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
           <legend className="font-medium text-indigo-600">Datos de trabajador</legend>
@@ -326,6 +378,8 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
 }
 
 const schema = yup.object().shape({
+  carnet: yup.string(),
+  institutional_email: yup.string(),
   name: yup.string().required('Este campo es obligatorio.'),
   last_name: yup.string().required('Este campo es obligatorio.'),
   birth_date: yup.string().required('Este campo es obligatorio.'),
@@ -342,6 +396,7 @@ const schema = yup.object().shape({
   department_id: yup.string().required('Este campo es obligatorio.'),
   country_id: yup.string().required('Este campo es obligatorio.'),
   status_id: yup.string().required('Este campo es obligatorio.'),
+  entry_date: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo').min(2010, 'El valor mínimo es 2010'),
 })
 
 export default TeacherForm
