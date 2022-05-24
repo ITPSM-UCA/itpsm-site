@@ -1,16 +1,24 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
 
 const withAuth = (WrappedComponent:any) => ((props:any) => {
-  if (typeof window === 'undefined') return null
-
   const Router = useRouter()
+  const [isAuthorized, setIsAuthorized] = useState(false)
 
-  const appState = JSON.parse(localStorage.getItem('appState') || '{}')
-  const accessToken = appState?.token
+  useEffect(() => {
+    const appState = JSON.parse(localStorage.getItem('appState') || '{}')
+    const accessToken = appState?.token
 
-  if (!accessToken) {
-    Router.replace('/login')
+    if (!accessToken) {
+      Router.replace('/login')
+      return
+    }
+
+    setIsAuthorized(true)
+  }, [])
+
+  if (!isAuthorized) {
     return null
   }
 
