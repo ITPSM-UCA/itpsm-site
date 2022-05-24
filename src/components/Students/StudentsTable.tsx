@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { AiOutlinePlus } from 'react-icons/ai'
+import { RiMailDownloadFill } from 'react-icons/ri'
 import CustomTable from 'components/UI/CustomTable/CustomTable'
 import { useState } from 'react'
 import Loader from 'components/UI/Loader'
@@ -54,7 +55,7 @@ const StudentsTable = ({
             onClick={onGenerateStudentsCredentials}
             className="inline-flex items-center mx-5 px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2"
           >
-            <AiOutlinePlus />
+            <RiMailDownloadFill />
             {buttonText}
           </button>
           <button

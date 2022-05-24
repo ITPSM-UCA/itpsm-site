@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -9,7 +10,9 @@ import Loader from 'components/UI/Loader'
 import { createStudent, updateStudent } from 'services/Students'
 import { empty } from 'utils/helpers'
 import { useSelector } from 'react-redux'
-import { bloodTypes, genders, relationships } from 'utils/constants/Constants'
+import {
+  bloodTypes, genders, relationships, STATUS_LABEL_STUDENTS,
+} from 'utils/constants/Constants'
 
 interface Props {
   data: any
@@ -24,16 +27,13 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     control,
     setValue,
     clearErrors,
-    // reset,
     watch,
   } = useForm({
     mode: 'onBlur',
     defaultValues: data,
     resolver: yupResolver(schema),
   })
-
   const countries = useSelector((state: any) => state.config.countries)
-
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
   const currentDepartment = watch('department_id')
@@ -45,70 +45,39 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     if (!empty(currentCountry) && empty(data.department_id)) {
       setDepartmentsOptions([])
       setValue('department_id', '')
-      const departmentFiltered: any = countries.find((value: any) => value.value === currentCountry)
-      setDepartmentsOptions(departmentFiltered?.departments)
     }
-
-    if (!empty(data.department_id)) {
-      const departmentFiltered: any = countries.find((value: any) => value.value === currentCountry)
-      setDepartmentsOptions(departmentFiltered?.departments)
-    }
+    const departmentFiltered: any = countries?.find((value: any) => value.value === currentCountry)
+    setDepartmentsOptions(departmentFiltered?.departments)
   }, [currentCountry])
 
   useEffect(() => {
     if (!empty(currentDepartment) && empty(data.municipality_id)) {
       setMunicipaltiesOptions([])
       setValue('municipality_id', '')
-      const municipalityFiltered: any = departmentsOptions.find((value: any) => value.value === currentDepartment)
-      setMunicipaltiesOptions(municipalityFiltered?.municipalities)
     }
-
-    if (!empty(data.municipality_id)) {
-      const municipalityFiltered: any = departmentsOptions.find((value: any) => value.value === currentDepartment)
-      setMunicipaltiesOptions(municipalityFiltered?.municipalities)
-    }
+    const municipalityFiltered: any = departmentsOptions?.find((value: any) => value.value === currentDepartment)
+    setMunicipaltiesOptions(municipalityFiltered?.municipalities)
   }, [currentDepartment, departmentsOptions])
 
-  const STATUS_LABEL: any = {
-    A: 'Activo',
-    G: 'Graduado',
-    E: 'Egresado',
-    I: 'Inactivo',
-  }
-
-  const initialDepartment = empty(data?.department_id) ? {} : {
-    value: data?.department_id,
-    label: data?.department,
-  }
-
-  const initialMunicipality = empty(data?.municipality_id) ? {} : {
-    value: data?.municipality_id,
-    label: data?.municipality,
-  }
-
-  const initialCountry = empty(data?.country_id) ? {} : {
-    value: data?.country_id,
-    label: data?.country,
-  }
-
-  const initialGender = empty(data?.gender) ? {} : {
-    value: data?.gender,
-    label: data?.gender === 'M' ? 'Masculino' : 'Femenino',
-  }
-
-  const initialRelationship = empty(data?.relationship) ? {} : {
-    value: data?.relationship,
-    label: data?.relationship === 'S' ? 'Soltero' : 'Casado',
-  }
-
-  const initialStatus = empty(data?.status) ? {} : {
-    value: data?.status,
-    label: STATUS_LABEL[data?.status],
-  }
-
-  const initialBloodType = empty(data?.blood_type) ? {} : {
-    value: data?.blood_type,
-    label: data?.blood_type,
+  const getInitialValue = (field: string) => {
+    switch (field) {
+      case 'department_id':
+        return empty(data?.department_id) ? {} : { value: data?.department_id, label: data?.department }
+      case 'municipality_id':
+        return empty(data?.municipality_id) ? {} : { value: data?.municipality_id, label: data?.municipality }
+      case 'country_id':
+        return empty(data?.country_id) ? {} : { value: data?.country_id, label: data?.country }
+      case 'gender':
+        return empty(data?.gender) ? {} : { value: data?.gender, label: data?.gender === 'M' ? 'Masculino' : 'Femenino' }
+      case 'relationship':
+        return empty(data?.relationship) ? {} : { value: data?.relationship, label: data?.relationship === 'S' ? 'Soltero' : 'Casado' }
+      case 'status':
+        return empty(data?.status) ? {} : { value: data?.status, label: STATUS_LABEL_STUDENTS[data?.status] }
+      case 'blood_type':
+        return empty(data?.blood_type) ? {} : { value: data?.blood_type, label: data?.blood_type }
+      default:
+        break;
+    }
   }
 
   const onCreateStudent = async (formData: any) => {
@@ -125,12 +94,10 @@ const StudentForm = ({ data, toggleForm }: Props) => {
       setLoading(false)
       return
     }
-
     setLoading(false)
     setValue('carnet', response.attributes?.carnet)
     setValue('institutional_email', response.attributes?.institutional_email)
-
-    // toggleForm()
+    setValue('id', response?.id)
   }
 
   let buttonText = <span>Guardar Estudiante</span>
@@ -159,18 +126,19 @@ const StudentForm = ({ data, toggleForm }: Props) => {
           <button
             type="button"
             onClick={toggleForm}
-            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
+            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+          >
             Atras
           </button>
 
           <button
             type="submit"
-            className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2">
+            className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2"
+          >
             {buttonText}
           </button>
         </div>
       </div>
-
       <div>
         <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
           <legend className="font-medium text-indigo-600">Datos personales</legend>
@@ -244,7 +212,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               name="gender"
               control={control}
               placeholder="Masculino"
-              initialValue={initialGender}
+              initialValue={() => getInitialValue('gender')}
               label="Genero"
               error={errors?.gender}
               options={genders}
@@ -268,7 +236,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               name="relationship"
               control={control}
               placeholder="Soltero"
-              initialValue={initialRelationship}
+              initialValue={() => getInitialValue('relationship')}
               label="Estado civil"
               error={errors?.relationship}
               options={relationships}
@@ -281,7 +249,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               name="country_id"
               control={control}
               placeholder="El Salvador"
-              initialValue={initialCountry}
+              initialValue={() => getInitialValue('country_id')}
               label="País"
               error={errors?.country_id}
               options={countries}
@@ -296,7 +264,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                   name="department_id"
                   control={control}
                   placeholder="San Salvador"
-                  initialValue={initialDepartment}
+                  initialValue={() => getInitialValue('department_id')}
                   label="Departamento"
                   error={errors?.department_id}
                   options={departmentsOptions}
@@ -312,7 +280,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                   name="municipality_id"
                   control={control}
                   placeholder="Ciudad Delgado"
-                  initialValue={initialMunicipality}
+                  initialValue={() => getInitialValue('municipality_id')}
                   label="Municipio"
                   error={errors?.municipality_id}
                   options={municipaltiesOptions}
@@ -321,7 +289,6 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 />
               </div>
             )}
-
         </fieldset>
         <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
           <legend className="font-medium text-indigo-600">Datos académicos</legend>
@@ -354,7 +321,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               name="status"
               control={control}
               placeholder="Activo"
-              initialValue={initialStatus}
+              initialValue={() => getInitialValue('status')}
               label="Estado"
               error={errors?.status}
               options={[{ value: 'A', label: 'Activo' }, { value: 'E', label: 'Egresado' }, { value: 'G', label: 'Graduado' }]}
@@ -400,7 +367,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               name="blood_type"
               control={control}
               placeholder="B-"
-              initialValue={initialBloodType}
+              initialValue={() => getInitialValue('blood_type')}
               label="Tipo de sangre"
               error={errors?.blood_type}
               options={bloodTypes}
@@ -538,8 +505,8 @@ const schema = yup.object().shape({
   emergency_contact_phone: yup.string().nullable(),
   diseases: yup.string().nullable(),
   allergies: yup.string().nullable(),
-  entry_date: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo'),
-  entry_period: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').max(2, 'El valor máximo es 2').min(1, 'El valor mínimo es 1').positive('El valor debe de ser positivo'),
+  entry_date: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo').min(2010, 'El valor mínimo es 2010'),
+  entry_period: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').max(3, 'El valor máximo es 3').min(1, 'El valor mínimo es 1').positive('El valor debe de ser positivo'),
   date_high_school_degree: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo'),
   municipality_id: yup.string().required('Este campo es obligatorio.'),
   department_id: yup.string().required('Este campo es obligatorio.'),
