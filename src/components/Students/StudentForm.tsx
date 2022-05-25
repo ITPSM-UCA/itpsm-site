@@ -43,9 +43,9 @@ const StudentForm = ({ data, toggleForm }: Props) => {
   const currentEntryYear = watch('entry_date')
   const [municipaltiesOptions, setMunicipaltiesOptions] = useState([])
   const [departmentsOptions, setDepartmentsOptions] = useState([])
-  const dataForSubjectRegistration = {
+  const [dataForSubjectRegistration, setDataForSubjectRegistration] = useState({
     student_id: currentStudentID, entry_year: currentEntryYear, graduation_year: currentEntryYear + 3, cum: 0, curriculum_id: '',
-  }
+  })
 
   useEffect(() => {
     if (!empty(currentCountry) && empty(data.department_id)) {
@@ -100,6 +100,9 @@ const StudentForm = ({ data, toggleForm }: Props) => {
       setLoading(false)
       return
     }
+    setDataForSubjectRegistration({
+      student_id: response?.id, entry_year: '', graduation_year: '', cum: 0, curriculum_id: '',
+    })
     setLoading(false)
     setValue('carnet', response.attributes?.carnet)
     setValue('institutional_email', response.attributes?.institutional_email)
