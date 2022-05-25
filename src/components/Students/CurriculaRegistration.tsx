@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Loader from 'components/UI/Loader'
 import { curriculaRegistrationForStudent, getCurriculaForStudent } from 'services/Students'
+import CustomCombobox from 'components/UI/Form/CustomCombobox'
 
 const CurriculaRegistration = ({ data }: any) => {
   const {
@@ -23,10 +24,11 @@ const CurriculaRegistration = ({ data }: any) => {
   })
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
-  const people = [
-    { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com' },
-  ]
-  const getSubjects = async () => {
+  const [curriculas, setCurriculas] = useState([])
+  const currentCurriculum = watch('curriculum_id')
+  const [curriculaOptions, setCurriculaOptions] = useState([{ value: 1, label: 'Plan 2019-2020 de la carrera Técnico en Ingeniería de Construcción' }, { value: 2, label: 'Plan 2019-2020 de la carrera Técnico Superior en Hostelería y Turismo' }])
+
+  const getCurriculas = async () => {
     const customQuery = {
       query: [{
         field: 'sc.student_id',
@@ -39,21 +41,28 @@ const CurriculaRegistration = ({ data }: any) => {
       page: 0,
     }
     const response = await getCurriculaForStudent(query, customQuery)
+    setCurriculas(response)
   }
 
   useEffect(() => {
-    getSubjects()
+    getCurriculas()
   }, [data.student_id])
 
-  const onSubjectRegistration = async (formData: any) => {
+  const onCurriculaRegistration = async (formData: any) => {
     setLoading(true)
-    const response = await curriculaRegistrationForStudent(formData)
+    const response: any = await curriculaRegistrationForStudent(formData)
 
     if (response.error) {
       setLoading(false)
       return
     }
     setLoading(false)
+    const curriculaFiltered: any = curriculaOptions?.filter((value: any) => value.attributes?.curricula_name !== currentCurriculum)
+    setCurriculaOptions(curriculaFiltered)
+    setValue('entry_year', '')
+    setValue('graduation_year', '')
+    setValue('curriculum_id', '')
+    getCurriculas()
   }
 
   let buttonText = <span>Inscribir Estudiante</span>
@@ -74,7 +83,7 @@ const CurriculaRegistration = ({ data }: any) => {
     <form
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit(onSubjectRegistration)}
+      onSubmit={handleSubmit(onCurriculaRegistration)}
     >
       <fieldset className="mt-4 border rounded-md border-solid border-gray-300 p-3">
         <legend className="font-medium text-indigo-600">Inscripción de estudiante</legend>
@@ -99,6 +108,19 @@ const CurriculaRegistration = ({ data }: any) => {
               register={register}
             />
           </div>
+          <div className="w-2/4 p-2">
+            <CustomCombobox
+              name="curriculum_id"
+              control={control}
+              placeholder="Plan 2019-2020 de la carrera Técnico Superior en Hostelería y Turismo"
+              initialValue={{}}
+              label="Plan de estudio"
+              error={errors?.curriculum_id}
+              options={curriculaOptions}
+              setValue={setValue}
+              clearErrors={clearErrors}
+            />
+          </div>
         </div>
         <button
           type="submit"
@@ -106,47 +128,56 @@ const CurriculaRegistration = ({ data }: any) => {
         >
           {buttonText}
         </button>
-
-        <div className="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
-          <table className="min-w-full divide-y divide-gray-300">
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                  Nombre
-                </th>
-                <th
-                  scope="col"
-                  className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
-                >
-                  Título
-                </th>
-                <th
-                  scope="col"
-                  className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
-                >
-                  Email
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 bg-white">
-              {people.map((person) => (
-                <tr key={person.email}>
-                  <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-                    {person.name}
-                    <dl className="font-normal lg:hidden">
-                      <dt className="sr-only">Título de carrera</dt>
-                      <dd className="mt-1 truncate text-gray-700">{person.title}</dd>
-                      <dt className="sr-only sm:hidden">Correo</dt>
-                      <dd className="mt-1 truncate text-gray-500 sm:hidden">{person.email}</dd>
-                    </dl>
-                  </td>
-                  <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{person.title}</td>
-                  <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{person.email}</td>
+        {!empty(curriculas) && (
+          <div className="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
+            <table className="min-w-full divide-y divide-gray-300">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                    Plan de estudio
+                  </th>
+                  <th
+                    scope="col"
+                    className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                  >
+                    Año de entrada
+                  </th>
+                  <th
+                    scope="col"
+                    className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                  >
+                    Año de graduación
+                  </th>
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    Cum
+                  </th>
+                  <th scope="col" className="relative py-3.5 pl-3 text-left pr-4 sm:pr-6">
+                    Estado
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-gray-200 bg-white">
+                {curriculas.map((curricula: any) => (
+                  <tr key={curricula?.attributes?.student_carnet}>
+                    <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+                      {curricula?.attributes?.curricula_name}
+                      <dl className="font-normal lg:hidden">
+                        <dt className="sr-only">Año de entrada</dt>
+                        <dd className="mt-1 truncate text-gray-700">{curricula?.attributes?.entry_year}</dd>
+                        <dt className="sr-only sm:hidden">Año de graduación</dt>
+                        <dd className="mt-1 truncate text-gray-500 sm:hidden">{curricula?.attributes?.graduation_year}</dd>
+                      </dl>
+                    </td>
+                    <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{curricula?.attributes?.entry_year}</td>
+                    <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{curricula?.attributes?.graduation_year}</td>
+                    <td className="px-3 py-4 text-sm text-gray-500">{curricula?.attributes?.cum}</td>
+                    <td className="px-3 py-4 text-sm font-medium sm:pr-6">{curricula?.attributes?.curricula_is_active ? 'Activo' : 'Inactivo'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </fieldset>
     </form>
 
@@ -154,10 +185,10 @@ const CurriculaRegistration = ({ data }: any) => {
 }
 
 const schema = yup.object().shape({
-  entry_year: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo').min(2010, 'El valor mínimo es 2010'),
-  graduation_year: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo').min(2010, 'El valor mínimo es 2010'),
+  entry_year: yup.number().typeError('El campo debe de ser numérico y es obligatorio').required('Este campo es obligatorio.').positive('El valor debe de ser positivo').min(2010, 'El valor mínimo es 2010'),
+  graduation_year: yup.number().typeError('El campo debe de ser numérico y es obligatorio').required('Este campo es obligatorio.').positive('El valor debe de ser positivo').min(2010, 'El valor mínimo es 2010'),
   student_id: yup.number().typeError('El campo debe de ser numerico'),
-  curriculum_id: yup.number().typeError('El campo debe de ser numerico'),
+  curriculum_id: yup.number().required('Este campo es obligatorio').typeError('El campo debe de ser numérico y es obligatorio'),
   cum: yup.number().typeError('El campo debe de ser numerico'),
 })
 

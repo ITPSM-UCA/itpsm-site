@@ -44,7 +44,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
   const [municipaltiesOptions, setMunicipaltiesOptions] = useState([])
   const [departmentsOptions, setDepartmentsOptions] = useState([])
   const dataForSubjectRegistration = {
-    student_id: currentStudentID, entry_year: currentEntryYear, graduation_year: currentEntryYear + 3, cum: 0, curriculum_id: 1,
+    student_id: currentStudentID, entry_year: currentEntryYear, graduation_year: currentEntryYear + 3, cum: 0, curriculum_id: '',
   }
 
   useEffect(() => {
@@ -487,7 +487,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
           </fieldset>
         </div>
       </form>
-      {/* <CurriculaRegistration data={dataForSubjectRegistration} /> */}
+      <CurriculaRegistration data={dataForSubjectRegistration} />
     </>
 
   )
