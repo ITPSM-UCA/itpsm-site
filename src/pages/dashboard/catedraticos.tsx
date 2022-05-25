@@ -78,7 +78,7 @@ const columns = [
   },
   {
     title: 'Estado',
-    field: 'statues_type',
+    field: 'status',
     lookup: { A: 'Activo', I: 'Inactivo' },
   },
 ]
@@ -99,7 +99,7 @@ const initialData = {
   municipality_id: '',
   department_id: '',
   country_id: '',
-  status_id: '',
+  status: '',
   carnet: '',
   institutional_email: '',
   entry_date: '',

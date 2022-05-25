@@ -13,4 +13,4 @@ export const STATUS_LABEL: any = {
 
 export const studentsStatus = [{ value: 'A', label: 'Activo' }, { value: 'E', label: 'Egresado' }, { value: 'G', label: 'Graduado' }, { value: 'I', label: 'Inactivo' }]
 
-export const teachersStatus = [{ value: 1, label: 'Activo' }, { value: 2, label: 'Inactivo' }]
+export const teachersStatus = [{ value: 'A', label: 'Activo' }, { value: 'I', label: 'Inactivo' }]

@@ -69,9 +69,8 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
         return empty(data?.country_id) ? {} : { value: data?.country_id, label: data?.country }
       case 'genre':
         return empty(data?.genre) ? {} : { value: data?.genre, label: data?.genre === 'M' ? 'Masculino' : 'Femenino' }
-      case 'status_id':
-        setValue('status_id', data?.statues_type ?? '')
-        return empty(data?.statues_type) ? {} : { value: data?.statues_type, label: STATUS_LABEL[data?.statues_type] }
+      case 'status':
+        return empty(data?.status) ? {} : { value: data?.status, label: STATUS_LABEL[data?.status] }
       default:
         return {}
     }
@@ -229,12 +228,12 @@ const TeacherForm = ({ data, toggleForm }: Props) => {
           </div>
           <div className="w-1/4 p-2">
             <CustomCombobox
-              name="status_id"
+              name="status"
               control={control}
               placeholder="Activo"
-              initialValue={() => getInitialValue('status_id')}
+              initialValue={() => getInitialValue('status')}
               label="Estado"
-              error={errors?.status_id}
+              error={errors?.status}
               options={teachersStatus}
               setValue={setValue}
               clearErrors={clearErrors}
@@ -395,7 +394,7 @@ const schema = yup.object().shape({
   municipality_id: yup.string().required('Este campo es obligatorio.'),
   department_id: yup.string().required('Este campo es obligatorio.'),
   country_id: yup.string().required('Este campo es obligatorio.'),
-  status_id: yup.string().required('Este campo es obligatorio.'),
+  status: yup.string().required('Este campo es obligatorio.'),
   entry_date: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo').min(2010, 'El valor mínimo es 2010'),
 })
 

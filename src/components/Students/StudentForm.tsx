@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux'
 import {
   bloodTypes, genders, relationships, STATUS_LABEL, studentsStatus,
 } from 'utils/constants/Constants'
+import CurriculaRegistration from './CurriculaRegistration'
 
 interface Props {
   data: any
@@ -37,9 +38,14 @@ const StudentForm = ({ data, toggleForm }: Props) => {
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
   const currentDepartment = watch('department_id')
+  const currentStudentID = watch('id')
   const currentCountry = watch('country_id')
+  const currentEntryYear = watch('entry_date')
   const [municipaltiesOptions, setMunicipaltiesOptions] = useState([])
   const [departmentsOptions, setDepartmentsOptions] = useState([])
+  const dataForSubjectRegistration = {
+    student_id: currentStudentID, entry_year: currentEntryYear, graduation_year: currentEntryYear + 3, cum: 0, curriculum_id: 1,
+  }
 
   useEffect(() => {
     if (!empty(currentCountry) && empty(data.department_id)) {
@@ -114,372 +120,376 @@ const StudentForm = ({ data, toggleForm }: Props) => {
   }
 
   return (
-    <form
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit(onCreateStudent)}
-    >
-      <div className="flex justify-between">
-        <h1 className="text-2xl font-semibold text-gray-900">Estudiantes</h1>
+    <>
+      <form
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit(onCreateStudent)}
+      >
+        <div className="flex justify-between">
+          <h1 className="text-2xl font-semibold text-gray-900">Estudiantes</h1>
 
-        <div className="flex gap-x-4">
-          <button
-            type="button"
-            onClick={toggleForm}
-            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
-          >
-            Atras
-          </button>
+          <div className="flex gap-x-4">
+            <button
+              type="button"
+              onClick={toggleForm}
+              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+            >
+              Atras
+            </button>
 
-          <button
-            type="submit"
-            className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2"
-          >
-            {buttonText}
-          </button>
+            <button
+              type="submit"
+              className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2"
+            >
+              {buttonText}
+            </button>
+          </div>
         </div>
-      </div>
-      <div>
-        <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
-          <legend className="font-medium text-indigo-600">Datos personales</legend>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="name"
-              label="Nombres"
-              error={errors?.name}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="Álvaro"
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="last_name"
-              label="Apellidos"
-              error={errors?.last_name}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="García"
-            />
-          </div>
-          <div className="w-1/2 p-2">
-            <CustomInput
-              type="text"
-              name="address"
-              label="Dirección"
-              error={errors?.address}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="Direccion"
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="date"
-              name="birth_date"
-              label="Fecha de nacimiento"
-              error={errors?.birth_date}
-              disabled={isSubmitting}
-              register={register}
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <PhoneNumberInput
-              type="tel"
-              name="phone_number"
-              label="Teléfono"
-              error={errors?.phone_number}
-              disabled={isSubmitting}
-              control={control}
-              placeholder="7777-5555"
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <PhoneNumberInput
-              type="tel"
-              name="home_phone_number"
-              label="Teléfono de la casa"
-              error={errors?.home_phone_number}
-              disabled={isSubmitting}
-              control={control}
-              placeholder="2222-5555"
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="gender"
-              control={control}
-              placeholder="Masculino"
-              initialValue={() => getInitialValue('gender')}
-              label="Genero"
-              error={errors?.gender}
-              options={genders}
-              setValue={setValue}
-              clearErrors={clearErrors}
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="email"
-              label="Correo Personal"
-              error={errors?.email}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="alvaro1@gmail.com"
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="relationship"
-              control={control}
-              placeholder="Soltero"
-              initialValue={() => getInitialValue('relationship')}
-              label="Estado civil"
-              error={errors?.relationship}
-              options={relationships}
-              setValue={setValue}
-              clearErrors={clearErrors}
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="country_id"
-              control={control}
-              placeholder="El Salvador"
-              initialValue={() => getInitialValue('country_id')}
-              label="País"
-              error={errors?.country_id}
-              options={countries}
-              setValue={setValue}
-              clearErrors={clearErrors}
-            />
-          </div>
-          {!empty(departmentsOptions)
-            && (
-              <div className="w-1/4 p-2">
-                <CustomCombobox
-                  name="department_id"
-                  control={control}
-                  placeholder="San Salvador"
-                  initialValue={() => getInitialValue('department_id')}
-                  label="Departamento"
-                  error={errors?.department_id}
-                  options={departmentsOptions}
-                  setValue={setValue}
-                  clearErrors={clearErrors}
-                />
-              </div>
-            )}
-          {!empty(municipaltiesOptions)
-            && (
-              <div className="w-1/4 p-2">
-                <CustomCombobox
-                  name="municipality_id"
-                  control={control}
-                  placeholder="Ciudad Delgado"
-                  initialValue={() => getInitialValue('municipality_id')}
-                  label="Municipio"
-                  error={errors?.municipality_id}
-                  options={municipaltiesOptions}
-                  setValue={setValue}
-                  clearErrors={clearErrors}
-                />
-              </div>
-            )}
-        </fieldset>
-        <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
-          <legend className="font-medium text-indigo-600">Datos académicos</legend>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="carnet"
-              label="Carnet"
-              error={errors?.carnet}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="AL01220001"
-              isReadOnly
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="institutional_email"
-              label="Correo Institucional"
-              error={errors?.institutional_email}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="AL01220001@itpsm.edu.sv"
-              isReadOnly
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="status"
-              control={control}
-              placeholder="Activo"
-              initialValue={() => getInitialValue('status')}
-              label="Estado"
-              error={errors?.status}
-              options={studentsStatus}
-              setValue={setValue}
-              clearErrors={clearErrors}
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="number"
-              name="entry_period"
-              label="Periodo de entrada"
-              error={errors?.entry_period}
-              disabled={isSubmitting}
-              register={register}
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="number"
-              name="entry_date"
-              label="Año de entrada"
-              error={errors?.entry_date}
-              disabled={isSubmitting}
-              register={register}
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="number"
-              name="date_high_school_degree"
-              label="Año de título de Bachillerato"
-              error={errors?.date_high_school_degree}
-              disabled={isSubmitting}
-              register={register}
-            />
-          </div>
-        </fieldset>
-        <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
-          <legend className="font-medium text-indigo-600">Cuadro clínico</legend>
-          <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="blood_type"
-              control={control}
-              placeholder="B-"
-              initialValue={() => getInitialValue('blood_type')}
-              label="Tipo de sangre"
-              error={errors?.blood_type}
-              options={bloodTypes}
-              setValue={setValue}
-              clearErrors={clearErrors}
-            />
-          </div>
-          <div className="w-3/4 p-2">
-            <CustomInput
-              type="text"
-              name="diseases"
-              label="Enfermedades"
-              error={errors?.diseases}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="Diabetes"
-            />
-          </div>
-          <div className="w-1/2 p-2">
-            <CustomInput
-              type="text"
-              name="allergies"
-              label="Alergias"
-              error={errors?.allergies}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="Abejas"
-            />
-          </div>
-          <div className="w-1/2 p-2">
-            <CustomInput
-              type="text"
-              name="medicines"
-              label="Medicinas"
-              error={errors?.medicines}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="Acetaminofen"
-            />
-          </div>
-        </fieldset>
-        <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
-          <legend className="font-medium text-indigo-600">Datos de contacto</legend>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="mother_name"
-              label="Nombre de la madre"
-              error={errors?.mother_name}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="Andrea"
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <PhoneNumberInput
-              type="tel"
-              name="mother_phone_number"
-              label="Teléfono"
-              error={errors?.mother_phone_number}
-              disabled={isSubmitting}
-              control={control}
-              placeholder="7777-5555"
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="father_name"
-              label="Nombre del padre"
-              error={errors?.father_name}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="Luis"
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <PhoneNumberInput
-              type="tel"
-              name="father_phone_number"
-              label="Teléfono"
-              error={errors?.father_phone_number}
-              disabled={isSubmitting}
-              control={control}
-              placeholder="7777-5555"
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="emergency_contact_name"
-              label="Contacto de emergencia"
-              error={errors?.emergency_contact_name}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="Ana"
-            />
-          </div>
-          <div className="w-1/4 p-2">
-            <PhoneNumberInput
-              type="tel"
-              name="emergency_contact_phone"
-              label="Teléfono del contacto de emergencia"
-              error={errors?.emergency_contact_phone}
-              disabled={isSubmitting}
-              control={control}
-              placeholder="7777-5555"
-            />
-          </div>
-        </fieldset>
-      </div>
-    </form>
+        <div>
+          <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
+            <legend className="font-medium text-indigo-600">Datos personales</legend>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="text"
+                name="name"
+                label="Nombres"
+                error={errors?.name}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="Álvaro"
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="text"
+                name="last_name"
+                label="Apellidos"
+                error={errors?.last_name}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="García"
+              />
+            </div>
+            <div className="w-1/2 p-2">
+              <CustomInput
+                type="text"
+                name="address"
+                label="Dirección"
+                error={errors?.address}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="Direccion"
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="date"
+                name="birth_date"
+                label="Fecha de nacimiento"
+                error={errors?.birth_date}
+                disabled={isSubmitting}
+                register={register}
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <PhoneNumberInput
+                type="tel"
+                name="phone_number"
+                label="Teléfono"
+                error={errors?.phone_number}
+                disabled={isSubmitting}
+                control={control}
+                placeholder="7777-5555"
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <PhoneNumberInput
+                type="tel"
+                name="home_phone_number"
+                label="Teléfono de la casa"
+                error={errors?.home_phone_number}
+                disabled={isSubmitting}
+                control={control}
+                placeholder="2222-5555"
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomCombobox
+                name="gender"
+                control={control}
+                placeholder="Masculino"
+                initialValue={() => getInitialValue('gender')}
+                label="Genero"
+                error={errors?.gender}
+                options={genders}
+                setValue={setValue}
+                clearErrors={clearErrors}
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="text"
+                name="email"
+                label="Correo Personal"
+                error={errors?.email}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="alvaro1@gmail.com"
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomCombobox
+                name="relationship"
+                control={control}
+                placeholder="Soltero"
+                initialValue={() => getInitialValue('relationship')}
+                label="Estado civil"
+                error={errors?.relationship}
+                options={relationships}
+                setValue={setValue}
+                clearErrors={clearErrors}
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomCombobox
+                name="country_id"
+                control={control}
+                placeholder="El Salvador"
+                initialValue={() => getInitialValue('country_id')}
+                label="País"
+                error={errors?.country_id}
+                options={countries}
+                setValue={setValue}
+                clearErrors={clearErrors}
+              />
+            </div>
+            {!empty(departmentsOptions)
+              && (
+                <div className="w-1/4 p-2">
+                  <CustomCombobox
+                    name="department_id"
+                    control={control}
+                    placeholder="San Salvador"
+                    initialValue={() => getInitialValue('department_id')}
+                    label="Departamento"
+                    error={errors?.department_id}
+                    options={departmentsOptions}
+                    setValue={setValue}
+                    clearErrors={clearErrors}
+                  />
+                </div>
+              )}
+            {!empty(municipaltiesOptions)
+              && (
+                <div className="w-1/4 p-2">
+                  <CustomCombobox
+                    name="municipality_id"
+                    control={control}
+                    placeholder="Ciudad Delgado"
+                    initialValue={() => getInitialValue('municipality_id')}
+                    label="Municipio"
+                    error={errors?.municipality_id}
+                    options={municipaltiesOptions}
+                    setValue={setValue}
+                    clearErrors={clearErrors}
+                  />
+                </div>
+              )}
+          </fieldset>
+          <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
+            <legend className="font-medium text-indigo-600">Datos académicos</legend>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="text"
+                name="carnet"
+                label="Carnet"
+                error={errors?.carnet}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="AL01220001"
+                isReadOnly
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="text"
+                name="institutional_email"
+                label="Correo Institucional"
+                error={errors?.institutional_email}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="AL01220001@itpsm.edu.sv"
+                isReadOnly
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomCombobox
+                name="status"
+                control={control}
+                placeholder="Activo"
+                initialValue={() => getInitialValue('status')}
+                label="Estado"
+                error={errors?.status}
+                options={studentsStatus}
+                setValue={setValue}
+                clearErrors={clearErrors}
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="number"
+                name="entry_period"
+                label="Periodo de entrada"
+                error={errors?.entry_period}
+                disabled={isSubmitting}
+                register={register}
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="number"
+                name="entry_date"
+                label="Año de entrada"
+                error={errors?.entry_date}
+                disabled={isSubmitting}
+                register={register}
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="number"
+                name="date_high_school_degree"
+                label="Año de título de Bachillerato"
+                error={errors?.date_high_school_degree}
+                disabled={isSubmitting}
+                register={register}
+              />
+            </div>
+          </fieldset>
+          <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
+            <legend className="font-medium text-indigo-600">Cuadro clínico</legend>
+            <div className="w-1/4 p-2">
+              <CustomCombobox
+                name="blood_type"
+                control={control}
+                placeholder="B-"
+                initialValue={() => getInitialValue('blood_type')}
+                label="Tipo de sangre"
+                error={errors?.blood_type}
+                options={bloodTypes}
+                setValue={setValue}
+                clearErrors={clearErrors}
+              />
+            </div>
+            <div className="w-3/4 p-2">
+              <CustomInput
+                type="text"
+                name="diseases"
+                label="Enfermedades"
+                error={errors?.diseases}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="Diabetes"
+              />
+            </div>
+            <div className="w-1/2 p-2">
+              <CustomInput
+                type="text"
+                name="allergies"
+                label="Alergias"
+                error={errors?.allergies}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="Abejas"
+              />
+            </div>
+            <div className="w-1/2 p-2">
+              <CustomInput
+                type="text"
+                name="medicines"
+                label="Medicinas"
+                error={errors?.medicines}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="Acetaminofen"
+              />
+            </div>
+          </fieldset>
+          <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
+            <legend className="font-medium text-indigo-600">Datos de contacto</legend>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="text"
+                name="mother_name"
+                label="Nombre de la madre"
+                error={errors?.mother_name}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="Andrea"
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <PhoneNumberInput
+                type="tel"
+                name="mother_phone_number"
+                label="Teléfono"
+                error={errors?.mother_phone_number}
+                disabled={isSubmitting}
+                control={control}
+                placeholder="7777-5555"
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="text"
+                name="father_name"
+                label="Nombre del padre"
+                error={errors?.father_name}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="Luis"
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <PhoneNumberInput
+                type="tel"
+                name="father_phone_number"
+                label="Teléfono"
+                error={errors?.father_phone_number}
+                disabled={isSubmitting}
+                control={control}
+                placeholder="7777-5555"
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomInput
+                type="text"
+                name="emergency_contact_name"
+                label="Contacto de emergencia"
+                error={errors?.emergency_contact_name}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="Ana"
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <PhoneNumberInput
+                type="tel"
+                name="emergency_contact_phone"
+                label="Teléfono del contacto de emergencia"
+                error={errors?.emergency_contact_phone}
+                disabled={isSubmitting}
+                control={control}
+                placeholder="7777-5555"
+              />
+            </div>
+          </fieldset>
+        </div>
+      </form>
+      {/* <CurriculaRegistration data={dataForSubjectRegistration} /> */}
+    </>
+
   )
 }
 
