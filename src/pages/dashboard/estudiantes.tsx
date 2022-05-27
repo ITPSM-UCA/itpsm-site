@@ -150,6 +150,10 @@ const initialData = {
   department_id: '',
   country_id: '',
   medicines: '',
+  is_live_in_rural_area: 0,
+  is_private_high_school: 0,
+  high_school_name: '',
+  high_school_option: '',
 }
 
 export default withAuth(Students)

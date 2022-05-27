@@ -6,12 +6,14 @@ interface Config{
   careers: Array<any>,
   countries: Array<any>,
   subjects: Array<any>,
+  curricula: Array<any>
 }
 
 const INITIAL_STATE: Config = {
   careers: [],
   countries: [],
   subjects: [],
+  curricula: [],
 }
 
 const reducer = (state = INITIAL_STATE, action: AnyAction) => {

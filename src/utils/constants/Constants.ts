@@ -14,3 +14,7 @@ export const STATUS_LABEL: any = {
 export const studentsStatus = [{ value: 'A', label: 'Activo' }, { value: 'E', label: 'Egresado' }, { value: 'G', label: 'Graduado' }, { value: 'I', label: 'Inactivo' }]
 
 export const teachersStatus = [{ value: 'A', label: 'Activo' }, { value: 'I', label: 'Inactivo' }]
+
+export const homeArea = [{ value: 0, label: 'Urbana' }, { value: 1, label: 'Rural' }]
+
+export const highSchoolTypes = [{ value: 0, label: 'Pública' }, { value: 1, label: 'Privada' }]

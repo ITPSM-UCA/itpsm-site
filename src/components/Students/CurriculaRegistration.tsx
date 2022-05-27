@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Loader from 'components/UI/Loader'
 import { curriculaRegistrationForStudent, getCurriculaForStudent } from 'services/Students'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
+import { useSelector } from 'react-redux'
 
 const CurriculaRegistration = ({ data }: any) => {
   const {
@@ -24,10 +25,11 @@ const CurriculaRegistration = ({ data }: any) => {
   })
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
-  const [curriculas, setCurriculas] = useState([])
+  const curriculas = useSelector((state: any) => state.config.curricula)
+  const [studentCurriculas, setStudentCurriculas] = useState([])
   const currentCurriculum = watch('curriculum_id')
   const currentEntryYear = watch('entry_year')
-  const [curriculaOptions, setCurriculaOptions] = useState([{ value: 1, label: 'Plan 2019-2020 de la carrera Técnico en Ingeniería de Construcción' }, { value: 2, label: 'Plan 2019-2020 de la carrera Técnico Superior en Hostelería y Turismo' }])
+  const [curriculaOptions, setCurriculaOptions] = useState<any[]>([])
 
   const getCurriculas = async () => {
     const customQuery = {
@@ -42,15 +44,25 @@ const CurriculaRegistration = ({ data }: any) => {
       page: 0,
     }
     const response = await getCurriculaForStudent(query, customQuery)
-    setCurriculas(response)
+    setStudentCurriculas(response)
   }
+
+  useEffect(() => {
+    if (!empty(curriculas)) {
+      const curriculasArray = curriculas.map((curricula: any) => ({
+        value: curricula?.id,
+        label: curricula?.attributes?.name,
+      }))
+      setCurriculaOptions(curriculasArray)
+    }
+  }, [curriculas])
 
   useEffect(() => {
     if (!empty(data.student_id)) getCurriculas()
   }, [data.student_id])
 
   useEffect(() => {
-    if (!empty(currentEntryYear) && currentEntryYear.length >= 4) setValue('graduation_year', customRound(currentEntryYear, 2) + 3)
+    if (!empty(currentEntryYear) && currentEntryYear.length === 4) setValue('graduation_year', customRound(currentEntryYear, 2) + 3)
   }, [currentEntryYear])
 
   const onCurriculaRegistration = async (formData: any) => {
@@ -62,7 +74,7 @@ const CurriculaRegistration = ({ data }: any) => {
       return
     }
     setLoading(false)
-    const curriculaFiltered: any = curriculaOptions?.filter((value: any) => value.attributes?.curricula_name !== currentCurriculum)
+    const curriculaFiltered: any = curriculaOptions?.filter((value: any) => value.value !== currentCurriculum)
     setCurriculaOptions(curriculaFiltered)
     setValue('entry_year', '')
     setValue('graduation_year', '')
@@ -161,7 +173,7 @@ const CurriculaRegistration = ({ data }: any) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {!empty(curriculas) && curriculas.map((curricula: any) => (
+              {!empty(studentCurriculas) && studentCurriculas.map((curricula: any) => (
                 <tr key={curricula?.attributes?.student_carnet}>
                   <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
                     {curricula?.attributes?.curricula_name}

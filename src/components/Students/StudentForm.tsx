@@ -11,7 +11,7 @@ import { createStudent, updateStudent } from 'services/Students'
 import { customRound, empty } from 'utils/helpers'
 import { useSelector } from 'react-redux'
 import {
-  bloodTypes, genders, relationships, STATUS_LABEL, studentsStatus,
+  bloodTypes, genders, highSchoolTypes, homeArea, relationships, STATUS_LABEL, studentsStatus,
 } from 'utils/constants/Constants'
 import CurriculaRegistration from './CurriculaRegistration'
 
@@ -81,6 +81,10 @@ const StudentForm = ({ data, toggleForm }: Props) => {
         return empty(data?.status) ? {} : { value: data?.status, label: STATUS_LABEL[data?.status] }
       case 'blood_type':
         return empty(data?.blood_type) ? {} : { value: data?.blood_type, label: data?.blood_type }
+      case 'rural_area':
+        return data?.is_live_in_rural_area === '' ? {} : { value: data?.is_live_in_rural_area, label: data?.is_live_in_rural_area ? 'Rural' : 'Urbana' }
+      case 'private_high_school':
+        return data?.is_private_high_school === '' ? {} : { value: data?.is_private_high_school, label: data?.is_private_high_school ? 'Privada' : 'Pública' }
       default:
         return {}
     }
@@ -100,7 +104,6 @@ const StudentForm = ({ data, toggleForm }: Props) => {
       setLoading(false)
       return
     }
-    console.log(response)
     setDataForSubjectRegistration({
       student_id: response?.id, entry_year: response.attributes?.entry_date, graduation_year: customRound(response.attributes?.entry_date, 2) + 3, cum: 0, curriculum_id: '',
     })
@@ -184,6 +187,19 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 disabled={isSubmitting}
                 register={register}
                 placeholder="Direccion"
+              />
+            </div>
+            <div className="w-1/4 p-2">
+              <CustomCombobox
+                name="is_live_in_rural_area"
+                control={control}
+                placeholder="Urbana"
+                initialValue={() => getInitialValue('rural_area')}
+                label="Área del domicilio"
+                error={errors?.is_live_in_rural_area}
+                options={homeArea}
+                setValue={setValue}
+                clearErrors={clearErrors}
               />
             </div>
             <div className="w-1/4 p-2">
@@ -361,6 +377,41 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               />
             </div>
             <div className="w-1/4 p-2">
+              <CustomCombobox
+                name="is_private_high_school"
+                control={control}
+                placeholder="Pública"
+                initialValue={() => getInitialValue('private_high_school')}
+                label="Tipo de institución donde se graduó"
+                error={errors?.is_private_high_school}
+                options={highSchoolTypes}
+                setValue={setValue}
+                clearErrors={clearErrors}
+              />
+            </div>
+            <div className="w-2/4 p-2">
+              <CustomInput
+                type="text"
+                name="high_school_name"
+                label="Nombre de la institución"
+                error={errors?.high_school_name}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="Colegio ..."
+              />
+            </div>
+            <div className="w-2/4 p-2">
+              <CustomInput
+                type="text"
+                name="high_school_option"
+                label="Tipo y opción de bachillerato"
+                error={errors?.high_school_option}
+                disabled={isSubmitting}
+                register={register}
+                placeholder="General"
+              />
+            </div>
+            <div className="w-1/4 p-2">
               <CustomInput
                 type="number"
                 name="date_high_school_degree"
@@ -519,13 +570,17 @@ const schema = yup.object().shape({
   emergency_contact_phone: yup.string().nullable(),
   diseases: yup.string().nullable(),
   allergies: yup.string().nullable(),
-  entry_date: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo').min(2010, 'El valor mínimo es 2010'),
-  entry_period: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').max(3, 'El valor máximo es 3').min(1, 'El valor mínimo es 1').positive('El valor debe de ser positivo'),
-  date_high_school_degree: yup.number().typeError('El campo debe de ser numerico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo'),
+  entry_date: yup.number().typeError('El campo debe de ser numérico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo').min(2010, 'El valor mínimo es 2010'),
+  entry_period: yup.number().typeError('El campo debe de ser numérico').required('Este campo es obligatorio.').max(3, 'El valor máximo es 3').min(1, 'El valor mínimo es 1').positive('El valor debe de ser positivo'),
+  date_high_school_degree: yup.number().typeError('El campo debe de ser numérico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo'),
   municipality_id: yup.string().required('Este campo es obligatorio.'),
   department_id: yup.string().required('Este campo es obligatorio.'),
   country_id: yup.string().required('Este campo es obligatorio.'),
   medicines: yup.string().nullable(),
+  is_live_in_rural_area: yup.boolean().nullable(),
+  is_private_high_school: yup.boolean().nullable(),
+  high_school_name: yup.string().nullable(),
+  high_school_option: yup.string().nullable(),
 })
 
 export default StudentForm
