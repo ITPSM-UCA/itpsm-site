@@ -8,7 +8,7 @@ import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { useEffect, useState } from 'react'
 import Loader from 'components/UI/Loader'
 import { createStudent, updateStudent } from 'services/Students'
-import { empty } from 'utils/helpers'
+import { customRound, empty } from 'utils/helpers'
 import { useSelector } from 'react-redux'
 import {
   bloodTypes, genders, relationships, STATUS_LABEL, studentsStatus,
@@ -44,7 +44,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
   const [municipaltiesOptions, setMunicipaltiesOptions] = useState([])
   const [departmentsOptions, setDepartmentsOptions] = useState([])
   const [dataForSubjectRegistration, setDataForSubjectRegistration] = useState({
-    student_id: currentStudentID, entry_year: '', graduation_year: '', cum: 0, curriculum_id: '',
+    student_id: currentStudentID, entry_year: currentEntryYear, graduation_year: currentEntryYear + 3, cum: 0, curriculum_id: '',
   })
 
   useEffect(() => {
@@ -100,8 +100,9 @@ const StudentForm = ({ data, toggleForm }: Props) => {
       setLoading(false)
       return
     }
+    console.log(response)
     setDataForSubjectRegistration({
-      student_id: response?.id, entry_year: '', graduation_year: '', cum: 0, curriculum_id: '',
+      student_id: response?.id, entry_year: response.attributes?.entry_date, graduation_year: customRound(response.attributes?.entry_date, 2) + 3, cum: 0, curriculum_id: '',
     })
     setLoading(false)
     setValue('carnet', response.attributes?.carnet)
@@ -490,7 +491,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
           </fieldset>
         </div>
       </form>
-      <CurriculaRegistration data={dataForSubjectRegistration} />
+      {!empty(currentStudentID) && (<CurriculaRegistration data={dataForSubjectRegistration} />)}
     </>
 
   )

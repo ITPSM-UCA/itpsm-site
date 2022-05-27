@@ -1,6 +1,6 @@
 import CustomInput from 'components/UI/Form/CustomInput'
 import React, { useEffect, useState } from 'react'
-import { empty } from 'utils/helpers'
+import { customRound, empty } from 'utils/helpers'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -26,6 +26,7 @@ const CurriculaRegistration = ({ data }: any) => {
   const [loading, setLoading] = useState(false)
   const [curriculas, setCurriculas] = useState([])
   const currentCurriculum = watch('curriculum_id')
+  const currentEntryYear = watch('entry_year')
   const [curriculaOptions, setCurriculaOptions] = useState([{ value: 1, label: 'Plan 2019-2020 de la carrera Técnico en Ingeniería de Construcción' }, { value: 2, label: 'Plan 2019-2020 de la carrera Técnico Superior en Hostelería y Turismo' }])
 
   const getCurriculas = async () => {
@@ -47,6 +48,10 @@ const CurriculaRegistration = ({ data }: any) => {
   useEffect(() => {
     if (!empty(data.student_id)) getCurriculas()
   }, [data.student_id])
+
+  useEffect(() => {
+    if (!empty(currentEntryYear) && currentEntryYear.length >= 4) setValue('graduation_year', customRound(currentEntryYear, 2) + 3)
+  }, [currentEntryYear])
 
   const onCurriculaRegistration = async (formData: any) => {
     setLoading(true)
