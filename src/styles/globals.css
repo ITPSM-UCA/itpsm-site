@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 
-.MTableToolbar-spacer-7, .MTableToolbar-spacer-8, .MTableToolbar-spacer-77 {
+.MTableToolbar-spacer-7, .MTableToolbar-spacer-8, .MTableToolbar-spacer-77, .jss7, .jss8, .jss77, .jss78 {
   flex: 1 1 auto!important;
 }
