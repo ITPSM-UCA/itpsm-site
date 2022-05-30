@@ -19,7 +19,7 @@ const SubjectsByCurricula = ({ data }:Props) => {
       page: 0,
     }
     const response = await getSubjectsByCurriculumId(query, customQuery)
-    console.log(response)
+    console.log(query, response)
   }
 
   useEffect(() => {
