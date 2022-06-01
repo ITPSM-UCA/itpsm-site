@@ -9,29 +9,26 @@ const menu:Menu[] = [
     name: 'Estudiantes',
     redirectTo: '/dashboard/estudiantes',
     icon: MdSchool,
-    current: true,
   },
   {
     id: 2,
     name: 'Catedráticos',
     redirectTo: '/dashboard/catedraticos',
     icon: GiTeacher,
-    current: false,
   },
   {
     id: 3,
     name: 'Plan de estudios',
     redirectTo: '/dashboard/plan-de-estudios',
     icon: AiTwotoneSchedule,
-    current: false,
   },
-  {
-    id: 4,
-    name: 'Ciclos',
-    redirectTo: '/dashboard',
-    icon: GiCalendarHalfYear,
-    current: false,
-  },
+  // {
+  //   id: 4,
+  //   name: 'Ciclos',
+  //   redirectTo: '/dashboard',
+  //   icon: GiCalendarHalfYear,
+  //   current: false,
+  // },
   // {
   //   id: 5,
   //   name: 'Documents',
@@ -39,13 +36,13 @@ const menu:Menu[] = [
   //   icon: MdSpaceDashboard,
   //   current: false,
   // },
-  {
-    id: 6,
-    name: 'Reportes',
-    redirectTo: '/dashboard',
-    icon: GoRepo,
-    current: false,
-  },
+  // {
+  //   id: 6,
+  //   name: 'Reportes',
+  //   redirectTo: '/dashboard',
+  //   icon: GoRepo,
+  //   current: false,
+  // },
 ]
 
 export default menu

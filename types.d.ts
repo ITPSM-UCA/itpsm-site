@@ -5,5 +5,4 @@ type Menu = {
   name: string,
   redirectTo: string,
   icon: any,
-  current: boolean,
 }

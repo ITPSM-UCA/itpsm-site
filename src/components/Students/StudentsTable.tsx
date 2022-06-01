@@ -70,10 +70,10 @@ const StudentsTable = ({
 
       </div>
 
-      <div className="flex justify-between bg-white border shadow-md rounded-md p-2 mb-4">
+      {/* <div className="flex justify-between bg-white border shadow-md rounded-md p-2 mb-4">
         <p>Autocomplete de Carreras</p>
         <p>Autocomplete de Años de ingreso</p>
-      </div>
+      </div> */}
 
       <div>
         <CustomTable

@@ -94,7 +94,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     setLoading(true)
     let response: any
     if (!empty(formData?.id)) {
-      response = await updateStudent(formData, formData.id)
+      response = await updateStudent(formData)
     }
     else {
       response = await createStudent(formData)

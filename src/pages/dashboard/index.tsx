@@ -9,7 +9,7 @@ const Dashboard: NextPage = () => (
         Dashboard
       </h1>
       <div>
-        <p>Hola desde el dashboard</p>
+        <p>Panel para mostrar estadisticas del Instituto</p>
       </div>
     </div>
   </Layout>

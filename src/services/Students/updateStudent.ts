@@ -1,10 +1,10 @@
 import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
-const updateStudent = async (data:any, id: number) => {
+const updateStudent = async (data:any) => {
   let response
   try {
-    const url = `${apiInstance.defaults.baseURL}/students/${id}`
+    const url = `${apiInstance.defaults.baseURL}/students/${data.id}`
 
     response = await apiInstance.put(url, data)
 
