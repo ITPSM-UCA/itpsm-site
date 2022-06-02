@@ -114,13 +114,6 @@ const StudentForm = ({ data, toggleForm }: Props) => {
             >
               Atras
             </button>
-
-            <button
-              type="submit"
-              className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2"
-            >
-              {buttonText}
-            </button>
           </div>
         </div>
         <div>
@@ -135,6 +128,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 disabled={isSubmitting}
                 register={register}
                 placeholder="Álvaro"
+                required
               />
             </div>
             <div className="w-1/4 p-2">
@@ -146,6 +140,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 disabled={isSubmitting}
                 register={register}
                 placeholder="García"
+                required
               />
             </div>
             <div className="w-1/2 p-2">
@@ -180,6 +175,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 error={errors?.birth_date}
                 disabled={isSubmitting}
                 register={register}
+                required
               />
             </div>
             <div className="w-1/4 p-2">
@@ -510,6 +506,14 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               />
             </div>
           </fieldset>
+        </div>
+        <div className="flex justify-end mt-4">
+          <button
+            type="submit"
+            className="w-1/3 inline-flex items-center p-3 shadow-sm text-sm justify-center font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none space-x-2"
+          >
+            {buttonText}
+          </button>
         </div>
       </form>
       {!empty(currentStudentID) && (<CurriculaRegistration data={dataForSubjectRegistration} />)}

@@ -25,7 +25,7 @@
     "react/react-in-jsx-scope": "off",
     "import/prefer-default-export": "off",
     "jsx-a11y/label-has-associated-control": "off",
-    "max-len": ["warn", { "code": 150 }],
+    "max-len": ["warn", { "code": 200 }],
     "react/require-default-props": "off",
     "no-use-before-define": ["error", { 
       "functions": false,

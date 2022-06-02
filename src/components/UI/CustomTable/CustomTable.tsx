@@ -92,7 +92,7 @@ const CustomTable = forwardRef(({
                 onChanged={props.onSearchChanged}
               />
             </div>
-            <div className="flex flex-row grow justify-end">
+            <div id="custom-table-buttons-container" className="flex flex-row grow justify-end">
               <MTableToolbar {...props} className="flex" />
             </div>
           </div>

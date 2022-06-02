@@ -2,7 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-
-.MTableToolbar-spacer-7, .MTableToolbar-spacer-8, .MTableToolbar-spacer-77, .jss7, .jss8, .jss77, .jss78 {
+#custom-table-buttons-container div > div {
   flex: 1 1 auto!important;
+}
+
+label[aria-required]:after{
+  content:" *";
+  color: red;
+  font-weight: bold;
 }
