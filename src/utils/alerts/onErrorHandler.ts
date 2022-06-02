@@ -12,9 +12,6 @@ const onErrorHandler = (error:any) => {
       details += '</ul>';
       showMessage('Información', details, 'info');
       break
-    case 404:
-      showMessage(error.data.errors.title, error.data.errors.detail, 'error')
-      break
     case 401:
       showMessage(error.data.errors.title, error.data.errors.detail, 'error')
       break

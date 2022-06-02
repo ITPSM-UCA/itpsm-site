@@ -1,15 +1,14 @@
-/* eslint-disable consistent-return */
 import * as yup from 'yup'
+import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { customRound, empty } from 'utils/helpers'
 import { yupResolver } from '@hookform/resolvers/yup'
 import CustomInput from 'components/UI/Form/CustomInput'
-import PhoneNumberInput from 'components/UI/Form/PhoneNumberInput'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
-import { useEffect, useState } from 'react'
-import Loader from 'components/UI/Loader'
+import BodyLoadingButton from 'components/UI/BodyLoadingButton'
 import { createStudent, updateStudent } from 'services/Students'
-import { customRound, empty } from 'utils/helpers'
-import { useSelector } from 'react-redux'
+import PhoneNumberInput from 'components/UI/Form/PhoneNumberInput'
 import {
   bloodTypes, genders, highSchoolTypes, homeArea, relationships, STATUS_LABEL, studentsStatus,
 } from 'utils/constants/Constants'
@@ -65,65 +64,36 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     setMunicipaltiesOptions(municipalityFiltered?.municipalities)
   }, [currentDepartment, departmentsOptions])
 
-  const getInitialValue = (field: string) => {
-    switch (field) {
-      case 'department_id':
-        return empty(data?.department_id) ? {} : { value: data?.department_id, label: data?.department }
-      case 'municipality_id':
-        return empty(data?.municipality_id) ? {} : { value: data?.municipality_id, label: data?.municipality }
-      case 'country_id':
-        return empty(data?.country_id) ? {} : { value: data?.country_id, label: data?.country }
-      case 'gender':
-        return empty(data?.gender) ? {} : { value: data?.gender, label: data?.gender === 'M' ? 'Masculino' : 'Femenino' }
-      case 'relationship':
-        return empty(data?.relationship) ? {} : { value: data?.relationship, label: data?.relationship === 'S' ? 'Soltero' : 'Casado' }
-      case 'status':
-        return empty(data?.status) ? {} : { value: data?.status, label: STATUS_LABEL[data?.status] }
-      case 'blood_type':
-        return empty(data?.blood_type) ? {} : { value: data?.blood_type, label: data?.blood_type }
-      case 'rural_area':
-        return data?.is_live_in_rural_area === '' ? {} : { value: data?.is_live_in_rural_area, label: data?.is_live_in_rural_area ? 'Rural' : 'Urbana' }
-      case 'private_high_school':
-        return data?.is_private_high_school === '' ? {} : { value: data?.is_private_high_school, label: data?.is_private_high_school ? 'Privada' : 'Pública' }
-      default:
-        return {}
-    }
-  }
-
-  const onCreateStudent = async (formData: any) => {
+  const onSubmit = async (formData: any) => {
     setLoading(true)
-    let response: any
-    if (!empty(formData?.id)) {
-      response = await updateStudent(formData)
-    }
-    else {
-      response = await createStudent(formData)
-    }
 
-    if (response.error) {
+    const functionToExecute = !empty(formData?.id) ? updateStudent : createStudent
+    const response = await functionToExecute(formData)
+
+    if (response.errors) {
       setLoading(false)
       return
     }
+
     setDataForSubjectRegistration({
-      student_id: response?.id, entry_year: response.attributes?.entry_date, graduation_year: customRound(response.attributes?.entry_date, 2) + 3, cum: 0, curriculum_id: '',
+      student_id: response?.id,
+      entry_year: response.attributes?.entry_date,
+      graduation_year: customRound(response.attributes?.entry_date, 2) + 3,
+      cum: 0,
+      curriculum_id: '',
     })
-    setLoading(false)
+
     setValue('carnet', response.attributes?.carnet)
     setValue('institutional_email', response.attributes?.institutional_email)
     setValue('id', response?.id)
+
+    setLoading(false)
   }
 
   let buttonText = <span>Guardar Estudiante</span>
 
   if (loading) {
-    buttonText = (
-      <>
-        <Loader className="h-4 w-4" />
-        <span>
-          Cargando...
-        </span>
-      </>
-    )
+    buttonText = <BodyLoadingButton />
   }
 
   return (
@@ -131,7 +101,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
       <form
         noValidate
         autoComplete="off"
-        onSubmit={handleSubmit(onCreateStudent)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex justify-between">
           <h1 className="text-2xl font-semibold text-gray-900">Estudiantes</h1>
@@ -194,7 +164,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 name="is_live_in_rural_area"
                 control={control}
                 placeholder="Urbana"
-                initialValue={() => getInitialValue('rural_area')}
+                initialValue={() => getInitialValue('rural_area', data)}
                 label="Área del domicilio"
                 error={errors?.is_live_in_rural_area}
                 options={homeArea}
@@ -239,7 +209,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 name="gender"
                 control={control}
                 placeholder="Masculino"
-                initialValue={() => getInitialValue('gender')}
+                initialValue={() => getInitialValue('gender', data)}
                 label="Genero"
                 error={errors?.gender}
                 options={genders}
@@ -263,7 +233,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 name="relationship"
                 control={control}
                 placeholder="Soltero"
-                initialValue={() => getInitialValue('relationship')}
+                initialValue={() => getInitialValue('relationship', data)}
                 label="Estado civil"
                 error={errors?.relationship}
                 options={relationships}
@@ -276,7 +246,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 name="country_id"
                 control={control}
                 placeholder="El Salvador"
-                initialValue={() => getInitialValue('country_id')}
+                initialValue={() => getInitialValue('country_id', data)}
                 label="País"
                 error={errors?.country_id}
                 options={countries}
@@ -291,7 +261,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                     name="department_id"
                     control={control}
                     placeholder="San Salvador"
-                    initialValue={() => getInitialValue('department_id')}
+                    initialValue={() => getInitialValue('department_id', data)}
                     label="Departamento"
                     error={errors?.department_id}
                     options={departmentsOptions}
@@ -307,7 +277,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                     name="municipality_id"
                     control={control}
                     placeholder="Ciudad Delgado"
-                    initialValue={() => getInitialValue('municipality_id')}
+                    initialValue={() => getInitialValue('municipality_id', data)}
                     label="Municipio"
                     error={errors?.municipality_id}
                     options={municipaltiesOptions}
@@ -348,7 +318,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 name="status"
                 control={control}
                 placeholder="Activo"
-                initialValue={() => getInitialValue('status')}
+                initialValue={() => getInitialValue('status', data)}
                 label="Estado"
                 error={errors?.status}
                 options={studentsStatus}
@@ -381,7 +351,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 name="is_private_high_school"
                 control={control}
                 placeholder="Pública"
-                initialValue={() => getInitialValue('private_high_school')}
+                initialValue={() => getInitialValue('private_high_school', data)}
                 label="Tipo de institución donde se graduó"
                 error={errors?.is_private_high_school}
                 options={highSchoolTypes}
@@ -429,7 +399,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 name="blood_type"
                 control={control}
                 placeholder="B-"
-                initialValue={() => getInitialValue('blood_type')}
+                initialValue={() => getInitialValue('blood_type', data)}
                 label="Tipo de sangre"
                 error={errors?.blood_type}
                 options={bloodTypes}
@@ -550,18 +520,18 @@ const StudentForm = ({ data, toggleForm }: Props) => {
 
 const schema = yup.object().shape({
   carnet: yup.string(),
-  name: yup.string().required('Este campo es obligatorio.'),
-  last_name: yup.string().required('Este campo es obligatorio.'),
-  email: yup.string().required('Este campo es obligatorio.').email('Dirección de correo no válida.'),
-  institutional_email: yup.string(),
-  birth_date: yup.string().required('Este campo es obligatorio.'),
-  address: yup.string().required('Este campo es obligatorio.'),
-  phone_number: yup.string().nullable(),
-  home_phone_number: yup.string().nullable(),
-  gender: yup.string().required('Este campo es obligatorio.'),
-  relationship: yup.string().required('Este campo es obligatorio.'),
-  status: yup.string().required('Este campo es obligatorio.'),
-  blood_type: yup.string().required('Este campo es obligatorio.'),
+  name: yup.string().required('Campo obligatorio'),
+  last_name: yup.string().required('Campo obligatorio'),
+  email: yup.string().required('Campo obligatorio').email('Dirección de correo no válida.'),
+  institutional_email: yup.string().email('Dirección de correo no válida.'),
+  birth_date: yup.string(),
+  address: yup.string().required('Campo obligatorio'),
+  phone_number: yup.string().nullable().matches(/^\d{4}-\d{4}$/, { message: 'Formato incorrecto', excludeEmptyString: true }),
+  home_phone_number: yup.string().nullable().matches(/^\d{4}-\d{4}$/, { message: 'Formato incorrecto', excludeEmptyString: true }),
+  gender: yup.string().required('Campo obligatorio'),
+  relationship: yup.string().required('Campo obligatorio'),
+  status: yup.string().required('Campo obligatorio'),
+  blood_type: yup.string().required('Campo obligatorio'),
   mother_name: yup.string().nullable(),
   mother_phone_number: yup.string().nullable(),
   father_name: yup.string().nullable(),
@@ -570,17 +540,42 @@ const schema = yup.object().shape({
   emergency_contact_phone: yup.string().nullable(),
   diseases: yup.string().nullable(),
   allergies: yup.string().nullable(),
-  entry_date: yup.number().typeError('El campo debe de ser numérico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo').min(2010, 'El valor mínimo es 2010'),
-  entry_period: yup.number().typeError('El campo debe de ser numérico').required('Este campo es obligatorio.').max(3, 'El valor máximo es 3').min(1, 'El valor mínimo es 1').positive('El valor debe de ser positivo'),
-  date_high_school_degree: yup.number().typeError('El campo debe de ser numérico').required('Este campo es obligatorio.').positive('El valor debe de ser positivo'),
-  municipality_id: yup.string().required('Este campo es obligatorio.'),
-  department_id: yup.string().required('Este campo es obligatorio.'),
-  country_id: yup.string().required('Este campo es obligatorio.'),
+  entry_date: yup.number().typeError('Campo obligatorio').min(2010, 'Año minimo 2010'),
+  entry_period: yup.number().typeError('Campo obligatorio').min(1, 'Periodo entre 1 y 3').max(3, 'Periodo entre 1 y 3'),
+  date_high_school_degree: yup.number().typeError('Campo obligatorio').positive('Año no valido'),
+  municipality_id: yup.string().required('Campo obligatorio'),
+  department_id: yup.string().required('Campo obligatorio'),
+  country_id: yup.string().required('Campo obligatorio'),
   medicines: yup.string().nullable(),
   is_live_in_rural_area: yup.boolean().nullable(),
   is_private_high_school: yup.boolean().nullable(),
   high_school_name: yup.string().nullable(),
   high_school_option: yup.string().nullable(),
 })
+
+const getInitialValue = (field: string, data:any) => {
+  switch (field) {
+    case 'department_id':
+      return empty(data?.department_id) ? {} : { value: data?.department_id, label: data?.department }
+    case 'municipality_id':
+      return empty(data?.municipality_id) ? {} : { value: data?.municipality_id, label: data?.municipality }
+    case 'country_id':
+      return empty(data?.country_id) ? {} : { value: data?.country_id, label: data?.country }
+    case 'gender':
+      return empty(data?.gender) ? {} : { value: data?.gender, label: data?.gender === 'M' ? 'Masculino' : 'Femenino' }
+    case 'relationship':
+      return empty(data?.relationship) ? {} : { value: data?.relationship, label: data?.relationship === 'S' ? 'Soltero' : 'Casado' }
+    case 'status':
+      return empty(data?.status) ? {} : { value: data?.status, label: STATUS_LABEL[data?.status] }
+    case 'blood_type':
+      return empty(data?.blood_type) ? {} : { value: data?.blood_type, label: data?.blood_type }
+    case 'rural_area':
+      return data?.is_live_in_rural_area === '' ? {} : { value: data?.is_live_in_rural_area, label: data?.is_live_in_rural_area ? 'Rural' : 'Urbana' }
+    case 'private_high_school':
+      return data?.is_private_high_school === '' ? {} : { value: data?.is_private_high_school, label: data?.is_private_high_school ? 'Privada' : 'Pública' }
+    default:
+      return {}
+  }
+}
 
 export default StudentForm

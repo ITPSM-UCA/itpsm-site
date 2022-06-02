@@ -1,7 +1,6 @@
 import { MdSchool } from 'react-icons/md'
-import { GiTeacher, GiCalendarHalfYear } from 'react-icons/gi'
+import { GiTeacher } from 'react-icons/gi'
 import { AiTwotoneSchedule } from 'react-icons/ai'
-import { GoRepo } from 'react-icons/go'
 
 const menu:Menu[] = [
   {

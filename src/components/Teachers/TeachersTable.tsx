@@ -2,7 +2,6 @@
 import { AiOutlinePlus } from 'react-icons/ai'
 import { RiMailDownloadFill } from 'react-icons/ri'
 import CustomTable from 'components/UI/CustomTable/CustomTable'
-import PDFTest from 'components/PDFTest'
 import Loader from 'components/UI/Loader'
 import createPdf from 'services/CreatePdf'
 import { useState } from 'react'
@@ -79,8 +78,6 @@ const TeachersTable = ({
           onRefreshTableClicked={refreshTableAction}
         />
       </div>
-
-      <PDFTest />
     </>
   )
 }

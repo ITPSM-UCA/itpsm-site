@@ -2,19 +2,15 @@ import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
 const updateStudent = async (data:any) => {
-  let response
   try {
     const url = `${apiInstance.defaults.baseURL}/students/${data.id}`
 
-    response = await apiInstance.put(url, data)
-
-    response = response.data
-
+    const response = await apiInstance.put(url, data)
     return response.data
-  } catch (error:any) {
-    response = error.response.data
+  }
+  catch (error:any) {
     onErrorHandler(error.response)
-    return response
+    return error.response.data
   }
 }
 

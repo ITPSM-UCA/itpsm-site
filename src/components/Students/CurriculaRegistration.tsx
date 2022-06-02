@@ -4,10 +4,10 @@ import { customRound, empty } from 'utils/helpers'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import Loader from 'components/UI/Loader'
 import { curriculaRegistrationForStudent, getCurriculaForStudent } from 'services/Students'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { useSelector } from 'react-redux'
+import BodyLoadingButton from 'components/UI/BodyLoadingButton'
 
 const CurriculaRegistration = ({ data }: any) => {
   const {
@@ -85,15 +85,9 @@ const CurriculaRegistration = ({ data }: any) => {
   let buttonText = <span>Inscribir Estudiante</span>
 
   if (loading) {
-    buttonText = (
-      <>
-        <Loader className="h-4 w-4" />
-        <span>
-          Cargando...
-        </span>
-      </>
-    )
+    buttonText = <BodyLoadingButton />
   }
+
   if (empty(data.student_id)) return null
 
   return (
