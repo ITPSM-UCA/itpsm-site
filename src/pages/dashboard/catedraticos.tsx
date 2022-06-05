@@ -63,13 +63,13 @@ const Teachers: NextPage = () => {
 }
 
 const columns = [
-  { title: 'DUI', field: 'dui' },
+  { title: 'Carnet', field: 'carnet' },
   { title: 'Nombre', field: 'name' },
   { title: 'Apellido', field: 'last_name' },
   { title: 'Correo Electrónico', field: 'email' },
   { title: 'Fecha de Nacimiento', field: 'birth_date_with_format' },
   { title: 'Teléfono', field: 'phone_number', width: 250 },
-  { title: 'Municipio', field: 'municipality' },
+  { title: 'Municipio', field: 'municipality', hidden: true },
   {
     title: 'Genero',
     field: 'gender',
@@ -102,7 +102,7 @@ const initialData = {
   status: '',
   carnet: '',
   institutional_email: '',
-  entry_date: '',
+  entry_date: new Date().getFullYear(),
 }
 
 export default withAuth(Teachers)

@@ -82,7 +82,7 @@ const CurriculaRegistration = ({ data }: any) => {
     getCurriculas()
   }
 
-  let buttonText = <span>Inscribir Estudiante</span>
+  let buttonText = <span>Inscribir a carrera</span>
 
   if (loading) {
     buttonText = <BodyLoadingButton />
@@ -97,7 +97,7 @@ const CurriculaRegistration = ({ data }: any) => {
       onSubmit={handleSubmit(onCurriculaRegistration)}
     >
       <fieldset className="mt-4 border rounded-md border-solid border-gray-300 p-3">
-        <legend className="font-medium text-indigo-600">Inscripción de estudiante</legend>
+        <legend className="font-medium text-indigo-600">Inscripción de carrera</legend>
         <div className="flex flex-wrap">
           <div className="w-1/4 p-2">
             <CustomInput
@@ -167,7 +167,7 @@ const CurriculaRegistration = ({ data }: any) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {!empty(studentCurriculas) && studentCurriculas.map((curricula: any) => (
+              {studentCurriculas.map((curricula: any) => (
                 <tr key={curricula?.attributes?.student_carnet}>
                   <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
                     {curricula?.attributes?.curricula_name}
@@ -178,10 +178,10 @@ const CurriculaRegistration = ({ data }: any) => {
                       <dd className="mt-1 truncate text-gray-500 sm:hidden">{curricula?.attributes?.graduation_year}</dd>
                     </dl>
                   </td>
-                  <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{curricula?.attributes?.entry_year}</td>
-                  <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{curricula?.attributes?.graduation_year}</td>
-                  <td className="px-3 py-4 text-sm text-gray-500">{curricula?.attributes?.cum}</td>
-                  <td className="px-3 py-4 text-sm font-medium sm:pr-6">{curricula?.attributes?.curricula_is_active ? 'Activo' : 'Inactivo'}</td>
+                  <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{curricula?.attributes?.entry_year}</td>
+                  <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{curricula?.attributes?.graduation_year}</td>
+                  <td className="px-3 py-4 text-sm text-center text-gray-500">{curricula?.attributes?.cum.toFixed(2)}</td>
+                  <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.attributes?.curricula_is_active ? 'Activo' : 'Inactivo'}</td>
                 </tr>
               ))}
             </tbody>
