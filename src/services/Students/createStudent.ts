@@ -6,11 +6,13 @@ const createStudent = async (data:any) => {
     const url = `${apiInstance.defaults.baseURL}/students`
 
     const response = await apiInstance.post(url, data)
-    return response.data
+    return response.data.data
   }
   catch (error:any) {
     onErrorHandler(error.response)
-    return error.response.data
+    return {
+      errors: error.response.data?.errors ?? 'Error en la peticion',
+    }
   }
 }
 

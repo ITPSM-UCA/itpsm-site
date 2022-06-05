@@ -4,13 +4,13 @@ import showMessage from './showMessage'
 const onErrorHandler = (error:any) => {
   switch (error.status) {
     case 422:
-      let details = '<ul>'
+      let details = ''
       error.data.errors.forEach((item:any) => {
-        details += `<li>${item.title}</li>`
+        details += `- ${item.title}`
       });
 
-      details += '</ul>';
-      showMessage('Información', details, 'info');
+      details += '';
+      showMessage('Información', details, 'warning');
       break
     case 401:
       showMessage(error.data.errors.title, error.data.errors.detail, 'error')

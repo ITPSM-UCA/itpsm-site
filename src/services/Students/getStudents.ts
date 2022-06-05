@@ -36,7 +36,6 @@ const getStudents = async (query:any) => {
     }
   }
   catch (error:any) {
-    console.log(error.response)
     onErrorHandler(error.response)
     return studentsData
   }

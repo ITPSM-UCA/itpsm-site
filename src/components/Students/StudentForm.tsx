@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
+import { showMessage } from 'utils/alerts'
 import { useEffect, useState } from 'react'
 import { customRound, empty } from 'utils/helpers'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -10,7 +11,13 @@ import BodyLoadingButton from 'components/UI/BodyLoadingButton'
 import { createStudent, updateStudent } from 'services/Students'
 import PhoneNumberInput from 'components/UI/Form/PhoneNumberInput'
 import {
-  bloodTypes, genders, highSchoolTypes, homeArea, relationships, STATUS_LABEL, studentsStatus,
+  genders,
+  homeArea,
+  bloodTypes,
+  STATUS_LABEL,
+  relationships,
+  studentsStatus,
+  highSchoolTypes,
 } from 'utils/constants/Constants'
 import CurriculaRegistration from './CurriculaRegistration'
 
@@ -74,7 +81,6 @@ const StudentForm = ({ data, toggleForm }: Props) => {
       setLoading(false)
       return
     }
-
     setDataForSubjectRegistration({
       student_id: response?.id,
       entry_year: response.attributes?.entry_date,
@@ -86,6 +92,9 @@ const StudentForm = ({ data, toggleForm }: Props) => {
     setValue('carnet', response.attributes?.carnet)
     setValue('institutional_email', response.attributes?.institutional_email)
     setValue('id', response?.id)
+
+    const successMessage = !empty(formData?.id) ? 'Estudiante actualizado correctamente.' : 'Estudiante creado correctamente.'
+    showMessage('¡Exito!', successMessage)
 
     setLoading(false)
   }
@@ -152,6 +161,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 disabled={isSubmitting}
                 register={register}
                 placeholder="Direccion"
+                required
               />
             </div>
             <div className="w-1/4 p-2">
@@ -211,6 +221,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 options={genders}
                 setValue={setValue}
                 clearErrors={clearErrors}
+                required
               />
             </div>
             <div className="w-1/4 p-2">
@@ -221,7 +232,8 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 error={errors?.email}
                 disabled={isSubmitting}
                 register={register}
-                placeholder="alvaro1@gmail.com"
+                placeholder="alvaro@gmail.com"
+                required
               />
             </div>
             <div className="w-1/4 p-2">
@@ -235,6 +247,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 options={relationships}
                 setValue={setValue}
                 clearErrors={clearErrors}
+                required
               />
             </div>
             <div className="w-1/4 p-2">
@@ -248,6 +261,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 options={countries}
                 setValue={setValue}
                 clearErrors={clearErrors}
+                required
               />
             </div>
             {!empty(departmentsOptions)
@@ -263,6 +277,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                     options={departmentsOptions}
                     setValue={setValue}
                     clearErrors={clearErrors}
+                    required
                   />
                 </div>
               )}
@@ -279,6 +294,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                     options={municipaltiesOptions}
                     setValue={setValue}
                     clearErrors={clearErrors}
+                    required
                   />
                 </div>
               )}
@@ -320,6 +336,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 options={studentsStatus}
                 setValue={setValue}
                 clearErrors={clearErrors}
+                required
               />
             </div>
             <div className="w-1/4 p-2">
@@ -330,6 +347,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 error={errors?.entry_period}
                 disabled={isSubmitting}
                 register={register}
+                required
               />
             </div>
             <div className="w-1/4 p-2">
@@ -340,6 +358,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 error={errors?.entry_date}
                 disabled={isSubmitting}
                 register={register}
+                required
               />
             </div>
             <div className="w-1/4 p-2">
@@ -401,6 +420,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
                 options={bloodTypes}
                 setValue={setValue}
                 clearErrors={clearErrors}
+                required
               />
             </div>
             <div className="w-3/4 p-2">

@@ -96,31 +96,6 @@ const columns = [
   },
 ]
 
-// const initialData = {
-//   carnet: '999999999',
-//   name: 'Alvaro',
-//   last_name: 'Garcia',
-//   email: 'alvaro1@gmail.com',
-//   birth_date: '1998-09-10',
-//   address: 'En Tepecoyo',
-//   phone_number: '7777-5555',
-//   home_phone_number: '2222-2222',
-//   gender: 'M',
-//   relationship: 'S',
-//   status: 'A',
-//   blood_type: 'RH+',
-//   mother_name: 'Nombre de la madre',
-//   mother_phone_number: '7777-7777',
-//   father_name: '',
-//   father_phone_number: '',
-//   emergency_contact_name: 'Contacto de emergencia',
-//   emergency_contact_phone: '7777-7777',
-//   municipality_id: 3,
-//   department_id: 14,
-//   country_id: 1,
-//   status_id: 1,
-// }
-
 const initialData = {
   carnet: '',
   name: '',

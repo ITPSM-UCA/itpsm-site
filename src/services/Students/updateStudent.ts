@@ -6,11 +6,13 @@ const updateStudent = async (data:any) => {
     const url = `${apiInstance.defaults.baseURL}/students/${data.id}`
 
     const response = await apiInstance.put(url, data)
-    return response.data
+    return response.data.data
   }
   catch (error:any) {
     onErrorHandler(error.response)
-    return error.response.data
+    return {
+      errors: error.response.data?.errors ?? 'Error en la peticion',
+    }
   }
 }
 
