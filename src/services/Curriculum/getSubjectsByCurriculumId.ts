@@ -5,7 +5,10 @@ import apiInstance from 'instances/apiInstance'
 const getSubjectsByCurriculumId = async (query:any, customQuery:any = null) => {
   try {
     let url = `${apiInstance.defaults.baseURL}/curriculum-subjects?`
-    url += `page[size]=${query.pageSize}&page[number]=${query.page + 1}`
+
+    if (query.page) {
+      url += `page[size]=${query.pageSize}&page[number]=${query.page + 1}`
+    }
 
     if (!empty(customQuery)) {
       url += `&query=${JSON.stringify(customQuery)}`
