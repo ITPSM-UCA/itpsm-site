@@ -29,7 +29,6 @@ const useSubjectByCurricula = (id:number) => {
       })
     })
 
-    console.log(updatedSubjectByCycles)
     setSubjectsByCycles(updatedSubjectByCycles)
   }
 

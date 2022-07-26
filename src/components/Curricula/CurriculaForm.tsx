@@ -90,7 +90,7 @@ const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
 
       <div>
         <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
-          <legend className="font-medium text-indigo-600">Datos personales</legend>
+          <legend className="font-medium text-indigo-600">Datos</legend>
           <div className="w-1/4 p-2">
             <CustomInput
               type="text"
