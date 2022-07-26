@@ -413,14 +413,13 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               <CustomCombobox
                 name="blood_type"
                 control={control}
-                placeholder="B-"
+                placeholder="B RH-"
                 initialValue={() => getInitialValue('blood_type', data)}
                 label="Tipo de sangre"
                 error={errors?.blood_type}
                 options={bloodTypes}
                 setValue={setValue}
                 clearErrors={clearErrors}
-                required
               />
             </div>
             <div className="w-3/4 p-2">
@@ -555,7 +554,7 @@ const schema = yup.object().shape({
   gender: yup.string().required('Campo obligatorio'),
   relationship: yup.string().required('Campo obligatorio'),
   status: yup.string().required('Campo obligatorio'),
-  blood_type: yup.string().required('Campo obligatorio'),
+  blood_type: yup.string(),
   mother_name: yup.string().nullable(),
   mother_phone_number: yup.string().nullable(),
   father_name: yup.string().nullable(),
@@ -564,9 +563,9 @@ const schema = yup.object().shape({
   emergency_contact_phone: yup.string().nullable(),
   diseases: yup.string().nullable(),
   allergies: yup.string().nullable(),
-  entry_date: yup.number().typeError('Campo obligatorio').min(2010, 'Año minimo 2010'),
-  entry_period: yup.number().typeError('Campo obligatorio').min(1, 'Periodo entre 1 y 3').max(3, 'Periodo entre 1 y 3'),
-  date_high_school_degree: yup.number().typeError('Campo obligatorio').positive('Año no valido'),
+  entry_date: yup.number().typeError('Campo obligatorio').min(2010, 'Año mínimo 2010'),
+  entry_period: yup.number().typeError('Campo obligatorio').positive('Periodo no valido').max(2, 'Periodo entre 1 y 2'),
+  date_high_school_degree: yup.number().typeError('Campo obligatorio').min(1980, 'Año mínimo 1980'),
   municipality_id: yup.string().required('Campo obligatorio'),
   department_id: yup.string().required('Campo obligatorio'),
   country_id: yup.string().required('Campo obligatorio'),
