@@ -2,7 +2,7 @@ export const genders = [{ value: 'M', label: 'Masculino' }, { value: 'F', label:
 
 export const relationships = [{ value: 'S', label: 'Soltero' }, { value: 'C', label: 'Casado' }]
 
-export const bloodTypes = [{ value: 'A-', label: 'A-' }, { value: 'A+', label: 'A+' }, { value: 'B-', label: 'B-' }, { value: 'B+', label: 'B+' }, { value: 'AB-', label: 'AB-' }, { value: 'AB+', label: 'AB+' }, { value: 'O-', label: 'O-' }, { value: 'O+', label: 'O+' }]
+export const bloodTypes = [{ value: 'A RH-', label: 'A RH-' }, { value: 'A RH+', label: 'A RH+' }, { value: 'B RH-', label: 'B RH-' }, { value: 'B RH+', label: 'B RH+' }, { value: 'AB RH-', label: 'AB RH-' }, { value: 'AB RH+', label: 'AB RH+' }, { value: 'O RH-', label: 'O RH-' }, { value: 'O RH+', label: 'O RH+' }]
 
 export const STATUS_LABEL: any = {
   A: 'Activo',
