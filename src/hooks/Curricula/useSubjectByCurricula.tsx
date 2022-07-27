@@ -29,8 +29,12 @@ const useSubjectByCurricula = (id:number) => {
   const removeCurriculumSubject = async (curriculumSubjectId:number) => {
     setLoading(true)
     const response = await deleteCurriculumSubject(curriculumSubjectId)
-    const updatedSubjectByCycles = transformCurriculumSubjectData(response.curriculum_subjects)
-    setSubjectsByCycles(updatedSubjectByCycles)
+
+    if (!response.errors) {
+      const updatedSubjectByCycles = transformCurriculumSubjectData(response.curriculum_subjects)
+      setSubjectsByCycles(updatedSubjectByCycles)
+    }
+
     setLoading(false)
   }
 
