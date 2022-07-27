@@ -1,9 +1,10 @@
 import { groupBy } from 'lodash'
 import { useState, useEffect } from 'react'
-import { getSubjectsByCurriculumId } from 'services/Curriculum'
+import { deleteCurriculumSubject, getSubjectsByCurriculumId } from 'services/Curriculum'
 
 const useSubjectByCurricula = (id:number) => {
   const [subjectsByCycles, setSubjectsByCycles] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getData()
@@ -18,23 +19,40 @@ const useSubjectByCurricula = (id:number) => {
       }],
     }
 
+    setLoading(true)
     const response = await getSubjectsByCurriculumId({}, customQuery)
-    const updatedSubjectByCycles:any = []
-    const groupedSubjects = groupBy(response.rows, 'cycle')
-
-    Object.entries(groupedSubjects).forEach(([key, value]) => {
-      updatedSubjectByCycles.push({
-        cycle: key,
-        subjects: value,
-      })
-    })
-
+    const updatedSubjectByCycles = transformCurriculumSubjectData(response.rows)
     setSubjectsByCycles(updatedSubjectByCycles)
+    setLoading(false)
+  }
+
+  const removeCurriculumSubject = async (curriculumSubjectId:number) => {
+    setLoading(true)
+    const response = await deleteCurriculumSubject(curriculumSubjectId)
+    const updatedSubjectByCycles = transformCurriculumSubjectData(response.curriculum_subjects)
+    setSubjectsByCycles(updatedSubjectByCycles)
+    setLoading(false)
   }
 
   return {
+    loading,
     subjectsByCycles,
+    removeCurriculumSubject,
   }
+}
+
+const transformCurriculumSubjectData = (curriculumSubjects:any[]) => {
+  const updatedSubjectByCycles:any = []
+  const groupedSubjects = groupBy(curriculumSubjects, 'cycle')
+
+  Object.entries(groupedSubjects).forEach(([key, value]) => {
+    updatedSubjectByCycles.push({
+      cycle: key,
+      subjects: value,
+    })
+  })
+
+  return updatedSubjectByCycles
 }
 
 export default useSubjectByCurricula

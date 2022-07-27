@@ -61,7 +61,7 @@ const SubjectForm = ({ data }: Props) => {
       onSubmit={handleSubmit(onCreateStudent)}
     >
       <div>
-        <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
+        <fieldset className="flex flex-wrap border rounded-md border-solid border-gray-300 p-3 mb-2">
           <legend className="font-medium text-indigo-600">Asociar Materia</legend>
           <div className="w-1/4 p-2">
             <CustomInput
