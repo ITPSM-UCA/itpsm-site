@@ -2,10 +2,13 @@ import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import CustomInput from 'components/UI/Form/CustomInput'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Loader from 'components/UI/Loader'
-import { createStudent } from 'services/Students'
 import CustomCheckbox from 'components/UI/Form/CustomCheckbox'
+import { createCurriculum } from 'services/Curriculum'
+import { useSelector } from 'react-redux'
+import { empty } from 'utils/helpers'
+import CustomCombobox from 'components/UI/Form/CustomCombobox'
 
 interface Props {
   data: any,
@@ -30,11 +33,13 @@ const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
   })
 
   const { errors, isSubmitting } = formState
+  const careers = useSelector((state: any) => state.config.careers)
   const [loading, setLoading] = useState(false)
+  const careersList = transformCareers(careers)
 
-  const onCreateStudent = async (formData: any) => {
+  const onCreateCurricula = async (formData: any) => {
     setLoading(true)
-    const response: any = await createStudent(formData)
+    const response: any = await createCurriculum(formData)
 
     if (response.error) {
       setLoading(false)
@@ -67,7 +72,7 @@ const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
     <form
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit(onCreateStudent)}
+      onSubmit={handleSubmit(onCreateCurricula)}
     >
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">Plan de estudio</h1>
@@ -102,15 +107,17 @@ const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
               placeholder="Plan 2022"
             />
           </div>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
+          <div className="w-2/4 p-2">
+            <CustomCombobox
               name="career_id"
+              control={control}
+              placeholder="Técnico Superior en Hostelería y Turismo"
               label="Carrera"
               error={errors?.career_id}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="1"
+              options={careersList}
+              setValue={setValue}
+              clearErrors={clearErrors}
+              initialValue={() => getInitialValue('career_id', data)}
             />
           </div>
           <div className="w-1/4 p-2">
@@ -154,5 +161,19 @@ const schema = yup.object().shape({
   is_active: yup.boolean().required('Este campo es obligatorio.'),
   is_approved: yup.boolean().required('Este campo es obligatorio.'),
 })
+
+const getInitialValue = (field: string, data: any) => {
+  switch (field) {
+    case 'career_id':
+      return empty(data?.career_id) ? {} : { value: data?.career_id, label: data?.career_name }
+    default:
+      return {}
+  }
+}
+
+const transformCareers = (careers: any) => careers.map((curricula: any) => ({
+  value: curricula?.id,
+  label: curricula?.attributes?.name,
+}))
 
 export default CurriculaForm
