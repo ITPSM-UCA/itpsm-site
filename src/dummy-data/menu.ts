@@ -1,6 +1,6 @@
 import { MdSchool } from 'react-icons/md'
 import { GiTeacher } from 'react-icons/gi'
-import { AiTwotoneSchedule } from 'react-icons/ai'
+import { AiTwotoneSchedule, AiOutlineCalendar } from 'react-icons/ai'
 
 const menu:Menu[] = [
   {
@@ -20,6 +20,12 @@ const menu:Menu[] = [
     name: 'Plan de estudios',
     redirectTo: '/dashboard/plan-de-estudios',
     icon: AiTwotoneSchedule,
+  },
+  {
+    id: 3,
+    name: 'Ciclo de estudios',
+    redirectTo: '/dashboard/ciclo-de-estudios',
+    icon: AiOutlineCalendar,
   },
   // {
   //   id: 4,
