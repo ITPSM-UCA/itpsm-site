@@ -5,13 +5,11 @@ const createCurriculum = async (data: any) => {
   let response
   try {
     const url = `${apiInstance.defaults.baseURL}/curricula`
-    const transformData = { ...data, is_active: data.is_active ? 1 : 0, is_approved: data.is_approved ? 1 : 0 }
+    const transformData = { ...data, is_active: Number(data.is_active), is_approved: Number(data.is_approved) }
 
     response = await apiInstance.post(url, transformData)
 
-    response = response.data
-
-    return response.data
+    return response.data.data
   } catch (error: any) {
     response = error.response.data
     onErrorHandler(error.response)

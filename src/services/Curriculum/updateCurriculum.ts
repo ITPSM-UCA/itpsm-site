@@ -1,18 +1,20 @@
-import axios from 'axios'
-import { API_URL } from 'config'
+import apiInstance from 'instances/apiInstance'
+import { onErrorHandler } from 'utils/alerts'
 
-interface LoginRequest {
-  email: string,
-  password: string,
-}
-
-const login = async (data: LoginRequest) => {
+const updateCurriculum = async (data: any) => {
+  let response
   try {
-    const response = await axios.post(`${API_URL}/login`, data)
+    const url = `${apiInstance.defaults.baseURL}/curricula/${data.id}`
+    const transformData = { ...data, is_active: Number(data.is_active), is_approved: Number(data.is_approved) }
+
+    response = await apiInstance.put(url, transformData)
+
     return response.data.data
   } catch (error: any) {
-    return { error: error?.response?.errors?.title ?? 'Su correo electrónico o contraseña es incorrecto. Revise e intente nuevamente.' }
+    response = error.response.data
+    onErrorHandler(error.response)
+    return response
   }
 }
 
-export default login
+export default updateCurriculum

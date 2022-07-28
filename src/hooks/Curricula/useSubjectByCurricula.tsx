@@ -1,6 +1,6 @@
 import { groupBy } from 'lodash'
 import { useState, useEffect } from 'react'
-import { deleteCurriculumSubject, getSubjectsByCurriculumId } from 'services/Curriculum'
+import { deleteCurriculumSubject, getSubjectsByCurriculumId, setSubjectToCurriculum } from 'services/Curriculum'
 
 const useSubjectByCurricula = (id:number) => {
   const [subjectsByCycles, setSubjectsByCycles] = useState([])
@@ -38,9 +38,22 @@ const useSubjectByCurricula = (id:number) => {
     setLoading(false)
   }
 
+  const setCurriculumSubject = async (dataSubject: any) => {
+    setLoading(true)
+    const response: any = await setSubjectToCurriculum(dataSubject)
+
+    if (!response.errors) {
+      const updatedSubjectByCycles = transformCurriculumSubjectData(response.curriculum_subjects)
+      setSubjectsByCycles(updatedSubjectByCycles)
+    }
+
+    setLoading(false)
+  }
+
   return {
     loading,
     subjectsByCycles,
+    setCurriculumSubject,
     removeCurriculumSubject,
   }
 }

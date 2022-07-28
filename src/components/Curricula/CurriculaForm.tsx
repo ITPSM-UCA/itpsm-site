@@ -2,21 +2,26 @@ import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import CustomInput from 'components/UI/Form/CustomInput'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Loader from 'components/UI/Loader'
 import CustomCheckbox from 'components/UI/Form/CustomCheckbox'
-import { createCurriculum } from 'services/Curriculum'
+import { createCurriculum, updateCurriculum } from 'services/Curriculum'
 import { useSelector } from 'react-redux'
 import { empty } from 'utils/helpers'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
+import { showMessage } from 'utils/alerts'
 
 interface Props {
   data: any,
   clearData: () => void,
-  toggleForm: () => void
+  toggleForm: () => void,
 }
 
-const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
+const CurriculaForm = ({
+  data,
+  clearData,
+  toggleForm,
+}: Props) => {
   const {
     register,
     handleSubmit,
@@ -39,12 +44,15 @@ const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
 
   const onCreateCurricula = async (formData: any) => {
     setLoading(true)
-    const response: any = await createCurriculum(formData)
+    const functionToExecute = !empty(formData?.id) ? updateCurriculum : createCurriculum
+    const response = await functionToExecute(formData)
 
     if (response.error) {
       setLoading(false)
       return
     }
+    const successMessage = !empty(formData?.id) ? 'Plan de estudio actualizado correctamente.' : 'Plan de estudio creado correctamente.'
+    showMessage('¡Exito!', successMessage)
 
     setLoading(false)
     toggleForm()

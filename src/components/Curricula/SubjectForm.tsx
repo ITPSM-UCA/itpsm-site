@@ -6,13 +6,13 @@ import { useState } from 'react'
 import Loader from 'components/UI/Loader'
 import { useSelector } from 'react-redux'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
-import { setSubjectToCurriculum } from 'services/Curriculum'
 
 interface Props {
   data: any,
+  onSubmit: any,
 }
 
-const SubjectForm = ({ data }: Props) => {
+const SubjectForm = ({ data, onSubmit }: Props) => {
   const {
     register,
     handleSubmit,
@@ -35,13 +35,7 @@ const SubjectForm = ({ data }: Props) => {
 
   const onSetSubjectToCurriculum = async (formData: any) => {
     setLoading(true)
-    const response: any = await setSubjectToCurriculum(formData)
-
-    if (response.error) {
-      setLoading(false)
-      return
-    }
-
+    await onSubmit(formData)
     setLoading(false)
   }
 

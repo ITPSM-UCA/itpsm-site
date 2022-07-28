@@ -8,9 +8,7 @@ const setSubjectToCurriculum = async (data: any) => {
 
     response = await apiInstance.post(url, data)
 
-    response = response.data
-
-    return response.data
+    return response.data.data
   } catch (error: any) {
     response = error.response.data
     onErrorHandler(error.response)

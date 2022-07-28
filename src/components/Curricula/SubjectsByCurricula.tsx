@@ -7,13 +7,13 @@ interface Props {
 }
 
 const SubjectsByCurricula = ({ data }: Props) => {
-  const { subjectsByCycles, removeCurriculumSubject } = useSubjectByCurricula(data.id)
+  const { subjectsByCycles, removeCurriculumSubject, setCurriculumSubject } = useSubjectByCurricula(data.id)
 
   return (
     <fieldset className="border border-gray-300 rounded-lg mt-4 p-4">
       <legend className="font-medium text-indigo-600">Materias asociadas</legend>
       {!data.is_approved && (
-        <SubjectForm data={{ ...data, curriculum_id: data.id }} />
+        <SubjectForm data={{ ...data, curriculum_id: data.id }} onSubmit={setCurriculumSubject} />
       )}
 
       {subjectsByCycles.map((cycle: any) => (
