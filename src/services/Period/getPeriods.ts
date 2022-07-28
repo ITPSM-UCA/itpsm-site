@@ -2,9 +2,9 @@ import { empty } from 'utils/helpers'
 import { onErrorHandler } from 'utils/alerts'
 import apiInstance from 'instances/apiInstance'
 
-const getCurricula = async (query:any) => {
+const getPeriods = async (query:any) => {
   try {
-    let url = `${apiInstance.defaults.baseURL}/curricula?`
+    let url = `${apiInstance.defaults.baseURL}/periods?`
     url += `page[size]=${query.pageSize}&page[number]=${query.page + 1}`
 
     if (!empty(query.search)) {
@@ -22,10 +22,10 @@ const getCurricula = async (query:any) => {
 
     const rows:any = []
 
-    response.data.data.forEach((curriculum:any) => {
+    response.data.data.forEach((period:any) => {
       rows.push({
-        id: curriculum.id,
-        ...curriculum.attributes,
+        id: period.id,
+        ...period.attributes,
       })
     })
 
@@ -37,14 +37,14 @@ const getCurricula = async (query:any) => {
   }
   catch (error:any) {
     onErrorHandler(error.response)
-    return curriculumData
+    return periodData
   }
 }
 
-const curriculumData = {
+const periodData = {
   rows: [],
   page: 1,
   records: 0,
 }
 
-export default getCurricula
+export default getPeriods
