@@ -6,17 +6,17 @@ interface Props {
   data: any
 }
 
-const SubjectsByCurricula = ({ data }:Props) => {
+const SubjectsByCurricula = ({ data }: Props) => {
   const { subjectsByCycles, removeCurriculumSubject } = useSubjectByCurricula(data.id)
 
   return (
     <fieldset className="border border-gray-300 rounded-lg mt-4 p-4">
       <legend className="font-medium text-indigo-600">Materias asociadas</legend>
       {!data.is_approved && (
-        <SubjectForm data={{}} />
+        <SubjectForm data={{ ...data, curriculum_id: data.id }} />
       )}
 
-      {subjectsByCycles.map((cycle:any) => (
+      {subjectsByCycles.map((cycle: any) => (
         <div>
           <p className="text-lg font-bold my-2">{`Ciclo ${cycle.cycle}`}</p>
           <Subjects
@@ -30,9 +30,9 @@ const SubjectsByCurricula = ({ data }:Props) => {
   )
 }
 
-const Subjects = ({ subjects, deleteCurriculumSubject, curriculumIsApproved }:any) => (
+const Subjects = ({ subjects, deleteCurriculumSubject, curriculumIsApproved }: any) => (
   <div className="grid grid-cols-5 gap-4">
-    {subjects.map((subject:any) => (
+    {subjects.map((subject: any) => (
       <div className="w-full border rounded-lg p-2">
         <div className="flex justify-between pb-2">
           <p className="text-sm text-center font-bold">{`${subject.subject_code}`}</p>
