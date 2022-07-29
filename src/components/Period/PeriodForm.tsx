@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 import { empty } from 'utils/helpers'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { periods } from 'utils/constants/Constants'
-import { createPeriod } from 'services/Period'
+import { createPeriod, updatePeriod } from 'services/Period'
 
 interface Props {
   data: any,
@@ -39,7 +39,8 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
 
   const onCreatePeriod = async (formData: any) => {
     setLoading(true)
-    const response: any = await createPeriod(formData)
+    const functionToExecute = !empty(formData?.id) ? updatePeriod : createCurriculum
+    const response = await functionToExecute(formData)
 
     if (response.error) {
       setLoading(false)

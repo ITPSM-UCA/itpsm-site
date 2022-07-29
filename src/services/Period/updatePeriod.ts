@@ -1,9 +1,9 @@
 import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
-const updatePeriod = async (id: number, data: any) => {
+const updatePeriod = async (data: any) => {
   try {
-    const url = `${apiInstance.defaults.baseURL}/periods/${id}`
+    const url = `${apiInstance.defaults.baseURL}/periods/${data?.id}`
 
     const response = await apiInstance.put(url, data)
     return response.data.data
