@@ -137,9 +137,10 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
 }
 
 const schema = yup.object().shape({
-  code: yup.number().required('Este campo es obligatorio.'),
-  year: yup.number().required('Este campo es obligatorio.').positive().integer(),
-  is_close: yup.boolean().required('Este campo es obligatorio.'),
+  schedule: yup.string().required('Este campo es obligatorio.'),
+  quota: yup.number().required('Este campo es obligatorio.').positive().integer(),
+  curriculum_subject_id: yup.number().required('Este campo es obligatorio.').positive().integer(),
+  period_id: yup.number().required('Este campo es obligatorio.').positive().integer(),
 })
 
 const getInitialValue = (field: string, data: any) => {

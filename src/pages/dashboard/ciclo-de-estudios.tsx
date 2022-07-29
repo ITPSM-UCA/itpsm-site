@@ -3,10 +3,10 @@ import type { NextPage } from 'next'
 import { useState, useRef } from 'react'
 import Layout from 'components/Layout/Layout'
 import PeriodTable from 'components/Period/PeriodTable'
-import SubjectsByCurricula from 'components/Curricula/SubjectsByCurricula'
 import { getPeriods } from 'services/Period'
 import withAuth from 'HOC/withAuth'
 import PeriodForm from 'components/Period/PeriodForm'
+import SectionsByPeriod from 'components/Period/SectionsByPeriod'
 
 const Curricula: NextPage = () => {
   const tableRef: any = useRef()
@@ -57,7 +57,7 @@ const Curricula: NextPage = () => {
               toggleForm={toggleForm}
             />
             {currentCycle?.id && (
-              <SubjectsByCurricula
+              <SectionsByPeriod
                 data={currentCycle}
               />
             )}
