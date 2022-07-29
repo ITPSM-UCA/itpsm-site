@@ -18,3 +18,5 @@ export const teachersStatus = [{ value: 'A', label: 'Activo' }, { value: 'I', la
 export const homeArea = [{ value: 0, label: 'Urbana' }, { value: 1, label: 'Rural' }]
 
 export const highSchoolTypes = [{ value: 0, label: 'Pública' }, { value: 1, label: 'Privada' }]
+
+export const periods = [{ value: 1, label: 'Ciclo 01' }, { value: 2, label: 'Ciclo 02' }, { value: 3, label: 'Ciclo 03' }]

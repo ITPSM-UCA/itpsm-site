@@ -2,16 +2,16 @@ import Head from 'next/head'
 import type { NextPage } from 'next'
 import { useState, useRef } from 'react'
 import Layout from 'components/Layout/Layout'
-import CurriculaForm from 'components/Curricula/CurriculaForm'
 import PeriodTable from 'components/Period/PeriodTable'
 import SubjectsByCurricula from 'components/Curricula/SubjectsByCurricula'
 import { getPeriods } from 'services/Period'
 import withAuth from 'HOC/withAuth'
+import PeriodForm from 'components/Period/PeriodForm'
 
 const Curricula: NextPage = () => {
   const tableRef: any = useRef()
   const [showForm, setShowForm] = useState(false)
-  const [currentCurricula, setcurrentCurricula] = useState<any>(initialData)
+  const [currentCycle, setcurrentCycle] = useState<any>(initialData)
 
   const refreshTableAction = () => {
     if (tableRef.current) {
@@ -30,7 +30,7 @@ const Curricula: NextPage = () => {
 
   const editRowAction = async (event: any, rowData: any) => {
     event.stopPropagation();
-    setcurrentCurricula(rowData)
+    setcurrentCycle(rowData)
     setShowForm(true)
   }
 
@@ -39,7 +39,7 @@ const Curricula: NextPage = () => {
   }
 
   const clearData = () => {
-    setcurrentCurricula(initialData)
+    setcurrentCycle(initialData)
   }
 
   return (
@@ -51,14 +51,14 @@ const Curricula: NextPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
         {showForm ? (
           <>
-            <CurriculaForm
+            <PeriodForm
               clearData={clearData}
-              data={currentCurricula}
+              data={currentCycle}
               toggleForm={toggleForm}
             />
-            {currentCurricula?.id && (
+            {currentCycle?.id && (
               <SubjectsByCurricula
-                data={currentCurricula}
+                data={currentCycle}
               />
             )}
           </>

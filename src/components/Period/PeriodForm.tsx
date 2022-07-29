@@ -9,6 +9,8 @@ import { createCurriculum } from 'services/Curriculum'
 import { useSelector } from 'react-redux'
 import { empty } from 'utils/helpers'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
+import { periods } from 'utils/constants/Constants'
+import { createPeriod } from 'services/Period'
 
 interface Props {
   data: any,
@@ -16,7 +18,7 @@ interface Props {
   toggleForm: () => void
 }
 
-const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
+const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
   const {
     register,
     handleSubmit,
@@ -33,13 +35,11 @@ const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
   })
 
   const { errors, isSubmitting } = formState
-  const careers = useSelector((state: any) => state.config.careers)
   const [loading, setLoading] = useState(false)
-  const careersList = transformCareers(careers)
 
-  const onCreateCurricula = async (formData: any) => {
+  const onCreatePeriod = async (formData: any) => {
     setLoading(true)
-    const response: any = await createCurriculum(formData)
+    const response: any = await createPeriod(formData)
 
     if (response.error) {
       setLoading(false)
@@ -55,7 +55,7 @@ const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
     toggleForm()
   }
 
-  let buttonText = <span>Guardar Plan de estudio</span>
+  let buttonText = <span>Guardar Ciclo de estudio</span>
 
   if (loading) {
     buttonText = (
@@ -72,10 +72,10 @@ const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
     <form
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit(onCreateCurricula)}
+      onSubmit={handleSubmit(onCreatePeriod)}
     >
       <div className="flex justify-between">
-        <h1 className="text-2xl font-semibold text-gray-900">Plan de estudio</h1>
+        <h1 className="text-2xl font-semibold text-gray-900">Ciclo de estudio</h1>
 
         <div className="flex gap-x-4">
           <button
@@ -96,28 +96,17 @@ const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
       <div>
         <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
           <legend className="font-medium text-indigo-600">Datos</legend>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="text"
-              name="name"
-              label="Nombre"
-              error={errors?.name}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="Plan 2022"
-            />
-          </div>
           <div className="w-2/4 p-2">
             <CustomCombobox
-              name="career_id"
+              name="code"
               control={control}
-              placeholder="Técnico Superior en Hostelería y Turismo"
-              label="Carrera"
-              error={errors?.career_id}
-              options={careersList}
+              placeholder="Ciclo 01-2022"
+              label="Código"
+              error={errors?.code}
+              options={periods}
               setValue={setValue}
               clearErrors={clearErrors}
-              initialValue={() => getInitialValue('career_id', data)}
+              initialValue={() => getInitialValue('code', data)}
             />
           </div>
           <div className="w-1/4 p-2">
@@ -134,16 +123,8 @@ const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
           </div>
           <div className="w-1/4 p-2 pb-3 flex items-end gap-x-10">
             <CustomCheckbox
-              name="is_active"
-              label="Activo"
-              // error={errors?.is_active}
-              disabled={isSubmitting}
-              register={register}
-            />
-            <CustomCheckbox
-              name="is_approved"
-              label="Aprobado"
-              // error={errors?.is_approved}
+              name="is_close"
+              label="Cerrado"
               disabled={isSubmitting}
               register={register}
             />
@@ -155,25 +136,18 @@ const CurriculaForm = ({ data, clearData, toggleForm }: Props) => {
 }
 
 const schema = yup.object().shape({
-  name: yup.string().required('Este campo es obligatorio.'),
-  career_id: yup.string().required('Este campo es obligatorio.'),
+  code: yup.number().required('Este campo es obligatorio.'),
   year: yup.number().required('Este campo es obligatorio.').positive().integer(),
-  is_active: yup.boolean().required('Este campo es obligatorio.'),
-  is_approved: yup.boolean().required('Este campo es obligatorio.'),
+  is_close: yup.boolean().required('Este campo es obligatorio.'),
 })
 
 const getInitialValue = (field: string, data: any) => {
   switch (field) {
-    case 'career_id':
-      return empty(data?.career_id) ? {} : { value: data?.career_id, label: data?.career_name }
+    case 'code':
+      return empty(data?.code) ? {} : { value: data?.code, label: data?.label }
     default:
       return {}
   }
 }
 
-const transformCareers = (careers: any) => careers.map((curricula: any) => ({
-  value: curricula?.id,
-  label: curricula?.attributes?.name,
-}))
-
-export default CurriculaForm
+export default PeriodForm
