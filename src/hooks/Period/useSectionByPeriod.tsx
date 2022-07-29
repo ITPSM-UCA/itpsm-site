@@ -1,7 +1,6 @@
-import { groupBy } from 'lodash'
 import { useState, useEffect } from 'react'
-import { deleteCurriculumSubject, setSubjectToCurriculum } from 'services/Curriculum'
-import { getSectionsByCycleId } from 'services/Period'
+import { deleteCurriculumSubject } from 'services/Curriculum'
+import { getSectionsByCycleId, setSubjectToPeriod } from 'services/Period'
 
 const useSectionByPeriod = (id:number) => {
   const [sectionsByCycles, setSectionsByCycles] = useState([])
@@ -22,8 +21,7 @@ const useSectionByPeriod = (id:number) => {
 
     setLoading(true)
     const response = await getSectionsByCycleId({}, customQuery)
-    const updatedSubjectByCycles = transformCurriculumSubjectData(response.rows)
-    setSectionsByCycles(updatedSubjectByCycles)
+    setSectionsByCycles(response.rows)
     setLoading(false)
   }
 
@@ -32,20 +30,18 @@ const useSectionByPeriod = (id:number) => {
     const response = await deleteCurriculumSubject(curriculumSubjectId)
 
     if (!response.errors) {
-      const updatedSubjectByCycles = transformCurriculumSubjectData(response.curriculum_subjects)
-      setSectionsByCycles(updatedSubjectByCycles)
+      setSectionsByCycles(response.curriculum_subjects)
     }
 
     setLoading(false)
   }
 
-  const setCurriculumSubject = async (dataSubject: any) => {
+  const setPeriodSubject = async (dataSubject: any) => {
     setLoading(true)
-    const response: any = await setSubjectToCurriculum(dataSubject)
+    const response: any = await setSubjectToPeriod(dataSubject)
 
     if (!response.errors) {
-      const updatedSubjectByCycles = transformCurriculumSubjectData(response.curriculum_subjects)
-      setSectionsByCycles(updatedSubjectByCycles)
+      setSectionsByCycles(response.period_sections)
     }
 
     setLoading(false)
@@ -54,23 +50,9 @@ const useSectionByPeriod = (id:number) => {
   return {
     loading,
     sectionsByCycles,
-    setCurriculumSubject,
+    setPeriodSubject,
     removeCurriculumSubject,
   }
-}
-
-const transformCurriculumSubjectData = (curriculumSubjects:any[]) => {
-  const updatedSubjectByCycles:any = []
-  const groupedSubjects = groupBy(curriculumSubjects, 'cycle')
-
-  Object.entries(groupedSubjects).forEach(([key, value]) => {
-    updatedSubjectByCycles.push({
-      cycle: key,
-      subjects: value,
-    })
-  })
-
-  return updatedSubjectByCycles
 }
 
 export default useSectionByPeriod

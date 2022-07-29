@@ -2,15 +2,14 @@ import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import CustomInput from 'components/UI/Form/CustomInput'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Loader from 'components/UI/Loader'
 import CustomCheckbox from 'components/UI/Form/CustomCheckbox'
-import { createCurriculum } from 'services/Curriculum'
-import { useSelector } from 'react-redux'
 import { empty } from 'utils/helpers'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { periods } from 'utils/constants/Constants'
 import { createPeriod, updatePeriod } from 'services/Period'
+import { showMessage } from 'utils/alerts'
 
 interface Props {
   data: any,
@@ -39,13 +38,16 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
 
   const onCreatePeriod = async (formData: any) => {
     setLoading(true)
-    const functionToExecute = !empty(formData?.id) ? updatePeriod : createCurriculum
+    const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
     const response = await functionToExecute(formData)
 
     if (response.error) {
       setLoading(false)
       return
     }
+
+    const successMessage = !empty(formData?.id) ? 'Ciclo de estudio actualizado correctamente.' : 'Ciclo de estudio creado correctamente.'
+    showMessage('¡Exito!', successMessage)
 
     setLoading(false)
     toggleForm()
@@ -137,10 +139,9 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
 }
 
 const schema = yup.object().shape({
-  schedule: yup.string().required('Este campo es obligatorio.'),
-  quota: yup.number().required('Este campo es obligatorio.').positive().integer(),
-  curriculum_subject_id: yup.number().required('Este campo es obligatorio.').positive().integer(),
-  period_id: yup.number().required('Este campo es obligatorio.').positive().integer(),
+  code: yup.number().required('Este campo es obligatorio.'),
+  year: yup.number().required('Este campo es obligatorio.').positive().integer(),
+  is_close: yup.boolean().required('Este campo es obligatorio.'),
 })
 
 const getInitialValue = (field: string, data: any) => {

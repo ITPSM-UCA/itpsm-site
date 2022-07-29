@@ -1,30 +1,29 @@
 import useSubjectByCurricula from 'hooks/Curricula/useSubjectByCurricula'
 import useSectionByPeriod from 'hooks/Period/useSectionByPeriod'
 import { IoTrashOutline } from 'react-icons/io5'
+import { useSelector } from 'react-redux'
+import SectionsForm from './SectionsForm'
 
 interface Props {
   data: any
 }
 
 const SectionsByPeriod = ({ data }: Props) => {
-  const { sectionsByCycles, removeCurriculumSubject, setCurriculumSubject } = useSectionByPeriod(data.id)
+  const { sectionsByCycles, removeCurriculumSubject, setPeriodSubject } = useSectionByPeriod(data.id)
 
   return (
     <fieldset className="border border-gray-300 rounded-lg mt-4 p-4">
       <legend className="font-medium text-indigo-600">Secciones asociadas</legend>
-      {/* {!data.is_approved && (
-        <SubjectForm data={{ ...data, period_id: data.id }} onSubmit={setCurriculumSubject} />
-      )} */}
+      {!data.is_closed && (
+        <SectionsForm data={{ ...data, period_id: data.id }} onSubmit={setPeriodSubject} />
+      )}
 
-      {sectionsByCycles.map((cycle: any) => (
-        <div>
-          <Sections
-            sections={cycle.subjects}
-            deleteCurriculumSubject={removeCurriculumSubject}
-            curriculumIsApproved={data.is_approved}
-          />
-        </div>
-      ))}
+      <Sections
+        sections={sectionsByCycles}
+        deleteCurriculumSubject={removeCurriculumSubject}
+        curriculumIsApproved={data.is_closed}
+      />
+
     </fieldset>
   )
 }

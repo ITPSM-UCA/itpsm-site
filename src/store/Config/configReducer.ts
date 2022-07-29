@@ -6,7 +6,8 @@ interface Config{
   careers: Array<any>,
   countries: Array<any>,
   subjects: Array<any>,
-  curricula: Array<any>
+  curricula: Array<any>,
+  curriculum_subjects: Array<any>
 }
 
 const INITIAL_STATE: Config = {
@@ -14,6 +15,7 @@ const INITIAL_STATE: Config = {
   countries: [],
   subjects: [],
   curricula: [],
+  curriculum_subjects: []
 }
 
 const reducer = (state = INITIAL_STATE, action: AnyAction) => {
