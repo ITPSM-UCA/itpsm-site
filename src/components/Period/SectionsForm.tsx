@@ -109,7 +109,7 @@ const SectionsForm = ({ data, onSubmit }: Props) => {
               placeholder="1"
             />
           </div>
-          <div className="w-1/4 p-2">
+          <div className="w-1/4 p-2 self-end">
             <button
               type="submit"
               className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2">
@@ -117,7 +117,7 @@ const SectionsForm = ({ data, onSubmit }: Props) => {
             </button>
           </div>
         </fieldset>
-      </div>
+      </div> 
     </form>
   )
 }

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import { deleteCurriculumSubject } from 'services/Curriculum'
-import { getSectionsByCycleId, setSubjectToPeriod } from 'services/Period'
+import { deletePeriodSubject, getSectionsByCycleId, setSubjectToPeriod } from 'services/Period'
 
 const useSectionByPeriod = (id:number) => {
   const [sectionsByCycles, setSectionsByCycles] = useState([])
@@ -25,9 +24,9 @@ const useSectionByPeriod = (id:number) => {
     setLoading(false)
   }
 
-  const removeCurriculumSubject = async (curriculumSubjectId:number) => {
+  const removePeriodSubject = async (curriculumSubjectId:string) => {
     setLoading(true)
-    const response = await deleteCurriculumSubject(curriculumSubjectId)
+    const response = await deletePeriodSubject(curriculumSubjectId)
 
     if (!response.errors) {
       setSectionsByCycles(response.curriculum_subjects)
@@ -51,7 +50,7 @@ const useSectionByPeriod = (id:number) => {
     loading,
     sectionsByCycles,
     setPeriodSubject,
-    removeCurriculumSubject,
+    removePeriodSubject,
   }
 }
 
