@@ -1,9 +1,9 @@
 import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
-const deletePeriodSubject = async (id:string) => {
+const deletePeriodSubject = async (subject:number, period: number, code: number) => {
   try {
-    const url = `${apiInstance.defaults.baseURL}/curriculum-subjects/${id}`
+    const url = `${apiInstance.defaults.baseURL}/sections/${subject}_${period}_${code}`
 
     const response = await apiInstance.delete(url)
 

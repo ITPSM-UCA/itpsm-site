@@ -97,18 +97,6 @@ const SectionsForm = ({ data, onSubmit }: Props) => {
               placeholder="25"
             />
           </div>
-          <div className="w-1/4 p-2">
-            <CustomInput
-              type="number"
-              name="code"
-              label="Codigo"
-              min="1"
-              error={errors?.code}
-              disabled={isSubmitting}
-              register={register}
-              placeholder="1"
-            />
-          </div>
           <div className="w-1/4 p-2 self-end">
             <button
               type="submit"
@@ -117,7 +105,7 @@ const SectionsForm = ({ data, onSubmit }: Props) => {
             </button>
           </div>
         </fieldset>
-      </div> 
+      </div>
     </form>
   )
 }
@@ -126,7 +114,7 @@ const schema = yup.object().shape({
   schedule: yup.string().required('Este campo es obligatorio.'),
   quota: yup.number().required('Este campo es obligatorio.').positive().integer(),
   curriculum_subject_id: yup.number().required('Este campo es obligatorio.').positive().integer(),
-  code: yup.number().required('Este campo es obligatorio.').positive().integer(),
+  code: yup.number().positive(),
   period_id: yup.number().required('Este campo es obligatorio.').positive().integer(),
 })
 

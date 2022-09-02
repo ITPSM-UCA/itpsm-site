@@ -24,12 +24,12 @@ const useSectionByPeriod = (id:number) => {
     setLoading(false)
   }
 
-  const removePeriodSubject = async (curriculumSubjectId:string) => {
+  const removePeriodSubject = async (curriculumSubjectId:number, period: number, code: number) => {
     setLoading(true)
-    const response = await deletePeriodSubject(curriculumSubjectId)
+    const response = await deletePeriodSubject(curriculumSubjectId, period, code)
 
     if (!response.errors) {
-      setSectionsByCycles(response.curriculum_subjects)
+      setSectionsByCycles(response.period_sections)
     }
 
     setLoading(false)

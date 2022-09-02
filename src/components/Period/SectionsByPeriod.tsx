@@ -51,11 +51,14 @@ const Sections = ({ sections, deleteCurriculumSubject }: any) => (
           <th scope="col" className="relative py-3.5 pl-3 text-left pr-4 sm:pr-6">
             Cupos
           </th>
-          <th scope="col" className="relative py-3.5 pl-3 text-left pr-4 sm:pr-6"/>
+          <th scope="col" className="relative py-3.5 pl-3 text-left pr-4 sm:pr-6">
+            Código
+          </th>
+          <th scope="col" className="relative py-3.5 pl-3 text-left pr-4 sm:pr-6" />
         </tr>
       </thead>
       <tbody className="divide-y divide-gray-200 bg-white">
-        {sections.map((curricula: any) => (
+        {sections?.map((curricula: any) => (
           <tr key={curricula?.code}>
             <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
               {curricula?.curriculum_label}
@@ -70,14 +73,15 @@ const Sections = ({ sections, deleteCurriculumSubject }: any) => (
             <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{curricula?.curriculum_subject_label}</td>
             <td className="px-3 py-4 text-sm text-center text-gray-500">{curricula?.schedule}</td>
             <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.quota}</td>
+            <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.code}</td>
             <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">
-            <button
-              type="button"
-              className=""
-              onClick={() => {}}
-            >
-              <IoTrashOutline className="h-5 w-5 text-red-500" />
-            </button>
+              <button
+                type="button"
+                className=""
+                onClick={() => deleteCurriculumSubject(curricula.curriculum_subject_id, curricula.period_id, curricula.code)}
+              >
+                <IoTrashOutline className="h-5 w-5 text-red-500" />
+              </button>
             </td>
 
           </tr>
