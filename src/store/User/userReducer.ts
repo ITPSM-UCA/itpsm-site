@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   token: null,
   tokenType: null,
   expires_at: null,
+  platform_menus: [],
   userInformation: {},
 }
 
@@ -17,6 +18,7 @@ const authSuccess = (state:any, { payload }:any) => ({
   tokenType: payload.token_type,
   expires_at: payload.expires_at,
   userInformation: payload.attributes,
+  platform_menus: payload.platform_menus,
 })
 
 const logout = () => (INITIAL_STATE)

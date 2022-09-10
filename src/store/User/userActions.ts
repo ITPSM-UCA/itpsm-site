@@ -8,7 +8,7 @@ export const LOGOUT = 'LOGOUT'
 
 export const authSuccess = (userInfo:any) => {
   localStorage.setItem('appState', JSON.stringify(userInfo))
-
+  console.log(userInfo)
   return {
     type: AUTH_SUCCESS,
     payload: {

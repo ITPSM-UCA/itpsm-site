@@ -27,6 +27,12 @@ const menu:Menu[] = [
     redirectTo: '/dashboard/ciclo-de-estudios',
     icon: AiOutlineCalendar,
   },
+  {
+    id: 3,
+    name: 'Inscripción de materias',
+    redirectTo: '/dashboard/inscripcion-de-materias',
+    icon: AiOutlineCalendar,
+  },
   // {
   //   id: 4,
   //   name: 'Ciclos',

@@ -1,4 +1,9 @@
 import { useRouter } from 'next/router'
+import { MdSchool } from 'react-icons/md'
+import { GiTeacher } from 'react-icons/gi'
+import { HiOutlineUsers } from 'react-icons/hi'
+import { AiTwotoneSchedule, AiOutlineCalendar } from 'react-icons/ai'
+
 import MenuItem from './MenuItem'
 import UserInfo from '../User/UserInfo'
 
@@ -26,7 +31,7 @@ const SideMenu = ({ menu }:Props) => {
                 key={item.id}
                 label={item.name}
                 redirectTo={item.redirectTo}
-                Icon={item.icon}
+                Icon={getIcon(item.icon)}
                 isActive={item.redirectTo === router.pathname}
               />
             ))}
@@ -38,6 +43,23 @@ const SideMenu = ({ menu }:Props) => {
       </div>
     </div>
   )
+}
+
+const getIcon = (icon:string) => {
+  switch (icon) {
+    case 'MdSchool':
+      return MdSchool
+    case 'GiTeacher':
+      return GiTeacher
+    case 'AiTwotoneSchedule':
+      return AiTwotoneSchedule
+    case 'AiOutlineCalendar':
+      return AiOutlineCalendar
+    case 'HiOutlineUsers':
+      return HiOutlineUsers
+    default:
+      return MdSchool
+  }
 }
 
 export default SideMenu
