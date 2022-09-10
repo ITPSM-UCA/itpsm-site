@@ -11,7 +11,7 @@ import { authCheckState } from 'store/User/userActions'
 import { getInitialConfig } from 'store/Config/configActions'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const store = useStore(pageProps.initialReduxState)
+  const store = useStore(undefined)
 
   useEffect(() => {
     store.dispatch(authCheckState())
