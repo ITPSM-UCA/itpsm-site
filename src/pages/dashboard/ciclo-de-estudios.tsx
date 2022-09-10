@@ -84,15 +84,20 @@ const columns = [
   { title: 'Año', field: 'year' },
   {
     title: 'Estado',
-    field: 'is_active',
-    lookup: { 1: 'Activo', 0: 'Desactivado' },
+    field: 'status',
+    lookup: {
+      A: 'En curso',
+      E: 'En edición',
+      C: 'Cerrado',
+      I: 'En inscripción',
+    },
   },
 ]
 
 const initialData = {
   code: '',
   year: new Date().getFullYear(),
-  is_active: 1,
+  status: 'E',
 }
 
 export default withAuth(Curricula)

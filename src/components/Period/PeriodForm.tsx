@@ -124,14 +124,14 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
               placeholder="2022"
             />
           </div>
-          <div className="w-1/4 p-2 pb-3 flex items-end gap-x-10">
+          {/* <div className="w-1/4 p-2 pb-3 flex items-end gap-x-10">
             <CustomCheckbox
               name="is_close"
               label="Cerrado"
               disabled={isSubmitting}
               register={register}
             />
-          </div>
+          </div> */}
         </fieldset>
       </div>
     </form>
@@ -141,7 +141,7 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
 const schema = yup.object().shape({
   code: yup.number().required('Este campo es obligatorio.'),
   year: yup.number().required('Este campo es obligatorio.').positive().integer(),
-  is_close: yup.boolean().required('Este campo es obligatorio.'),
+  status: yup.boolean().required('Este campo es obligatorio.'),
 })
 
 const getInitialValue = (field: string, data: any) => {
