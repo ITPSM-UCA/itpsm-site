@@ -156,7 +156,10 @@ const CurriculaRegistration = ({ data }: any) => {
                   scope="col"
                   className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
                 >
-                  Año de graduación
+                  Año esperado de graduación
+                </th>
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  Nivel
                 </th>
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Cum
@@ -174,14 +177,15 @@ const CurriculaRegistration = ({ data }: any) => {
                     <dl className="font-normal lg:hidden">
                       <dt className="sr-only">Año de entrada</dt>
                       <dd className="mt-1 truncate text-gray-700">{curricula?.attributes?.entry_year}</dd>
-                      <dt className="sr-only sm:hidden">Año de graduación</dt>
+                      <dt className="sr-only sm:hidden">Año esperado de graduación</dt>
                       <dd className="mt-1 truncate text-gray-500 sm:hidden">{curricula?.attributes?.graduation_year}</dd>
                     </dl>
                   </td>
                   <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{curricula?.attributes?.entry_year}</td>
                   <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{curricula?.attributes?.graduation_year}</td>
+                  <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{curricula?.attributes?.level}</td>
                   <td className="px-3 py-4 text-sm text-center text-gray-500">{curricula?.attributes?.cum.toFixed(2)}</td>
-                  <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.attributes?.curricula_is_active ? 'Activo' : 'Inactivo'}</td>
+                  <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{getStatus(curricula?.attributes?.status)}</td>
                 </tr>
               ))}
             </tbody>
@@ -201,5 +205,18 @@ const schema = yup.object().shape({
   curriculum_id: yup.number().required('Este campo es obligatorio').typeError('El campo debe de ser numérico y es obligatorio'),
   cum: yup.number().typeError('El campo debe de ser numerico'),
 })
+
+const getStatus = (status:string) => {
+  switch (status) {
+    case 'A':
+      return 'Activo'
+    case 'G':
+      return 'Graduado'
+    case 'D':
+      return 'Desertado'
+    default:
+      return 'Activo'
+  }
+}
 
 export default CurriculaRegistration
