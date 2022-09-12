@@ -4,10 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import CustomInput from 'components/UI/Form/CustomInput'
 import { useState } from 'react'
 import Loader from 'components/UI/Loader'
-import CustomCheckbox from 'components/UI/Form/CustomCheckbox'
 import { empty } from 'utils/helpers'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
-import { periods } from 'utils/constants/Constants'
+import { periods, periodStatus, PERIOD_STATUS_LABEL } from 'utils/constants/Constants'
 import { createPeriod, updatePeriod } from 'services/Period'
 import { showMessage } from 'utils/alerts'
 
@@ -84,7 +83,8 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
           <button
             type="button"
             onClick={onCloseForm}
-            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
+            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+          >
             Atras
           </button>
 
@@ -124,14 +124,19 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
               placeholder="2022"
             />
           </div>
-          {/* <div className="w-1/4 p-2 pb-3 flex items-end gap-x-10">
-            <CustomCheckbox
-              name="is_close"
-              label="Cerrado"
-              disabled={isSubmitting}
-              register={register}
+          <div className="w-1/4 p-2">
+            <CustomCombobox
+              name="status"
+              control={control}
+              placeholder="En edición"
+              label="Estado"
+              error={errors?.status}
+              options={periodStatus}
+              setValue={setValue}
+              clearErrors={clearErrors}
+              initialValue={() => getInitialValue('status', data)}
             />
-          </div> */}
+          </div>
         </fieldset>
       </div>
     </form>
@@ -141,13 +146,15 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
 const schema = yup.object().shape({
   code: yup.number().required('Este campo es obligatorio.'),
   year: yup.number().required('Este campo es obligatorio.').positive().integer(),
-  status: yup.boolean().required('Este campo es obligatorio.'),
+  status: yup.string().required('Este campo es obligatorio.'),
 })
 
 const getInitialValue = (field: string, data: any) => {
   switch (field) {
     case 'code':
       return empty(data?.code) ? {} : { value: data?.code, label: data?.label }
+    case 'status':
+      return empty(data?.status) ? {} : { value: data?.status, label: PERIOD_STATUS_LABEL[data?.status] }
     default:
       return {}
   }

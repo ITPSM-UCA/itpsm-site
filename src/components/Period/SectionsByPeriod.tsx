@@ -12,7 +12,7 @@ const SectionsByPeriod = ({ data }: Props) => {
   return (
     <fieldset className="border border-gray-300 rounded-lg mt-4 p-4">
       <legend className="font-medium text-indigo-600">Secciones asociadas</legend>
-      {!data.is_closed && (
+      {data.status === 'E' && (
         <SectionsForm data={{ ...data, period_id: data.id }} onSubmit={setPeriodSubject} />
       )}
 
