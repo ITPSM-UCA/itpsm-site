@@ -8,24 +8,26 @@ interface Props {
 
 const SectionsByPeriod = ({ data }: Props) => {
   const { sectionsByCycles, removePeriodSubject, setPeriodSubject } = useSectionByPeriod(data.id)
+  const isPeriodInEdition = data.status === 'E'
 
   return (
     <fieldset className="border border-gray-300 rounded-lg mt-4 p-4">
       <legend className="font-medium text-indigo-600">Secciones asociadas</legend>
-      {data.status === 'E' && (
+      {isPeriodInEdition && (
         <SectionsForm data={{ ...data, period_id: data.id }} onSubmit={setPeriodSubject} />
       )}
 
       <Sections
         sections={sectionsByCycles}
         deleteCurriculumSubject={removePeriodSubject}
+        isEdition={isPeriodInEdition}
       />
 
     </fieldset>
   )
 }
 
-const Sections = ({ sections, deleteCurriculumSubject }: any) => (
+const Sections = ({ sections, deleteCurriculumSubject, isEdition }: any) => (
   <div className="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
     <table className="min-w-full divide-y divide-gray-300">
       <thead className="bg-gray-50">
@@ -54,7 +56,7 @@ const Sections = ({ sections, deleteCurriculumSubject }: any) => (
           <th scope="col" className="relative py-3.5 pl-3 text-left pr-4 sm:pr-6">
             Código
           </th>
-          <th scope="col" className="relative py-3.5 pl-3 text-left pr-4 sm:pr-6" />
+          {isEdition && <th scope="col" className="relative py-3.5 pl-3 text-left pr-4 sm:pr-6" />}
         </tr>
       </thead>
       <tbody className="divide-y divide-gray-200 bg-white">
@@ -74,16 +76,17 @@ const Sections = ({ sections, deleteCurriculumSubject }: any) => (
             <td className="px-3 py-4 text-sm text-center text-gray-500">{curricula?.schedule}</td>
             <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.quota}</td>
             <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.code}</td>
-            <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">
-              <button
-                type="button"
-                className=""
-                onClick={() => deleteCurriculumSubject(curricula.curriculum_subject_id, curricula.period_id, curricula.code)}
-              >
-                <IoTrashOutline className="h-5 w-5 text-red-500" />
-              </button>
-            </td>
-
+            {isEdition && (
+              <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">
+                <button
+                  type="button"
+                  className=""
+                  onClick={() => deleteCurriculumSubject(curricula.curriculum_subject_id, curricula.period_id, curricula.code)}
+                >
+                  <IoTrashOutline className="h-5 w-5 text-red-500" />
+                </button>
+              </td>
+            )}
           </tr>
         ))}
       </tbody>
