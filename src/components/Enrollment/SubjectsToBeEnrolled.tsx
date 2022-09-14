@@ -1,39 +1,39 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 
-const curriculumSubjects = [
-  {
-    code: 1,
-    curriculum_subject_label: 'Legislación Normativa y Trámites Legales',
-    curriculum_label: 'Plan 2019-2020 de la carrera Técnico en Ingeniería de Construcción',
-    career_label: 'Técnico en Ingeniería de Construcción',
-    curriculum_subject_uv: 2,
-    curriculum_subject_level: 1,
-    schedule: 'horario',
-  },
-  {
-    code: 2,
-    curriculum_subject_label: 'Ingles tecnico',
-    curriculum_label: 'Plan 2019-2020 de la carrera Técnico en Ingeniería de Construcción',
-    career_label: 'Técnico en Ingeniería de Construcción',
-    curriculum_subject_uv: 4,
-    curriculum_subject_level: 1,
-    schedule: 'horario',
-  },
-]
+// const subjects1 = [
+//   {
+//     code: 1,
+//     curriculum_subject_label: 'Legislación Normativa y Trámites Legales',
+//     curriculum_label: 'Plan 2019-2020 de la carrera Técnico en Ingeniería de Construcción',
+//     career_label: 'Técnico en Ingeniería de Construcción',
+//     curriculum_subject_uv: 2,
+//     curriculum_subject_level: 1,
+//     schedule: 'horario',
+//   },
+//   {
+//     code: 2,
+//     curriculum_subject_label: 'Ingles tecnico',
+//     curriculum_label: 'Plan 2019-2020 de la carrera Técnico en Ingeniería de Construcción',
+//     career_label: 'Técnico en Ingeniería de Construcción',
+//     curriculum_subject_uv: 4,
+//     curriculum_subject_level: 1,
+//     schedule: 'horario',
+//   },
+// ]
 
 function classNames(...classes:any[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-const SubjectToBeEnrolled = () => {
+const SubjectToBeEnrolled = ({ subjects }:any) => {
   const checkbox = useRef<any>()
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
   const [selectedSubjects, setselectedSubjects] = useState<any[]>([])
 
   useLayoutEffect(() => {
-    const isIndeterminate = selectedSubjects.length > 0 && selectedSubjects.length < curriculumSubjects.length
-    setChecked(selectedSubjects.length === curriculumSubjects.length)
+    const isIndeterminate = selectedSubjects.length > 0 && selectedSubjects.length < subjects.length
+    setChecked(selectedSubjects.length === subjects.length)
     setIndeterminate(isIndeterminate)
 
     if (checkbox.current) {
@@ -42,7 +42,7 @@ const SubjectToBeEnrolled = () => {
   }, [selectedSubjects])
 
   const toggleAll = () => {
-    setselectedSubjects(checked || indeterminate ? [] : curriculumSubjects)
+    setselectedSubjects(checked || indeterminate ? [] : subjects)
     setChecked(!checked && !indeterminate)
     setIndeterminate(false)
   }
@@ -110,7 +110,7 @@ const SubjectToBeEnrolled = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {curriculumSubjects.map((subject) => (
+                {subjects.map((subject) => (
                   <tr
                     key={subject.curriculum_subject_label}
                     className={

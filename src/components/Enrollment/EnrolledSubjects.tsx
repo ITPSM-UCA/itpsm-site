@@ -1,26 +1,26 @@
-/* This example requires Tailwind CSS v2.0+ */
-const curriculumSubjects = [
-  {
-    code: 1,
-    curriculum_subject_label: 'Legislación Normativa y Trámites Legales',
-    curriculum_label: 'Plan 2019-2020 de la carrera Técnico en Ingeniería de Construcción',
-    career_label: 'Técnico en Ingeniería de Construcción',
-    curriculum_subject_uv: 2,
-    curriculum_subject_level: 1,
-    schedule: 'horario',
-  },
-  {
-    code: 2,
-    curriculum_subject_label: 'Ingles tecnico',
-    curriculum_label: 'Plan 2019-2020 de la carrera Técnico en Ingeniería de Construcción',
-    career_label: 'Técnico en Ingeniería de Construcción',
-    curriculum_subject_uv: 4,
-    curriculum_subject_level: 1,
-    schedule: 'horario',
-  },
-]
+// /* This example requires Tailwind CSS v2.0+ */
+// const subjects1 = [
+//   {
+//     code: 1,
+//     curriculum_subject_label: 'Legislación Normativa y Trámites Legales',
+//     curriculum_label: 'Plan 2019-2020 de la carrera Técnico en Ingeniería de Construcción',
+//     career_label: 'Técnico en Ingeniería de Construcción',
+//     curriculum_subject_uv: 2,
+//     curriculum_subject_level: 1,
+//     schedule: 'horario',
+//   },
+//   {
+//     code: 2,
+//     curriculum_subject_label: 'Ingles tecnico',
+//     curriculum_label: 'Plan 2019-2020 de la carrera Técnico en Ingeniería de Construcción',
+//     career_label: 'Técnico en Ingeniería de Construcción',
+//     curriculum_subject_uv: 4,
+//     curriculum_subject_level: 1,
+//     schedule: 'horario',
+//   },
+// ]
 
-const EnrolledSubjects = () => (
+const EnrolledSubjects = ({ subjects }:any) => (
   <fieldset className="border border-gray-300 rounded-lg mt-4 p-4">
     <legend className="font-medium text-indigo-600">Materias inscritas:</legend>
     <div className="flex flex-col">
@@ -32,28 +32,32 @@ const EnrolledSubjects = () => (
                 <tr>
                   <th
                     scope="col"
-                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                  >
                     Materia
                   </th>
                   <th
                     scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
                     UV
                   </th>
                   <th
                     scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
                     Horario
                   </th>
                   <th
                     scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Nivel
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
+                    Matricula
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {curriculumSubjects.map((subject, personIdx) => (
+                {subjects.map((subject:any, personIdx:number) => (
                   <tr
                     key={subject.curriculum_subject_label}
                     className={
@@ -70,7 +74,7 @@ const EnrolledSubjects = () => (
                       {subject.schedule}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {subject.curriculum_subject_level}
+                      {subject.enrollment}
                     </td>
                   </tr>
                 ))}
