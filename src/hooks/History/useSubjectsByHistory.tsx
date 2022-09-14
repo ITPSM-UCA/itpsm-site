@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { getApprovedSujects } from 'services/History'
 
 const useSubjectsByHistory = () => {
-  const [subjectsByCycles, setSubjectsByCycles] = useState([])
+  const [subjectsByCycles, setSubjectsByCycles] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {

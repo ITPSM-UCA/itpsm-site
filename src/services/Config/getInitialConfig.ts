@@ -11,7 +11,7 @@ const getConfigurations = async () => {
 
     return response.data
   } catch (error:any) {
-    response = error.response.data
+    response = error.response?.data
     return response
   }
 }
