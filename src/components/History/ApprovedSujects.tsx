@@ -17,7 +17,7 @@ const Subjects = ({ subjects }: any) => (
     <table className="min-w-full divide-y divide-gray-300">
       <thead className="bg-gray-50">
         <tr>
-          <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">
+          <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
             Modulo
           </th>
           <th
