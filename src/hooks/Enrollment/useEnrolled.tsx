@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
-import { getActiveSubjects, getEnrolledSubjects } from 'services/Enrollment'
+import { enrollSubjects, getActiveSubjects, getEnrolledSubjects } from 'services/Enrollment'
+import { showMessage } from 'utils/alerts'
+import { empty } from 'utils/helpers'
 
 const useEnrolled = () => {
   const [errors, setErrors] = useState(null)
@@ -25,6 +27,16 @@ const useEnrolled = () => {
     setLoading(false)
   }
 
+  const enrolledSubject = async (subjects:any) => {
+    const response = await enrollSubjects(subjects)
+
+    if (!empty(response.notEnrolled)) {
+      showMessage('Oops!', 'Algunas materias no fueron inscritas', 'error')
+    }
+
+    getData()
+  }
+
   useEffect(() => {
     getData()
   }, [])
@@ -32,6 +44,7 @@ const useEnrolled = () => {
   return {
     errors,
     loading,
+    enrolledSubject,
     activeSubjects,
     enrolledSubjects,
   }

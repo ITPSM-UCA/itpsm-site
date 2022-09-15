@@ -8,7 +8,7 @@ import useEnrolled from 'hooks/Enrollment/useEnrolled'
 
 const Enrollment: NextPage = () => {
   const {
-    activeSubjects, enrolledSubjects, loading, errors,
+    activeSubjects, enrolledSubjects, loading, errors, enrolledSubject,
   } = useEnrolled()
 
   if (loading) {
@@ -49,7 +49,7 @@ const Enrollment: NextPage = () => {
       </Head>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
         <h1 className="text-lg font-bold">Inscripcion de materias</h1>
-        <SubjectToBeEnrolled subjects={activeSubjects} />
+        <SubjectToBeEnrolled subjects={activeSubjects} onSubmit={enrolledSubject} />
         <EnrolledSubjects subjects={enrolledSubjects} />
       </div>
     </Layout>

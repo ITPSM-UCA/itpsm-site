@@ -25,7 +25,7 @@ function classNames(...classes:any[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-const SubjectToBeEnrolled = ({ subjects }:any) => {
+const SubjectToBeEnrolled = ({ subjects, onSubmit }:any) => {
   const checkbox = useRef<any>()
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
@@ -47,10 +47,6 @@ const SubjectToBeEnrolled = ({ subjects }:any) => {
     setIndeterminate(false)
   }
 
-  const enrollment = () => {
-    console.log(selectedSubjects)
-  }
-
   return (
     <fieldset className="border border-gray-300 rounded-lg mt-4 p-4">
       <legend className="font-medium text-indigo-600">Materias disponibles:</legend>
@@ -61,7 +57,7 @@ const SubjectToBeEnrolled = ({ subjects }:any) => {
               <div className="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
                 <button
                   type="button"
-                  onClick={enrollment}
+                  onClick={() => onSubmit(selectedSubjects)}
                   className="inline-flex items-center rounded border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
                 >
                   Inscribir
@@ -110,7 +106,7 @@ const SubjectToBeEnrolled = ({ subjects }:any) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {subjects.map((subject) => (
+                {subjects.map((subject:any) => (
                   <tr
                     key={subject.curriculum_subject_label}
                     className={
