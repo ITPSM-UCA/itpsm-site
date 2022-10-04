@@ -4,7 +4,7 @@ import updateCurriculum from './updateCurriculum'
 import getSubjectsByCurriculumId from './getSubjectsByCurriculumId'
 import deleteCurriculumSubject from './deleteCurriculumSubject'
 import setSubjectToCurriculum from './setSubjectToCurriculum'
-
+import createCareer from './createCareer'
 export {
   getCurricula,
   createCurriculum,
@@ -12,4 +12,5 @@ export {
   deleteCurriculumSubject,
   getSubjectsByCurriculumId,
   setSubjectToCurriculum,
+  createCareer,
 }
