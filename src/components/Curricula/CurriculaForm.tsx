@@ -84,7 +84,7 @@ const CurriculaForm = ({
     <>
       {showFormcareer ? (
         <CareersForm
-            data={}
+
             clearData={clearData}
             toggleForm={toggleFormcareer}
           />

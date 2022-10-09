@@ -9,13 +9,13 @@ import { empty } from 'utils/helpers'
 import { showMessage } from 'utils/alerts'
 
 interface Props {
-  data: any,
+
   clearData: () => void,
   toggleForm: () => void,
 }
 
 const CareersForm = ({
-  data,
+
   clearData,
   toggleForm,
 }: Props) => {
@@ -26,7 +26,7 @@ const CareersForm = ({
 
   } = useForm({
     mode: 'onBlur',
-    defaultValues: data,
+    defaultValues: undefined,
     resolver: yupResolver(schema),
   })
 
