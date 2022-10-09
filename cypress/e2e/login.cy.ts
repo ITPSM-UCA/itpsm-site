@@ -22,3 +22,5 @@ describe('Login Page', () => {
     cy.get('h4').should('contain', 'Bienvenido')
   })
 })
+
+export {};
