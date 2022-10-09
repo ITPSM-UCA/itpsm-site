@@ -38,7 +38,7 @@ const CareersForm = ({
     setLoading(true)
     const functionToExecute = !empty(formData?.id) ? updateCurriculum : createCareer
     const response = await functionToExecute(formData)
-  console.log(response)
+
     if (response.error) {
       setLoading(false)
       return

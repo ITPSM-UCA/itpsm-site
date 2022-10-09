@@ -83,7 +83,8 @@ const CurriculaForm = ({
   return (
     <>
       {showFormcareer ? (
-          <CareersForm
+        <CareersForm
+            data={}
             clearData={clearData}
             toggleForm={toggleFormcareer}
           />
