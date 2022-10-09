@@ -107,7 +107,7 @@ const UserForm = ({ data, clearData, toggleForm }: Props) => {
               error={errors?.name}
               disabled={isSubmitting}
               register={register}
-              placeholder="Álvaro"
+              placeholder="Álvaro Ortiz"
               required
             />
           </div>
@@ -120,6 +120,18 @@ const UserForm = ({ data, clearData, toggleForm }: Props) => {
               disabled={isSubmitting}
               register={register}
               placeholder="alvaro@gmail.com"
+              required
+            />
+          </div>
+          <div className="w-1/4 p-2">
+            <CustomInput
+              type="password"
+              name="password"
+              label="Contraseña"
+              error={errors?.email}
+              disabled={isSubmitting}
+              register={register}
+              placeholder="********"
               required
             />
           </div>

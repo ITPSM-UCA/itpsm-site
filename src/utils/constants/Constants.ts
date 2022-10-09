@@ -21,7 +21,7 @@ export const highSchoolTypes = [{ value: 0, label: 'Pública' }, { value: 1, lab
 
 export const periods = [{ value: 1, label: 'Ciclo 01' }, { value: 2, label: 'Ciclo 02' }, { value: 3, label: 'Ciclo 03' }]
 
-export const periodStatus = [{ value: 'A', label: 'En curso' }, { value: 'E', label: 'En edición' }, { value: 'C', label: 'Cerrado' }, { value: 'I', label: 'En inscripción' }]
+export const periodStatus = [{ value: 'A', label: 'En curso' }, { value: 'E', label: 'En edición' }, { value: 'I', label: 'En inscripción' }]
 
 export const PERIOD_STATUS_LABEL: any = {
   A: 'En curso',

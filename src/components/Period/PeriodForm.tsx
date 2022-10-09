@@ -17,6 +17,7 @@ interface Props {
 }
 
 const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
+
   const {
     register,
     handleSubmit,
@@ -125,17 +126,22 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
             />
           </div>
           <div className="w-1/4 p-2">
-            <CustomCombobox
-              name="status"
-              control={control}
-              placeholder="En edición"
-              label="Estado"
-              error={errors?.status}
-              options={periodStatus}
-              setValue={setValue}
-              clearErrors={clearErrors}
-              initialValue={() => getInitialValue('status', data)}
-            />
+            { data.status !== 'C' && (
+              <CustomCombobox
+                name="status"
+                control={control}
+                placeholder="En edición"
+                label="Estado"
+                error={errors?.status}
+                options={periodStatus}
+                setValue={setValue}
+                clearErrors={clearErrors}
+                initialValue={() => getInitialValue('status', data)}
+              />
+            )}
+            { data.status === 'C'
+            && <div style={{marginTop:'4vh'}}>Estado: <span style={{color:'red'}}>Cerrado</span> </div>
+            }
           </div>
         </fieldset>
       </div>
