@@ -35,9 +35,16 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
 
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
+  const [cancelation, setcancelation] = useState(false)
 
   const onCreatePeriod = async (formData: any) => {
     setLoading(true)
+    console.log(formData)
+    if(cancelation){
+
+      formData={...formData,status:"C"}
+    }
+    console.log(formData)
     const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
     const response = await functionToExecute(formData)
 
@@ -127,6 +134,7 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
           </div>
           <div className="w-1/4 p-2">
             { data.status !== 'C' && (
+              <>
               <CustomCombobox
                 name="status"
                 control={control}
@@ -138,6 +146,14 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
                 clearErrors={clearErrors}
                 initialValue={() => getInitialValue('status', data)}
               />
+
+                <button
+                  onClick={() => setcancelation(true)}
+                  type="submit"
+                  className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-900 focus:outline-none gap-x-2">
+                 Cerrar Ciclo
+                </button>
+              </>
             )}
             { data.status === 'C'
             && <div style={{marginTop:'4vh'}}>Estado: <span style={{color:'red'}}>Cerrado</span> </div>

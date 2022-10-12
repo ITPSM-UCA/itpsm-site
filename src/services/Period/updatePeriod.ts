@@ -3,6 +3,7 @@ import { onErrorHandler } from 'utils/alerts'
 
 const updatePeriod = async (data: any) => {
   try {
+
     const url = `${apiInstance.defaults.baseURL}/periods/${data?.id}`
 
     const response = await apiInstance.put(url, data)

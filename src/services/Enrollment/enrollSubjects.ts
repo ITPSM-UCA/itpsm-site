@@ -3,11 +3,13 @@ import { onErrorHandler } from 'utils/alerts'
 
 const enrollSubjects = async (subjects:any) => {
   try {
+    console.log(subjects)
     const data = {
       subjects: subjects.map((item:any) => ({
         curriculum_subject_id: item.curriculum_subject_id,
         period_id: item.period_id,
         code: item.code,
+        id_schedule:item.id_schedule
       })),
     }
     const response = await apiInstance.post('/enrollment/enroll-subjects', data)

@@ -19,7 +19,7 @@
 //     schedule: 'horario',
 //   },
 // ]
-
+const days=['Lunes','Martes','Miercoles','Jueves','Viernes']
 const EnrolledSubjects = ({ subjects }:any) => (
   <fieldset className="border border-gray-300 rounded-lg mt-4 p-4">
     <legend className="font-medium text-indigo-600">Materias inscritas:</legend>
@@ -71,7 +71,7 @@ const EnrolledSubjects = ({ subjects }:any) => (
                       {subject.curriculum_subject_uv}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {subject.schedule}
+                      {days[subject?.day]} {subject.horario}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {subject.enrollment}
