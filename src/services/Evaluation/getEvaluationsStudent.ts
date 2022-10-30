@@ -1,13 +1,12 @@
 import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
-const createPeriod = async (data: any) => {
+const getSubjects = async (data: any) => {
   try {
-    const url = `${apiInstance.defaults.baseURL}/periods`
+    const url = `${apiInstance.defaults.baseURL}/evaluations/student/${data}`
 
-    const response = await apiInstance.post(url, data)
-
-    return response.data.data
+    const response = await apiInstance.get(url, data)
+    return response.data.data.attributes
   }
   catch (error:any) {
     onErrorHandler(error.response)
@@ -17,4 +16,4 @@ const createPeriod = async (data: any) => {
   }
 }
 
-export default createPeriod
+export default getSubjects

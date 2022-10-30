@@ -143,7 +143,7 @@ const SubjectToBeEnrolled = ({ subjects, onSubmit }:any) => {
                       {subject.curriculum_subject_uv}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {days[subject?.day]} {subject.horario}
+                      {days[subject?.day-1]} {subject.horario}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {subject.curriculum_subject_level}

@@ -32,32 +32,49 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
     defaultValues: data,
     resolver: yupResolver(schema),
   })
-
+ 
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
   const [cancelation, setcancelation] = useState(false)
 
   const onCreatePeriod = async (formData: any) => {
     setLoading(true)
-    console.log(formData)
-    if(cancelation){
+    
+    if(cancelation && confirm("Desea cerrar el ciclo?")){
 
       formData={...formData,status:"C"}
-    }
-    console.log(formData)
-    const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
-    const response = await functionToExecute(formData)
-
-    if (response.error) {
+      const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
+      const response = await functionToExecute(formData)
+      
+    if (response.errors) {
       setLoading(false)
-      return
+      
+    }else{
+      const successMessage = !empty(formData?.id) ? 'Ciclo de estudio actualizado correctamente.' : 'Ciclo de estudio creado correctamente.'
+      showMessage('¡Exito!', successMessage)
+      toggleForm()
     }
-
+    }
+   else if(!cancelation){
+    const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
+   const response = await functionToExecute(formData)
+   
+   if (response.errors) {
+    setLoading(false)
+    
+  }else{
     const successMessage = !empty(formData?.id) ? 'Ciclo de estudio actualizado correctamente.' : 'Ciclo de estudio creado correctamente.'
     showMessage('¡Exito!', successMessage)
+    toggleForm()
+  }
+   }
+
+
+
+    
 
     setLoading(false)
-    toggleForm()
+    
   }
 
   const onCloseForm = () => {
@@ -95,7 +112,15 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
           >
             Atras
           </button>
-
+          { data?.id &&
+            <button
+                  onClick={() => setcancelation(true)}
+                  type="submit"
+                  className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-900 focus:outline-none gap-x-2">
+                 Cerrar Ciclo
+                </button>
+          }
+          
           <button
             type="submit"
             className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2">
@@ -147,12 +172,7 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
                 initialValue={() => getInitialValue('status', data)}
               />
 
-                <button
-                  onClick={() => setcancelation(true)}
-                  type="submit"
-                  className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-900 focus:outline-none gap-x-2">
-                 Cerrar Ciclo
-                </button>
+               
               </>
             )}
             { data.status === 'C'

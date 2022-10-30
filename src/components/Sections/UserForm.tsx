@@ -7,7 +7,7 @@ import Loader from 'components/UI/Loader'
 import { empty } from 'utils/helpers'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { periods, periodStatus, PERIOD_STATUS_LABEL } from 'utils/constants/Constants'
-import { createUser, updatePeriod } from 'services/User'
+import { createPeriod, updatePeriod } from 'services/Period'
 import { showMessage } from 'utils/alerts'
 
 interface Props {
@@ -35,9 +35,9 @@ const UserForm = ({ data, clearData, toggleForm }: Props) => {
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
 
-  const onCreateUser = async (formData: any) => {
+  const onCreatePeriod = async (formData: any) => {
     setLoading(true)
-    const functionToExecute = !empty(formData?.id) ? updatePeriod : createUser
+    const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
     const response = await functionToExecute(formData)
 
     if (response.error) {
@@ -45,7 +45,7 @@ const UserForm = ({ data, clearData, toggleForm }: Props) => {
       return
     }
 
-    const successMessage = !empty(formData?.id) ? 'Usuario actualizado correctamente.' : 'Usuario creado correctamente.'
+    const successMessage = !empty(formData?.id) ? 'Ciclo de estudio actualizado correctamente.' : 'Ciclo de estudio creado correctamente.'
     showMessage('¡Exito!', successMessage)
 
     setLoading(false)
@@ -74,7 +74,7 @@ const UserForm = ({ data, clearData, toggleForm }: Props) => {
     <form
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit(onCreateUser)}
+      onSubmit={handleSubmit(onCreatePeriod)}
     >
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">Usuario</h1>

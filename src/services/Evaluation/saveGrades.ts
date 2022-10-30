@@ -1,12 +1,13 @@
 import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
-const createPeriod = async (data: any) => {
+const saveGrades = async (grades:any) => {
   try {
-    const url = `${apiInstance.defaults.baseURL}/periods`
-
-    const response = await apiInstance.post(url, data)
-
+ 
+    const data = {
+      grades: grades,
+    }
+    const response = await apiInstance.post('score/insertGrades', data)
     return response.data.data
   }
   catch (error:any) {
@@ -17,4 +18,4 @@ const createPeriod = async (data: any) => {
   }
 }
 
-export default createPeriod
+export default saveGrades
