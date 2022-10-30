@@ -30,7 +30,7 @@ const SubjectToBeEnrolled = ({ subjects, onSubmit }:any) => {
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
   const [selectedSubjects, setselectedSubjects] = useState<any[]>([])
-
+  const days=['Lunes','Martes','Miercoles','Jueves','Viernes']
   useLayoutEffect(() => {
     const isIndeterminate = selectedSubjects.length > 0 && selectedSubjects.length < subjects.length
     setChecked(selectedSubjects.length === subjects.length)
@@ -143,7 +143,7 @@ const SubjectToBeEnrolled = ({ subjects, onSubmit }:any) => {
                       {subject.curriculum_subject_uv}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {subject.schedule}
+                      {days[subject?.day-1]} {subject.horario}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {subject.curriculum_subject_level}

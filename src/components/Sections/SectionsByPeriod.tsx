@@ -79,7 +79,7 @@ const Sections = ({ sections, deleteCurriculumSubject, isEdition, days }: any) =
             </td>
             <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{curricula?.career_label}</td>
             <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{curricula?.curriculum_subject_label}</td>
-            <td className="px-3 py-4 text-sm text-center text-gray-500">{days[curricula?.day-1]}</td>
+            <td className="px-3 py-4 text-sm text-center text-gray-500">{days[curricula?.day]}</td>
             <td className="px-3 py-4 text-sm text-center text-gray-500">{curricula?.horario}</td>
             <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.quota}</td>
             <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.code}</td>

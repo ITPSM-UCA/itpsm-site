@@ -2,7 +2,8 @@
 import showMessage from './showMessage'
 
 const onErrorHandler = (error:any) => {
-  switch (error.status) {
+ 
+  switch (parseInt(error.data.errors.status)) {
     case 422:
       let details = ''
       error.data.errors.forEach((item:any) => {
@@ -13,6 +14,7 @@ const onErrorHandler = (error:any) => {
       showMessage('Información', details, 'warning');
       break
     case 401:
+     
       showMessage(error.data.errors.title, error.data.errors.detail, 'error')
       break
     default:

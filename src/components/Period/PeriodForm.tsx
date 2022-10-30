@@ -32,25 +32,49 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
     defaultValues: data,
     resolver: yupResolver(schema),
   })
-
+ 
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
+  const [cancelation, setcancelation] = useState(false)
 
   const onCreatePeriod = async (formData: any) => {
     setLoading(true)
-    const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
-    const response = await functionToExecute(formData)
+    
+    if(cancelation && confirm("Desea cerrar el ciclo?")){
 
-    if (response.error) {
+      formData={...formData,status:"C"}
+      const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
+      const response = await functionToExecute(formData)
+      
+    if (response.errors) {
       setLoading(false)
-      return
+      
+    }else{
+      const successMessage = !empty(formData?.id) ? 'Ciclo de estudio actualizado correctamente.' : 'Ciclo de estudio creado correctamente.'
+      showMessage('¡Exito!', successMessage)
+      toggleForm()
     }
-
+    }
+   else if(!cancelation){
+    const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
+   const response = await functionToExecute(formData)
+   
+   if (response.errors) {
+    setLoading(false)
+    
+  }else{
     const successMessage = !empty(formData?.id) ? 'Ciclo de estudio actualizado correctamente.' : 'Ciclo de estudio creado correctamente.'
     showMessage('¡Exito!', successMessage)
+    toggleForm()
+  }
+   }
+
+
+
+    
 
     setLoading(false)
-    toggleForm()
+    
   }
 
   const onCloseForm = () => {
@@ -88,7 +112,15 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
           >
             Atras
           </button>
-
+          { data?.id &&
+            <button
+                  onClick={() => setcancelation(true)}
+                  type="submit"
+                  className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-900 focus:outline-none gap-x-2">
+                 Cerrar Ciclo
+                </button>
+          }
+          
           <button
             type="submit"
             className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2">
@@ -127,6 +159,7 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
           </div>
           <div className="w-1/4 p-2">
             { data.status !== 'C' && (
+              <>
               <CustomCombobox
                 name="status"
                 control={control}
@@ -138,6 +171,9 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
                 clearErrors={clearErrors}
                 initialValue={() => getInitialValue('status', data)}
               />
+
+               
+              </>
             )}
             { data.status === 'C'
             && <div style={{marginTop:'4vh'}}>Estado: <span style={{color:'red'}}>Cerrado</span> </div>

@@ -1,11 +1,11 @@
 import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
-const createPeriod = async (data: any) => {
+const deleteEvaluation = async (id:number) => {
   try {
-    const url = `${apiInstance.defaults.baseURL}/periods`
+    const url = `${apiInstance.defaults.baseURL}/evaluations/${id}`
 
-    const response = await apiInstance.post(url, data)
+    const response = await apiInstance.delete(url)
 
     return response.data.data
   }
@@ -17,4 +17,4 @@ const createPeriod = async (data: any) => {
   }
 }
 
-export default createPeriod
+export default deleteEvaluation
