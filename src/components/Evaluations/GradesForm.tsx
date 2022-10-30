@@ -40,22 +40,7 @@ const GradesForm = ({ data, clearData,toggleForm,   tableRef}: Props) => {
   const curriculumSubjectsList = transformCurriculumSubjects(curriculumSubjects)
   const schedulesList = transformschedule(schedule)
   const Days = [{ value: 1, label: 'Lunes' },{ value: 2, label: 'Martes' },{ value: 3, label: 'Miercoles' },{ value: 4, label: 'Jueves' },{ value: 5, label: 'Viernes' }]
-  const onSetEvaluationToSubject = async (formData: any) => {
-    console.log(formData)
-    setLoading(true)
-    
-    const response = await createEvaluation(formData)
 
-    if (response.error) {
-      setLoading(false)
-      return
-    }
-
-   
-    showMessage('¡Exito!', "Actividad Creada")
-    refreshTableAction()
-    setLoading(false)
-  }
   const publish = async () => {
     console.log(data)
     if(confirm("Desea publicar actividades")){
@@ -84,7 +69,7 @@ const GradesForm = ({ data, clearData,toggleForm,   tableRef}: Props) => {
     console.log(data)
     console.log(Object.keys(data))
     const rows=Object.keys(data)
-    let datatransfer=[]
+    let datatransfer:any[]=[]
     rows.forEach(valor =>{
       datatransfer.push({
         evaluation_id:data[valor].newData.id,
@@ -153,10 +138,10 @@ const GradesForm = ({ data, clearData,toggleForm,   tableRef}: Props) => {
     clearData()
     toggleForm()
   }
-  const shareGrades = () => {
-    const response = publishGrades(data.id)
+  const shareGrades = async() => {
+    const response = await publishGrades(data.id)
     console.log(response)
-    if (response.error) {
+    if (response?.error) {
       setLoading(false)
       return
     }

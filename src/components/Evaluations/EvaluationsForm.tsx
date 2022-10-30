@@ -45,14 +45,17 @@ const EvaluationsForm = ({ data, clearData,toggleForm,   tableRef}: Props) => {
     setLoading(true)
     
     const response = await createEvaluation(formData)
-
-    if (response.error) {
+console.log(response)
+    if (response.errors) {
       setLoading(false)
       return
+    }else{
+      console.log("h")
+      showMessage('¡Exito!', "Actividad Creada")
     }
 
    
-    showMessage('¡Exito!', "Actividad Creada")
+   
     refreshTableAction()
     setLoading(false)
   }
@@ -210,6 +213,7 @@ const EvaluationsForm = ({ data, clearData,toggleForm,   tableRef}: Props) => {
     </form>
     <div>
         <CustomTable
+         edit={false}
           fetchData={fetchData}
           ref={tableRef}
           columns={columns}

@@ -86,7 +86,7 @@ const CustomTable = forwardRef(({
         
         editable={{
           onBulkUpdate: changes =>
-          new Promise((resolve, reject) => {
+          new Promise<void>((resolve, reject) => {
             bulkedit(changes)
             resolve()
           })

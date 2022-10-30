@@ -28,22 +28,6 @@ const EvaluationsForm = ({  clearData,toggleForm,fetchData,  tableRef,columns,ed
   const [loading, setLoading] = useState(false)
 
   const Days = [{ value: 1, label: 'Lunes' },{ value: 2, label: 'Martes' },{ value: 3, label: 'Miercoles' },{ value: 4, label: 'Jueves' },{ value: 5, label: 'Viernes' }]
-  const onSetEvaluationToSubject = async (formData: any) => {
-    console.log(formData)
-    setLoading(true)
-    
-    const response = await createEvaluation(formData)
-
-    if (response.error) {
-      setLoading(false)
-      return
-    }
-
-   
-    showMessage('¡Exito!', "Actividad Creada")
-    refreshTableAction()
-    setLoading(false)
-  }
 
   const refreshTableAction = () => {
     if (tableRef.current) {
@@ -87,6 +71,7 @@ const EvaluationsForm = ({  clearData,toggleForm,fetchData,  tableRef,columns,ed
   
     <div>
         <CustomTable
+         edit={false}
           fetchData={fetchData}
           ref={tableRef}
           columns={columns}
