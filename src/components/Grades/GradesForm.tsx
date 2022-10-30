@@ -5,9 +5,7 @@ import { useForm } from 'react-hook-form'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-const schema = yup.object().shape({
-  code: yup.string().required('Este campo es obligatorio.'),
-})
+
 
 interface Props {
 
@@ -43,7 +41,7 @@ const GradesForm = ({ fetchdata }: Props) => {
               control={control}
               placeholder="Ciclo 01-2022"
               label="Código"
-              error={errors?.code}
+              error={errors}
               options={[{ value: 1, label: 'Ciclo 01' },{ value: 3, label: 'Ciclo 03' }]}
               setValue={setValue}
               clearErrors={clearErrors}
@@ -59,5 +57,7 @@ const GradesForm = ({ fetchdata }: Props) => {
 
   )
 }
-
+const schema = yup.object().shape({
+  code: yup.string().required('Este campo es obligatorio.'),
+})
 export default GradesForm

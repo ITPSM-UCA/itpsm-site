@@ -12,7 +12,15 @@ const GradesEvaluations = ({ subjectsByCycles,subjectName }: any) => (
   </fieldset>
 )
 
-const Evaluations = ({ subjects }: any) => (
+
+const Evaluations = ({ subjects }: any) => {
+  
+  
+  let total=0
+  subjects.map((Evaluation: any) => (total+=Evaluation?.percentage*Evaluation?.score/100))
+  console.log(total)
+  return(
+  
   <div className="-mx-4 mt-5 mb-4 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
     <table className="min-w-full divide-y divide-gray-300">
       <thead className="bg-gray-50">
@@ -52,6 +60,7 @@ const Evaluations = ({ subjects }: any) => (
             
              
             </td>
+           
             <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{Evaluation?.date}</td>
             <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{Evaluation?.percentage}</td>
             <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{Evaluation?.score}</td>
@@ -59,8 +68,16 @@ const Evaluations = ({ subjects }: any) => (
           </tr>
         ))}
       </tbody>
+      <tfoot>
+          <tr>
+          <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell"></td>
+          <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell"></td>
+          <td className="hidden px-3 py-4 text-sm text-center  sm:table-cell">Nota Final:</td>
+          <td className="hidden px-3 py-4 text-sm text-center  sm:table-cell">{total.toFixed(2)}</td>
+          </tr>
+      </tfoot>
     </table>
   </div>
-)
+)}
 
 export default GradesEvaluations

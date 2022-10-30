@@ -27,6 +27,7 @@ const SectionsTable = ({
 
     <div>
       <CustomTable
+       edit={false}
         fetchData={fetchData}
         ref={tableRef}
         columns={columns}
