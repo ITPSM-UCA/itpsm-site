@@ -18,6 +18,14 @@ const UserInfo = () => {
             onClick={onLogout}
             className="text-xs font-medium text-gray-500 group-hover:text-gray-700"
           >
+            Cambiar contraseña
+          </button>
+          <hr></hr>
+          <button
+            type="button"
+            onClick={onLogout}
+            className="text-xs font-medium text-gray-500 group-hover:text-gray-700"
+          >
             Cerrar sesión
           </button>
         </div>
