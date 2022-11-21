@@ -42,7 +42,7 @@ const GradesForm = ({ fetchdata }: Props) => {
               placeholder="Ciclo 01-2022"
               label="Código"
               error={errors}
-              options={[{ value: 1, label: 'Ciclo 01' },{ value: 3, label: 'Ciclo 03' }]}
+              options={[{ value: 1, label: 'Ciclo 01' },{ value: 4, label: 'Ciclo 03' }]}
               setValue={setValue}
               clearErrors={clearErrors}
               initialValue={{ value: 1, label: 'Ciclo 01' }}

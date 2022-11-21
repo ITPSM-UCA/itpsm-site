@@ -1,6 +1,6 @@
 import getUsers from './getUsers'
 import createUser from './createUser'
-import updatePeriod from './updatePeriod'
+import updateUser from './updateUser'
 import setSubjectToPeriod from './setSubjectToPeriod'
 import getSectionsByCycleId from './getSectionsByCycleId'
 import deletePeriodSubject from './deletePeriodSubject'
@@ -8,7 +8,7 @@ import deletePeriodSubject from './deletePeriodSubject'
 export {
   getUsers,
   createUser,
-  updatePeriod,
+  updateUser,
   setSubjectToPeriod,
   deletePeriodSubject,
   getSectionsByCycleId,

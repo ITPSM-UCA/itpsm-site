@@ -7,7 +7,7 @@ import Loader from 'components/UI/Loader'
 import { empty } from 'utils/helpers'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { periods, periodStatus, PERIOD_STATUS_LABEL } from 'utils/constants/Constants'
-import { createUser, updatePeriod } from 'services/User'
+import { createUser, updateUser } from 'services/User'
 import { showMessage } from 'utils/alerts'
 
 interface Props {
@@ -31,13 +31,13 @@ const UserForm = ({ data, clearData, toggleForm }: Props) => {
     defaultValues: data,
     resolver: yupResolver(schema),
   })
-
+  console.log(data)
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
 
   const onCreateUser = async (formData: any) => {
     setLoading(true)
-    const functionToExecute = !empty(formData?.id) ? updatePeriod : createUser
+    const functionToExecute = !empty(formData?.id) ? updateUser : createUser
     const response = await functionToExecute(formData)
 
     if (response.error) {
@@ -56,8 +56,13 @@ const UserForm = ({ data, clearData, toggleForm }: Props) => {
     clearData()
     toggleForm()
   }
-
-  let buttonText = <span>Guardar Usuario</span>
+  let buttonText= <span></span>
+  if(!data?.id){
+    buttonText = <span>Guardar Usuario</span>
+  }else{
+    buttonText = <span>Actualizar Usuario</span>
+  }
+  
 
   if (loading) {
     buttonText = (

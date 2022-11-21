@@ -67,19 +67,24 @@ const CurriculaRegistration = ({ data }: any) => {
 
   const onCurriculaRegistration = async (formData: any) => {
     setLoading(true)
-    const response: any = await curriculaRegistrationForStudent(formData)
+    
+    if(confirm("Desea inscribir al estudiante en la carrera de: ")){
+      const response: any = await curriculaRegistrationForStudent(formData)
 
-    if (response.error) {
-      setLoading(false)
-      return
+      if (response.error) {
+        setLoading(false)
+        return
+      }
+     
+      const curriculaFiltered: any = curriculaOptions?.filter((value: any) => value.value !== currentCurriculum)
+      setCurriculaOptions(curriculaFiltered)
+      setValue('entry_year', '')
+      setValue('graduation_year', '')
+      setValue('curriculum_id', '')
+      getCurriculas()
     }
     setLoading(false)
-    const curriculaFiltered: any = curriculaOptions?.filter((value: any) => value.value !== currentCurriculum)
-    setCurriculaOptions(curriculaFiltered)
-    setValue('entry_year', '')
-    setValue('graduation_year', '')
-    setValue('curriculum_id', '')
-    getCurriculas()
+  
   }
 
   let buttonText = <span>Inscribir a carrera</span>

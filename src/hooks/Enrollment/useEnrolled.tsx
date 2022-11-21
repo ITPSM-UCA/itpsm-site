@@ -29,9 +29,12 @@ const useEnrolled = () => {
 
   const enrolledSubject = async (subjects:any) => {
     const response = await enrollSubjects(subjects)
-
+    console.log(response)
     if (!empty(response.notEnrolled)) {
       showMessage('Oops!', 'Algunas materias no fueron inscritas', 'error')
+    }
+    if (!empty(response.error)) {
+      showMessage('Oops!', response.error, 'error')
     }
 
     getData()
