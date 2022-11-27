@@ -49,7 +49,7 @@ const SubjectToBeEnrolled = ({ subjects, onSubmit }:any) => {
 
   return (
     <fieldset className="border border-gray-300 rounded-lg mt-4 p-4">
-      <legend className="font-medium text-indigo-600">Materias disponibles:</legend>
+      <legend className="font-medium text-indigo-600">Modulos disponibles:</legend>
       <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div className="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
@@ -83,7 +83,7 @@ const SubjectToBeEnrolled = ({ subjects, onSubmit }:any) => {
                     scope="col"
                     className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
                   >
-                    Materia
+                    Modulo
                   </th>
                   <th
                     scope="col"
@@ -95,13 +95,13 @@ const SubjectToBeEnrolled = ({ subjects, onSubmit }:any) => {
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Horario
+                    Semanas
                   </th>
                   <th
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Nivel de materia
+                    Nivel de modulo
                   </th>
                 </tr>
               </thead>
@@ -143,7 +143,7 @@ const SubjectToBeEnrolled = ({ subjects, onSubmit }:any) => {
                       {subject.curriculum_subject_uv}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {days[subject?.day-1]} {subject.horario}
+                      {subject.start_week} - {subject.end_week}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {subject.curriculum_subject_level}

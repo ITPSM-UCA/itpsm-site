@@ -5,6 +5,8 @@ import CustomTable from 'components/UI/CustomTable/CustomTable'
 import { useState } from 'react'
 import Loader from 'components/UI/Loader'
 import createPdf from 'services/CreatePdf'
+import { getAllStudents } from 'services/Students'
+import download from 'downloadjs'
 
 interface Props {
   columns: any[],
@@ -34,7 +36,11 @@ const StudentsTable = ({
   }
 
   let buttonText = <span>Generar Usuarios</span>
-
+  const onGenerateReport = async () => {
+    const response = await getAllStudents()
+    console.log(response)
+    download(response, 'Estudiantes.csv', 'text/csv')
+  }
   if (loading) {
     buttonText = (
       <>
@@ -50,6 +56,14 @@ const StudentsTable = ({
       <div className="flex justify-between mb-12">
         <h1 className="text-2xl font-semibold text-gray-900">Estudiantes</h1>
         <div>
+          <button
+            type="button"
+            onClick={onGenerateReport}
+            className="inline-flex items-center mx-5 px-3 py-2 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none gap-x-2"
+          >
+            <RiMailDownloadFill />
+            Descargar
+          </button>
           <button
             type="button"
             onClick={onGenerateStudentsCredentials}
@@ -77,7 +91,7 @@ const StudentsTable = ({
 
       <div>
         <CustomTable
-         edit={false}
+          edit={false}
           fetchData={fetchData}
           ref={tableRef}
           columns={columns}

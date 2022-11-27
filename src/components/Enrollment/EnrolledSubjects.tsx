@@ -22,7 +22,7 @@
 const days=['Lunes','Martes','Miercoles','Jueves','Viernes']
 const EnrolledSubjects = ({ subjects }:any) => (
   <fieldset className="border border-gray-300 rounded-lg mt-4 p-4">
-    <legend className="font-medium text-indigo-600">Materias inscritas:</legend>
+    <legend className="font-medium text-indigo-600">Modulos inscritos:</legend>
     <div className="flex flex-col">
       <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -34,7 +34,7 @@ const EnrolledSubjects = ({ subjects }:any) => (
                     scope="col"
                     className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                   >
-                    Materia
+                    Modulo
                   </th>
                   <th
                     scope="col"
@@ -46,7 +46,7 @@ const EnrolledSubjects = ({ subjects }:any) => (
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Horario
+                    Semanas
                   </th>
                   <th
                     scope="col"
@@ -71,7 +71,7 @@ const EnrolledSubjects = ({ subjects }:any) => (
                       {subject.curriculum_subject_uv}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {days[subject?.day-1]} {subject.horario}
+                    {subject.start_week} - {subject.end_week}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {subject.enrollment}

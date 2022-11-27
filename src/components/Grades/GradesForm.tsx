@@ -1,18 +1,16 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
-
-
+import { getPeriods } from '../../services/Evaluation'
 
 interface Props {
 
   fetchdata: (formData: any) => void,
 }
-const GradesForm = ({ fetchdata }: Props) => {
 
+const GradesForm = ({ fetchdata }: Props) => {
   const {
     register,
     handleSubmit,
@@ -24,35 +22,58 @@ const GradesForm = ({ fetchdata }: Props) => {
     watch,
   } = useForm({
     mode: 'onBlur',
-    defaultValues:{},
+    defaultValues: {},
     resolver: yupResolver(schema),
   })
-  const { errors, isSubmitting } = formState
+  const {
+    errors,
+    isSubmitting,
+  } = formState
+  const [periods, setPeriods] = useState([])
+  const transformData = (data: any) => {
+    const ac = data.map((e: any) => ({
+      value: e.id,
+      label: `Ciclo ${e.code} - ${e.year}`,
+    }))
+    setPeriods(ac)
+    console.log(periods)
+  }
+
+  const fetchData = async () => {
+    const stored = JSON.parse(localStorage.getItem('appState') ?? ' ')
+    const response = await getPeriods(stored.attributes.system_reference_id)
+    transformData(response)
+  }
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
     <form
-    noValidate
-    autoComplete="off"
-    onSubmit={handleSubmit(fetchdata)}
+      noValidate
+      autoComplete="off"
+      onSubmit={handleSubmit(fetchdata)}
     >
-  
-      <CustomCombobox
-              name="code"
-              control={control}
-              placeholder="Ciclo 01-2022"
-              label="Código"
-              error={errors}
-              options={[{ value: 1, label: 'Ciclo 01' },{ value: 3, label: 'Ciclo 03' }]}
-              setValue={setValue}
-              clearErrors={clearErrors}
-              initialValue={{ value: 1, label: 'Ciclo 01' }}
-             
-            />
-               <button
-            type="submit"
-            className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2">
-            Filtrar
-          </button>
+      {periods.length > 0
+        && (
+        <CustomCombobox
+          name="code"
+          control={control}
+          placeholder="Ciclo 01-2022"
+          label="Código"
+          error={errors}
+          options={periods}
+          setValue={setValue}
+          clearErrors={clearErrors}
+          initialValue={{}}
+        />
+        )}
+      <button
+        type="submit"
+        className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2"
+      >
+        Filtrar
+      </button>
     </form>
 
   )
@@ -60,4 +81,5 @@ const GradesForm = ({ fetchdata }: Props) => {
 const schema = yup.object().shape({
   code: yup.string().required('Este campo es obligatorio.'),
 })
+
 export default GradesForm

@@ -1,13 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { getInfo } from '../../services/Students'
 
 interface Props {
   career: string
 }
 
 const AcademicInformation = ({ career }: Props) => {
-  const { name, email, created_at } = useSelector((state: any) => state.user.userInformation)
-
+  const {
+    name,
+    email,
+    created_at,
+  } = useSelector((state: any) => state.user.userInformation)
+  const [info, setInfo] = useState({})
+  const fetchData = async () => {
+    const stored = JSON.parse(localStorage.getItem('appState') ?? ' ')
+    const response = await getInfo(stored.attributes.system_reference_id)
+    console.log(response)
+    setInfo(response.attributes)
+  }
+  useEffect(() => {
+    fetchData()
+  }, [])
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-5">{name}</h1>
@@ -30,11 +44,15 @@ const AcademicInformation = ({ career }: Props) => {
               </div>
               <div className="sm:col-span-1">
                 <dt className="text-sm font-medium text-gray-500">Año de ingreso</dt>
-                <dd className="mt-1 text-sm text-gray-900">{created_at.slice(0, 4)}</dd>
+                <dd className="mt-1 text-sm text-gray-900">{created_at?.slice(0, 4)}</dd>
               </div>
               <div className="sm:col-span-1">
                 <dt className="text-sm font-medium text-gray-500">CUM</dt>
-                <dd className="mt-1 text-sm text-gray-900">0.00 (mínimo para egresar: 7.00)</dd>
+                <dd className="mt-1 text-sm text-gray-900">
+                  {info?.cum?.toFixed(2)}
+                  {' '}
+                  (mínimo para egresar: 7.00)
+                </dd>
               </div>
               <div className="sm:col-span-1">
                 <dt className="text-sm font-medium text-gray-500">Estado</dt>
@@ -42,7 +60,7 @@ const AcademicInformation = ({ career }: Props) => {
               </div>
               <div className="sm:col-span-1">
                 <dt className="text-sm font-medium text-gray-500">UV aprobadas</dt>
-                <dd className="mt-1 text-sm text-gray-900">0</dd>
+                <dd className="mt-1 text-sm text-gray-900">{info?.uv}</dd>
               </div>
             </dl>
           </div>

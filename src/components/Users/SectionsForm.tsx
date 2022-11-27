@@ -42,7 +42,7 @@ const SectionsForm = ({ data, onSubmit }: Props) => {
     setLoading(false)
   }
 
-  let buttonText = <span>Asociar Materia</span>
+  let buttonText = <span>Asociar Modulo</span>
 
   if (loading) {
     buttonText = (
@@ -63,7 +63,7 @@ const SectionsForm = ({ data, onSubmit }: Props) => {
     >
       <div>
         <fieldset className="flex flex-wrap border rounded-md border-solid border-gray-300 p-3 mb-2">
-          <legend className="font-medium text-indigo-600">Asociar Materia</legend>
+          <legend className="font-medium text-indigo-600">Asociar Modulo</legend>
           <div className="w-2/4 p-2">
             <CustomCombobox
               name="curriculum_subject_id"

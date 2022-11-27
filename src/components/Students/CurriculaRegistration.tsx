@@ -67,12 +67,15 @@ const CurriculaRegistration = ({ data }: any) => {
 
   const onCurriculaRegistration = async (formData: any) => {
     setLoading(true)
-    const response: any = await curriculaRegistrationForStudent(formData)
+    if(confirm("Desea inscribir el estudiante a la carrera")){
+      const response: any = await curriculaRegistrationForStudent(formData)
 
-    if (response.error) {
-      setLoading(false)
-      return
+      if (response.error) {
+        setLoading(false)
+        return
+      }
     }
+ 
     setLoading(false)
     const curriculaFiltered: any = curriculaOptions?.filter((value: any) => value.value !== currentCurriculum)
     setCurriculaOptions(curriculaFiltered)

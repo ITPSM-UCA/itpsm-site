@@ -39,7 +39,7 @@ const SubjectForm = ({ data, onSubmit }: Props) => {
     setLoading(false)
   }
 
-  let buttonText = <span>Asociar Materia</span>
+  let buttonText = <span>Asociar Modulo</span>
 
   if (loading) {
     buttonText = (
@@ -60,13 +60,13 @@ const SubjectForm = ({ data, onSubmit }: Props) => {
     >
       <div>
         <fieldset className="flex flex-wrap border rounded-md border-solid border-gray-300 p-3 mb-2">
-          <legend className="font-medium text-indigo-600">Asociar Materia</legend>
+          <legend className="font-medium text-indigo-600">Asociar Modulo</legend>
           <div className="w-2/4 p-2">
             <CustomCombobox
               name="subject_id"
               control={control}
               placeholder="Diseño de Modelos de Negocios"
-              label="Materia"
+              label="Modulo"
               error={errors?.subject_id}
               options={subjectsList}
               setValue={setValue}

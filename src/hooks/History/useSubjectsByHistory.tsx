@@ -1,5 +1,5 @@
 import { groupBy } from 'lodash'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getApprovedSujects } from 'services/History'
 
 const useSubjectsByHistory = () => {
@@ -25,15 +25,18 @@ const useSubjectsByHistory = () => {
 }
 
 const transformCurriculumSubjectData = (curriculumSubjects:any[]) => {
-  const updatedSubjectByCycles:any = []
+  const updatedSubjectByCycles: any = []
   const groupedSubjects = groupBy(curriculumSubjects, 'period_id')
-
-  Object.entries(groupedSubjects).forEach(([key, value]) => {
-    updatedSubjectByCycles.push({
-      cycle: key,
-      subjects: value,
+  console.log(groupedSubjects)
+  Object.entries(groupedSubjects)
+    .reverse()
+    .forEach(([key, value]) => {
+      console.log(key, value)
+      updatedSubjectByCycles.push({
+        cycle: `${value[0].period_code}-${value[0].period_year}`,
+        subjects: value,
+      })
     })
-  })
 
   return updatedSubjectByCycles
 }

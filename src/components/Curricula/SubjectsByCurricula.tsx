@@ -11,7 +11,7 @@ const SubjectsByCurricula = ({ data }: Props) => {
 
   return (
     <fieldset className="border border-gray-300 rounded-lg mt-4 p-4">
-      <legend className="font-medium text-indigo-600">Materias asociadas</legend>
+      <legend className="font-medium text-indigo-600">Modulos asociados</legend>
       {!data.is_approved && (
         <SubjectForm data={{ ...data, curriculum_id: data.id }} onSubmit={setCurriculumSubject} />
       )}

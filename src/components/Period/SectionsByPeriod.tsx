@@ -8,7 +8,7 @@ interface Props {
 
 const SectionsByPeriod = ({ data }: Props) => {
   const { sectionsByCycles, removePeriodSubject, setPeriodSubject } = useSectionByPeriod(data.id)
-  const days=['Lunes','Martes','Miercoles','Jueves','Viernes']
+  const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes']
   const isPeriodInEdition = data.status === 'E'
 
   return (
@@ -19,7 +19,7 @@ const SectionsByPeriod = ({ data }: Props) => {
       )}
 
       <Sections
-        days = {days}
+        days={days}
         sections={sectionsByCycles}
         deleteCurriculumSubject={removePeriodSubject}
         isEdition={isPeriodInEdition}
@@ -29,7 +29,9 @@ const SectionsByPeriod = ({ data }: Props) => {
   )
 }
 
-const Sections = ({ sections, deleteCurriculumSubject, isEdition, days }: any) => (
+const Sections = ({
+  sections, deleteCurriculumSubject, isEdition, days,
+}: any) => (
   <div className="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
     <table className="min-w-full divide-y divide-gray-300">
       <thead className="bg-gray-50">
@@ -50,10 +52,13 @@ const Sections = ({ sections, deleteCurriculumSubject, isEdition, days }: any) =
             Modulo
           </th>
           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-            Dia
+            Semana de Inicio
           </th>
           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-            Horario
+            Semana de Fin
+          </th>
+          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+            Catedratico
           </th>
           <th scope="col" className="relative py-3.5 pl-3 text-left pr-4 sm:pr-6">
             Cupos
@@ -79,8 +84,9 @@ const Sections = ({ sections, deleteCurriculumSubject, isEdition, days }: any) =
             </td>
             <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{curricula?.career_label}</td>
             <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{curricula?.curriculum_subject_label}</td>
-            <td className="px-3 py-4 text-sm text-center text-gray-500">{days[curricula?.day-1]}</td>
-            <td className="px-3 py-4 text-sm text-center text-gray-500">{curricula?.horario}</td>
+            <td className="px-3 py-4 text-sm text-center text-gray-500">{curricula?.start_week}</td>
+            <td className="px-3 py-4 text-sm text-center text-gray-500">{curricula?.end_week}</td>
+            <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.teacher_name}</td>
             <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.quota}</td>
             <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.code}</td>
             <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">

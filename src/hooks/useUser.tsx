@@ -25,7 +25,7 @@ const useUser = () => {
 
   const onLogout = () => {
     dispatch(logout())
-    router.replace('/')
+    router.replace('/login')
   }
 
   return {

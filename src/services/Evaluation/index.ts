@@ -10,6 +10,11 @@ import getEvaluationsStudent from './getEvaluationsStudent'
 import getgrades from './getGrades'
 import savegrades from './saveGrades'
 import publishGrades from './publishgrades'
+import publishResult from './publishResult'
+import getResult from './getResult'
+import RequestAprobacion from './RequestAprobacion'
+import getPeriods from './getPeriods'
+
 export {
   getEvaluations,
   createEvaluation,
@@ -22,5 +27,9 @@ export {
   getEvaluationsStudent,
   getgrades,
   savegrades,
-  publishGrades
+  publishGrades,
+  publishResult,
+  getResult,
+  RequestAprobacion,
+  getPeriods,
 }

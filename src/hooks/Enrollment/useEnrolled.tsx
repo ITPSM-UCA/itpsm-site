@@ -32,6 +32,9 @@ const useEnrolled = () => {
 
     if (!empty(response.notEnrolled)) {
       showMessage('Oops!', 'Algunas materias no fueron inscritas', 'error')
+      if (response.error == 'No se pueden inscribir materias sobre las mismas semanas') {
+        showMessage('Oops!', 'No se pueden inscribir materias sobre las mismas semanas', 'error')
+      }
     }
 
     getData()
