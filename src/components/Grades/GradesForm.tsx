@@ -9,8 +9,8 @@ interface Props {
 
   fetchdata: (formData: any) => void,
 }
-
 const GradesForm = ({ fetchdata }: Props) => {
+
   const {
     register,
     handleSubmit,
