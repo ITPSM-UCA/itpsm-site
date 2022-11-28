@@ -70,6 +70,7 @@ const secciones: NextPage = () => {
             data={currentSubject}
             tableRef={tableRef2}
             toggleForm={toggleForm}
+            tableRef2={null}
           />
         ) : (
           <SectionsTable

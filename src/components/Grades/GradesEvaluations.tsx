@@ -17,7 +17,7 @@ const GradesEvaluations = ({
 
 const Evaluations = ({ subjects }: any) => {
   let total = 0
-  subjects.filter((j) => j.score != null && j.level === 1)
+  subjects.filter((j: any) => j.score != null && j.level === 1)
     .map((Evaluation: any) => (total += Evaluation?.percentage * Evaluation?.score / 100))
   console.log(total)
   return (

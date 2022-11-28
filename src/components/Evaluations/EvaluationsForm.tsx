@@ -506,7 +506,7 @@ const columns = [
   {
     title: 'Principal',
     field: 'name',
-    render: (rowData) => {
+    render: (rowData: any) => {
       if (rowData.level === 2) {
         return <p>{rowData.secondary}</p>
       }
@@ -517,7 +517,7 @@ const columns = [
   {
     title: 'Subevaluacion',
     field: 'secondary',
-    render: (rowData) => {
+    render: (rowData: any) => {
       if (rowData.level === 2) {
         return <p>{rowData.name}</p>
       }

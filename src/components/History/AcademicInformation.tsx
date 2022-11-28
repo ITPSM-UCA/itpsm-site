@@ -12,7 +12,10 @@ const AcademicInformation = ({ career }: Props) => {
     email,
     created_at,
   } = useSelector((state: any) => state.user.userInformation)
-  const [info, setInfo] = useState({})
+  const [info, setInfo] = useState({
+    cum: 0.0,
+    uv: 0,
+  })
   const fetchData = async () => {
     const stored = JSON.parse(localStorage.getItem('appState') ?? ' ')
     const response = await getInfo(stored.attributes.system_reference_id)
