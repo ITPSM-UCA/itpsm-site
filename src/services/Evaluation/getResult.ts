@@ -8,6 +8,7 @@ const publishResult = async (data: any) => {
     const response = await apiInstance.get(url)
     return response.data
   } catch (error: any) {
+    console.log(error)
     onErrorHandler(error.response)
     return {
       errors: error.response.data?.errors ?? 'Error en la peticion',
