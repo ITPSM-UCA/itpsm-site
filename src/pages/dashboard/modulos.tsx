@@ -1,4 +1,5 @@
 import Layout from 'components/Layout/Layout';
+import ModulesForm from 'components/Modules/ModulesForm';
 import ModulesTable from 'components/Modules/ModulesTable';
 import withAuth from 'HOC/withAuth';
 import type { NextPage } from 'next';
@@ -14,12 +15,14 @@ const initialData = { code: '', name: '' }
 
 const Module: NextPage = () => {
     const modulesTableRef: any = useRef()
-    const [showModulesForm, setShowModulesForm] = useState(false)
+    const [currentModule, setCurrentModule] = useState<any>(initialData)
+    const [showModulesForm, setShowModulesForm] = useState<boolean>(false)
 
     const fetchModules = async () => { return {rows: [], page: 1, records: 0} }
     const toggleModulesForm = () => { setShowModulesForm((prevState: boolean) => !prevState) }
     const editRowAction = async (event: any, rowData: any) => {}
     const refreshTableAction = () => { if (modulesTableRef.current) modulesTableRef.current.onQueryChange() }
+    const clearData = () => { setCurrentModule(initialData) }
 
     return (
         <Layout>
@@ -28,14 +31,23 @@ const Module: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
-                <ModulesTable
-                    columns={ columns }
-                    tableRef = { modulesTableRef }
-                    fetchData = { fetchModules }
-                    toggleForm = { toggleModulesForm }
-                    editRowAction = { editRowAction }
-                    refreshTableAction = { refreshTableAction }
-                />
+                {showModulesForm ? 
+                (
+                    <ModulesForm
+                        clearData={ clearData }
+                        data={ currentModule }
+                        toggleForm={ toggleModulesForm }/>
+                ) 
+                : 
+                (
+                    <ModulesTable
+                        columns={ columns }
+                        tableRef={ modulesTableRef }
+                        fetchData={ fetchModules }
+                        toggleForm={ toggleModulesForm }
+                        editRowAction={ editRowAction }
+                        refreshTableAction={ refreshTableAction }/>
+                )}
             </div>
         </Layout>
     )
