@@ -12,4 +12,10 @@ declare global {
         editRowAction: any,
         refreshTableAction: () => void,
     }
+
+    interface FormProps {
+        data: any,
+        clearData: () => void,
+        toggleForm: () => void,
+    }
 }
