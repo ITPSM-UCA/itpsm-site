@@ -1,6 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import CustomInput from 'components/UI/Form/CustomInput'
+import Loader from 'components/UI/Loader'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import createModule  from 'services/Modules/createModule'
+import { showMessage } from 'utils/alerts'
+import { empty } from 'utils/helpers'
 import * as yup from 'yup'
 import { AnyObjectSchema } from 'yup'
 
@@ -20,11 +25,7 @@ const ModulesForm = ({
     clearData,
     toggleForm
 }: FormProps) => {
-    const {
-        register, handleSubmit,
-        formState, control,
-        setValue, clearErrors
-    } = useForm({
+    const { register, handleSubmit, formState } = useForm({
         mode: 'onBlur', // Validation will trigger on the blur event
         defaultValues: data,
         resolver: yupResolver(schema) // Allows handling validations with X library
@@ -33,16 +34,37 @@ const ModulesForm = ({
     let buttonText = <span>Guardar módulo</span>
 
     const { errors, isSubmitting } = formState
+    const [loading, setLoading] = useState<boolean>(false)
 
-    const onCreateModules = () => {}
+    const onSubmitModule = async (formData: any) => {
+        setLoading(true)
+
+        const submit = empty(formData?.id) ? createModule : () => {}
+        const response = await submit(formData);
+
+        if(response.error) {
+            setLoading(false)
+            return
+        }
+
+        const msg = empty(formData?.id) ? 'Módulo creado correctamente.' : 'Módulo actualizado correctamento.'
+
+        showMessage('¡Exito!', msg)
+        setLoading(false)
+        toggleForm()
+        return
+    }
+
     const onCloseForm = () => {
         clearData()
         toggleForm()
     }
 
+    if (loading) buttonText = (<><Loader className="h-4 w-4"/><span>Cargando...</span></>)
+
     return (
         <>
-            <form noValidate autoComplete='off' onSubmit={handleSubmit(onCreateModules)}>
+            <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmitModule)}>
                 <div className="flex justify-between">
                     <h1 className="text-2xl font-semibold text-gray-900">Plan de estudio</h1>
                     <div className="flex gap-x-4">
