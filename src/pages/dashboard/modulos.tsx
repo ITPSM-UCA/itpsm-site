@@ -22,9 +22,17 @@ const Module: NextPage = () => {
     const fetchModules = async (materialTableQuery: any) => { 
         return { ...await getModules(materialTableQuery) }
     }
+    
     const toggleModulesForm = () => { setShowModulesForm((prevState: boolean) => !prevState) }
-    const editRowAction = async (event: any, rowData: any) => {}
+    
+    const editRowAction = async (event: any, rowData: any) => {
+        event.stopPropagation()
+        setCurrentModule(rowData)
+        setShowModulesForm(true)
+    }
+    
     const refreshTableAction = () => { if (modulesTableRef.current) modulesTableRef.current.onQueryChange() }
+    
     const clearData = () => { setCurrentModule(initialData) }
 
     return (

@@ -3,7 +3,8 @@ import CustomInput from 'components/UI/Form/CustomInput'
 import Loader from 'components/UI/Loader'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import createModule  from 'services/Modules/createModule'
+import createModule from 'services/Modules/createModule'
+import updateModule from 'services/Modules/updateModule'
 import { showMessage } from 'utils/alerts'
 import { empty } from 'utils/helpers'
 import * as yup from 'yup'
@@ -39,7 +40,7 @@ const ModulesForm = ({
     const onSubmitModule = async (formData: any) => {
         setLoading(true)
 
-        const submit = empty(formData?.id) ? createModule : () => {}
+        const submit = empty(formData?.id) ? createModule : updateModule
         const response = await submit(formData);
 
         if(response.error) {
@@ -52,6 +53,7 @@ const ModulesForm = ({
         showMessage('¡Exito!', msg)
         setLoading(false)
         toggleForm()
+        clearData()
         return
     }
 
