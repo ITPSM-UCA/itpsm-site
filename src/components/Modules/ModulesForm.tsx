@@ -1,14 +1,35 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import CustomTable from 'components/UI/CustomTable/CustomTable'
 import CustomInput from 'components/UI/Form/CustomInput'
 import Loader from 'components/UI/Loader'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { getCurricula } from 'services/Curriculum'
 import createModule from 'services/Modules/createModule'
+import getCurriculaByModuleId from 'services/Modules/getCurriculaByModuleId'
 import updateModule from 'services/Modules/updateModule'
 import { showMessage } from 'utils/alerts'
 import { empty } from 'utils/helpers'
 import * as yup from 'yup'
 import { AnyObjectSchema } from 'yup'
+
+const columns = [
+    { field: 'id', hidden: true },
+    { field: 'career_id', hidden: true },
+    { title: 'Nombre', field: 'name' },
+    { title: 'Carrera', field: 'career_name' },
+    { title: 'Año', field: 'year' },
+    {
+        title: 'Estado',
+        field: 'is_active',
+        lookup: { 1: 'Activo', 0: 'Desactivado' },
+    },
+    {
+        title: '',
+        field: 'is_approved',
+        lookup: { 1: 'Aprobado', 0: 'En edición' },
+    },
+]
 
 const schema: AnyObjectSchema = yup.object().shape({
     code: yup.number()
@@ -62,13 +83,17 @@ const ModulesForm = ({
         toggleForm()
     }
 
+    const fetchData = async (materialTableQuery: any) => {
+        return { ...await getCurriculaByModuleId(materialTableQuery, data.id) }
+    }
+
     if (loading) buttonText = (<><Loader className="h-4 w-4"/><span>Cargando...</span></>)
 
     return (
         <>
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmitModule)}>
                 <div className="flex justify-between">
-                    <h1 className="text-2xl font-semibold text-gray-900">Plan de estudio</h1>
+                    <h1 className="text-2xl font-semibold text-gray-900">Módulos</h1>
                     <div className="flex gap-x-4">
                         <button
                             type="button"
@@ -84,23 +109,33 @@ const ModulesForm = ({
                         </button>
                     </div>
                 </div>
-
-                <div>
-                    <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
-                        <legend className="font-medium text-indigo-600">Datos</legend>
-                        <div className="w-1/2 p-2">
-                            <CustomInput type="number" name="code" label="Código"
-                                error={ errors?.code } disabled={ isSubmitting } register={ register }
-                                placeholder="200058"/>
-                        </div>
-                        <div className="w-1/2 p-2">
-                            <CustomInput type="text" name="name" label="Nombre"
-                                error={ errors?.name } disabled={ isSubmitting } register={ register }
-                                placeholder="Diseño de Modelos de Negocios"/>
-                        </div>
-                    </fieldset>
-                </div>
             </form>
+
+            <div>
+                <fieldset className="flex flex-wrap mt-4 border rounded-md border-solid border-gray-300 p-3">
+                    <legend className="font-medium text-indigo-600">Datos</legend>
+                    <div className="w-1/2 p-2">
+                        <CustomInput type="number" name="code" label="Código"
+                            error={ errors?.code } disabled={ isSubmitting } register={ register }
+                            placeholder="200058"/>
+                    </div>
+                    <div className="w-1/2 p-2">
+                        <CustomInput type="text" name="name" label="Nombre"
+                            error={ errors?.name } disabled={ isSubmitting } register={ register }
+                            placeholder="Diseño de Modelos de Negocios"/>
+                    </div>
+                </fieldset>
+
+                <fieldset className="mt-4 border rounded-md border-solid border-gray-300 p-3">
+                    <legend className="font-medium text-indigo-600">Planes de estudios</legend>
+                    <CustomTable
+                        edit={ false }
+                        columns={ columns }
+                        fetchData={ fetchData }
+                        title="Planes de estudios"
+                    />
+                </fieldset>
+                </div>
         </>
     )
 }
