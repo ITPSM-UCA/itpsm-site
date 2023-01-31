@@ -195,12 +195,13 @@ const EvaluationsForm = ({
       field: e.name,
     })))
   }
+  
   const fetchData = async (query: any) => {
     const customQuery = {
       query: [{
         field: 's.id',
         op: '=',
-        data: data.code,
+        data: data.code,        
       }],
     }
     const {
@@ -208,7 +209,55 @@ const EvaluationsForm = ({
       page,
       records,
     } = await getEvaluations(query, customQuery)
-    console.log(rows)
+    console.log("lineas")
+    
+
+    let evalu =[]
+    let subeval=[]
+    //colocamos la infomrracion recibida de la api entre evaluaciones y subevaluaciones
+    let rowdata= rows
+    console.log(rowdata)
+    rowdata.forEach(element => {
+      console.log(element)
+      console.log(element.id)
+
+      if (element.level==1) {
+        console.log("entrando en evaluacion")
+        console.log("eval", element)
+        evalu.push(element)
+      }else{
+        subeval.push(element)
+      }
+      element.parentId=null
+      if (element.level==2) {
+        console.log("agregando ParentId")
+        element.parentId=element.principal_id
+        console.log("nuevas evaluaciones", element)
+      }
+    });
+
+    evalu.forEach(e => {
+      e.subevaluation=[]
+      console.log("id", e.id)
+      let idaux= parseInt(e.id)
+      e.id = idaux
+      // console.log("nuevaeval",e)
+      subeval.forEach(sub => {
+        if (sub.principal_id== e.id ) {
+          // console.log("Encontré una subevaluación")
+          console.log(sub)
+          e.subevaluation.push(sub)
+        }
+      });
+    });
+    
+
+    
+
+    //ahora recorremos este objeto de evaluaciones y verificamos si tiene subevaluaciones
+    console.log("Evaluaciones nueva", evalu)
+    console.log("Evaluaciones finales", rows)
+    rows=rowdata
     transformData(rows)
     /// updatecolumns(rows)
     return {
@@ -423,6 +472,7 @@ const EvaluationsForm = ({
           && (
             <CustomTable
               edit={false}
+              collapsable={false}
               fetchData={fetchData}
               ref={tableRef}
               columns={columns}
@@ -431,10 +481,12 @@ const EvaluationsForm = ({
               onRefreshTableClicked={refreshTableAction}
             />
           )}
+          {/* Esta es la tabla de evaluaciones, la crearemos desde 0 */}
         {(stored.attributes.roles[0].name !== 'admin' && !publishoption)
           && (
             <CustomTable
               edit={false}
+              collapsable={true}
               fetchData={fetchData}
               ref={tableRef}
               columns={columns}
@@ -449,6 +501,7 @@ const EvaluationsForm = ({
             <CustomTable
               edit={false}
               fetchData={fetchData}
+              collapsable={false}
               ref={tableRef}
               columns={columns}
               title="Catedráticos"
@@ -507,23 +560,21 @@ const columns = [
     title: 'Principal',
     field: 'name',
     render: (rowData: any) => {
-      if (rowData.level === 2) {
-        return <p>{rowData.secondary}</p>
-      }
+
       return <p>{rowData.name}</p>
     },
   },
 
-  {
-    title: 'Subevaluacion',
-    field: 'secondary',
-    render: (rowData: any) => {
-      if (rowData.level === 2) {
-        return <p>{rowData.name}</p>
-      }
-      return <p />
-    },
-  },
+  // {
+  //   title: 'Subevaluacion',
+  //   field: 'secondary',
+  //   render: (rowData: any) => {
+  //     if (rowData.level === 2) {
+  //       return <p>{rowData.name}</p>
+  //     }
+  //     return <p />
+  //   },
+  // },
   {
     title: 'Descripcion',
     field: 'description',
