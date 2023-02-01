@@ -62,10 +62,11 @@ const ModulesForm = ({
         setLoading(true)
 
         const submit = empty(formData?.id) ? createModule : updateModule
-        const response = await submit(formData);
+        const response = await submit(formData)
 
         if(response.error) {
             setLoading(false)
+            showMessage('Error...', response.message, 'error')
             return
         }
 
