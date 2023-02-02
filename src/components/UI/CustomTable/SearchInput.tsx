@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import CustomInput from '../Form/CustomInput'
 
-const SearchInput = ({ value, onChanged }: any) => {
+const SearchInput = ({ value, onChanged, applyRegex }: any) => {
   const [search, setSearch] = useState(value)
 
   const handleSearchChange = (event:any) => {
-    setSearch(event.target.value)
+    let value =  event.target.value
+    
+    if(applyRegex.test(value))
+      setSearch(event.target.value)
   }
 
   // const handleCleanSearch = (event:any) => {
