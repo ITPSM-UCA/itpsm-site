@@ -127,15 +127,17 @@ const ModulesForm = ({
                     </div>
                 </fieldset>
 
-                <fieldset className="mt-4 border rounded-md border-solid border-gray-300 p-3">
+                {data.id ? 
+                    <fieldset className="mt-4 border rounded-md border-solid border-gray-300 p-3">
                     <legend className="font-medium text-indigo-600">Planes de estudios</legend>
-                    <CustomTable
-                        edit={ false }
-                        columns={ columns }
-                        fetchData={ fetchData }
-                        title="Planes de estudios"
-                    />
-                </fieldset>
+                        <CustomTable
+                            edit={ false }
+                            columns={ columns }
+                            fetchData={ fetchData }
+                            title="Planes de estudios"
+                        />
+                    </fieldset>
+                : null}
                 </div>
         </>
     )
