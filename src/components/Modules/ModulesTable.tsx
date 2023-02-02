@@ -26,6 +26,7 @@ const ModulesTable = ({
                 columns={ columns }
                 title="Módulos"
                 onEditClickedAction={ editRowAction }
+                searchFieldRegex={/^(?:[A-Za-z\s\d]*)$/}
                 onRefreshTableClicked={ refreshTableAction }/>
         </div>
     </>

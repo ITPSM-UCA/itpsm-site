@@ -135,6 +135,7 @@ const ModulesForm = ({
                             columns={ columns }
                             fetchData={ fetchData }
                             title="Planes de estudios"
+                            searchFieldRegex={/^(?:[A-Za-z\s\d]*)$/}
                         />
                     </fieldset>
                 : null}
