@@ -4,7 +4,7 @@ const randomCode = (min: number, max: number): string => {
 }
 
 describe('Modules Page', () => {
-  it('Modules Page: Load', () => {
+  it('Modules Page -> Load', () => {
     cy.visit('/login')
     cy.get('input[name=email]')
       .type('admin@itpsm.edu.sv')
@@ -16,7 +16,7 @@ describe('Modules Page', () => {
       .should('contain', 'Bienvenido')
     cy.visit('dashboard/modulos')
   })
-  it('Modules Page: Table Load', () => {
+  it('Modules Page -> Table Load', () => {
     cy.visit('/login')
     cy.get('input[name=email]')
       .type('admin@itpsm.edu.sv')
@@ -32,7 +32,7 @@ describe('Modules Page', () => {
       .find('tr')
       .should('have.length', 1)
   })
-  it('Modules Page: Form Load', () => {
+  it('Modules Page -> Form Load', () => {
     cy.visit('/login')
     cy.get('input[name=email]')
       .type('admin@itpsm.edu.sv')
@@ -48,7 +48,7 @@ describe('Modules Page', () => {
     cy.get('h1')
       .should('contain', 'Módulos')
   })
-  it('Modules Page: Create Module', () => {
+  it('Modules Page -> Create Module', () => {
     cy.visit('/login')
     cy.get('input[name=email]')
       .type('admin@itpsm.edu.sv')
@@ -70,7 +70,29 @@ describe('Modules Page', () => {
     cy.get('h4')
       .should('contain', '¡Exito!')
   })
-  it('Modules Page: Edit Module', () => {
+  it('Modules Page -> Create Module -> Enter an existent code', () => {
+    cy.visit('/login')
+    cy.get('input[name=email]')
+      .type('admin@itpsm.edu.sv')
+    cy.get('input[name=password]')
+      .type('password')
+    cy.get('button[type=submit]')
+      .click()
+    cy.get('h4')
+      .should('contain', 'Bienvenido')
+    cy.visit('dashboard/modulos')
+    cy.contains('Nuevo módulo')
+    .click()
+    cy.get('input[name=code]')
+      .type('200058')
+    cy.get('input[name=name]')
+      .type('Cypress Create Module')
+    cy.contains('Guardar módulo')
+      .click()
+    cy.get('h4')
+      .should('contain', 'Error...')
+  })
+  it('Modules Page -> Edit Module', () => {
     cy.visit('/login')
     cy.get('input[name=email]')
       .type('admin@itpsm.edu.sv')
@@ -94,6 +116,31 @@ describe('Modules Page', () => {
       .click()
     cy.get('h4')
       .should('contain', '¡Exito!')
+  })
+  it('Modules Page -> Edit Module -> Enter an existent code', () => {
+    cy.visit('/login')
+    cy.get('input[name=email]')
+      .type('admin@itpsm.edu.sv')
+    cy.get('input[name=password]')
+      .type('password')
+    cy.get('button[type=submit]')
+      .click()
+    cy.get('h4')
+      .should('contain', 'Bienvenido')
+    cy.visit('dashboard/modulos')
+    cy.contains('span[class="material-icons MuiIcon-root"]', 'edit')
+      .first()
+      .click()
+    cy.get('input[name=code]')
+      .clear()
+      .type('200058')
+    cy.get('input[name=name]')
+      .clear()
+      .type('Cypress Edit Module')
+    cy.contains('Guardar módulo')
+      .click()
+    cy.get('h4')
+      .should('contain', 'Error...')
   })
 })
 
