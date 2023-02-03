@@ -63,13 +63,16 @@ const ModulesForm = ({
 
         const submit = empty(formData?.id) ? createModule : updateModule
         const response = await submit(formData)
-
-        if(response.error) {
+        
+        if(response.errors) {
             setLoading(false)
-            showMessage('Error...', response.message, 'error')
+            
+            if(!response.wasHandled)
+                showMessage('Error...', response.errors.title, 'error')
+
             return
         }
-
+        
         const msg = empty(formData?.id) ? 'Módulo creado correctamente.' : 'Módulo actualizado correctamento.'
 
         showMessage('¡Exito!', msg)

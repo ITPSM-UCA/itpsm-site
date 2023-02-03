@@ -1,8 +1,6 @@
 import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
-const defaultData = { code: '', name: '' }
-
 const createModule = async (data: any) => {
     try {
         const { code, name } = data
@@ -12,8 +10,7 @@ const createModule = async (data: any) => {
         return response.data.data
     }
     catch(error: any) {
-        onErrorHandler(error.response)
-        return defaultData
+        return onErrorHandler(error.response)
     }
 }
 
