@@ -2,7 +2,8 @@
 import showMessage from './showMessage'
 
 const onErrorHandler = (error:any) => {
-  switch (parseInt(error.data.status)) {
+
+  switch (parseInt(error.data.errors[0].status)) {
     case 422:
       let details = ''
       error.data.errors.forEach((item:any) => {

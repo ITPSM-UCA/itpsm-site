@@ -32,14 +32,14 @@ const columns = [
 ]
 
 const schema: AnyObjectSchema = yup.object().shape({
-    code: yup.number()
-    .transform(value => isNaN(value) || value === null || value === undefined ? undefined : value)
-    .required('Este campo es obligatorio.')
-    .integer('El valor de este campo debe ser un entero.')
-    .positive('El valor de este campo debe ser un entero positivo.'),
+    code: yup.string()
+        .required('Este campo es obligatorio.')
+        .matches(/^[\d]+$/, 'Este campo admite únicamente números enteros.')
+        .max(6, 'Este campo tiene como límite máximo 6 caracteres para ingresar.'),
     name: yup.string()
         .required('Este campo es obligatorio.')
-        .max(255, 'Este campo tiene como límite máximo 255 carácteres para ingresar.')
+        .matches(/^[a-zA-z\s\u00C0-\u00FF]+$/, 'Este campo admite únicamente letras y espacios')
+        .max(255, 'Este campo tiene como límite máximo 255 caracteres para ingresar.')
 })
 
 const ModulesForm = ({
@@ -68,7 +68,7 @@ const ModulesForm = ({
             setLoading(false)
             
             if(!response.wasHandled)
-                showMessage('Error...', response.errors.title, 'error')
+                showMessage('Error...', response.errors[0].title, 'error')
 
             return
         }
