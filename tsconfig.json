@@ -16,6 +16,9 @@
     "jsx": "preserve",
     "incremental": true
   },
+  "e2e": {
+    "experimentalStudio": true
+  },
   "include": ["next-env.d.ts", "src/types/index.d.ts", "**/*.ts", "**/*.tsx", "**/*.d.ts"],
   "exclude": ["node_modules"]
 }

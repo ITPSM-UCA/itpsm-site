@@ -11,3 +11,10 @@ label[aria-required]:after{
   color: red;
   font-weight: bold;
 }
+
+.Tab {
+  width: 100%;
+  padding: 25px;
+  font-family: sans-serif;
+  color: #444;
+}

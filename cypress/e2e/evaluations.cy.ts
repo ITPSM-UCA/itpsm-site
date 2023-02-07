@@ -1,4 +1,4 @@
-describe('Evaluations Page', () => {
+  describe('Evaluations Page', () => {
   it('Login Successful', () => {
     cy.visit('/login')
     cy.get('input[name=email]')
