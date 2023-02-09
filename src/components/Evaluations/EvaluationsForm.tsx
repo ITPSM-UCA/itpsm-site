@@ -254,13 +254,13 @@ const EvaluationsForm = ({
     console.log("lineas")
     
 
-    let evalu =[]
-    let subeval=[]
+    let evalu:any =[]
+    let subeval:any=[]
     //colocamos la infomrracion recibida de la api entre evaluaciones y subevaluaciones
     //rowdata es es data anidada
     let rowdata= rows
     console.log(rowdata)
-    rowdata.forEach(element => {
+    rowdata.forEach((element : any) => {
       console.log(element)
       console.log(element.id)
 
@@ -281,13 +281,13 @@ const EvaluationsForm = ({
 
     
 
-    evalu.forEach(e => {
+    evalu.forEach((e:any) => {
       e.subevaluation=[]
       console.log("id", e.id)
       let idaux= parseInt(e.id)
       e.id = idaux
       // console.log("nuevaeval",e)
-      subeval.forEach(sub => {
+      subeval.forEach((sub:any) => {
         if (sub.principal_id== e.id ) {
           // console.log("Encontré una subevaluación")
           console.log(sub)
@@ -305,7 +305,7 @@ const EvaluationsForm = ({
     // rows=rowdata
     let sumeval=0
     let sumsubeval=0
-    evalu.forEach(e=>{
+    evalu.forEach((e:any)=>{
       e.subevaluation
     })
     console.log("Evaluaciones finales2", rows)

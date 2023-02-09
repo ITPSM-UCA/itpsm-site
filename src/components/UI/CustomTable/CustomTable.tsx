@@ -85,7 +85,7 @@ const CustomTable = forwardRef(({
         data={getData}
         tableRef={ref}
         actions={actions}
-        parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
+        // parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
         editable={{
           onBulkUpdate: (changes) => new Promise<void>((resolve, reject) => {
             bulkedit(changes)
@@ -162,7 +162,7 @@ const CustomTable = forwardRef(({
         data={getData}
         columns={columns}
         tableRef={ref}
-        parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
+        // parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
         actions={actions}
         options={{
           search: false,
