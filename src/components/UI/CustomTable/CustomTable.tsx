@@ -7,6 +7,11 @@ import MaterialTable, { MTableToolbar, Query, QueryResult } from 'material-table
 import SearchInput from './SearchInput'
 import PatchedPagination from './PatchedPagination'
 import { Collapse } from '@material-ui/core'
+import LoadingOverlay from 'react-loading-overlay';
+import { useState, useEffect } from 'react'
+import { set } from 'react-hook-form'
+import { divide } from 'lodash'
+
 
 interface Props {
   title: string,
@@ -34,6 +39,7 @@ const CustomTable = forwardRef(({
   bulkedit,
 }:Props, ref) => {
   const actions = []
+  const [isLoading, setLoading] = useState(false)
 
   if (onRefreshTableClicked) {
     actions.push({
@@ -68,6 +74,7 @@ const CustomTable = forwardRef(({
   }
 
   const getData = (query:Query<object>) : Promise<QueryResult<object>> => new Promise((resolve) => {
+    setLoading(true)
     fetchData(query).then((result:any) => {
       resolve({
         data: result.rows,
@@ -75,10 +82,17 @@ const CustomTable = forwardRef(({
         totalCount: result.records,
       })
     })
+    setLoading(false)
   })
 
   if (edit ) {
     return (
+      <div>
+      <LoadingOverlay
+        active={isLoading}
+        spinner
+        text='Cargando...'
+      >
       <MaterialTable
         title=""
         columns={columns}
@@ -152,11 +166,19 @@ const CustomTable = forwardRef(({
           },
         }}
       />
+      </LoadingOverlay>
+      </div>
     )
   }
   // Nueva condición para tablas con subrows
   if (!edit && collapsable) {
     return (
+      <div>
+      <LoadingOverlay
+        active={isLoading}
+        spinner
+        text='Cargando...'
+      >
       <MaterialTable
         title="Evaluaciones"
         data={getData}
@@ -224,9 +246,17 @@ const CustomTable = forwardRef(({
           },
         }}
       />
+      </LoadingOverlay>
+      </div>
     )
   }
   return (
+    <div>
+    <LoadingOverlay
+        active={isLoading}
+        spinner
+        text='Cargando...'
+    >
     <MaterialTable
       title=""
       columns={columns}
@@ -293,6 +323,8 @@ const CustomTable = forwardRef(({
         },
       }}
     />
+    </LoadingOverlay>
+    </div>
   )
 })
 
