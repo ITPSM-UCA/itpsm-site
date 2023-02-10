@@ -7,6 +7,8 @@ import MaterialTable, { MTableToolbar, Query, QueryResult } from 'material-table
 import SearchInput from './SearchInput'
 import PatchedPagination from './PatchedPagination'
 import { Collapse } from '@material-ui/core'
+import jsPDF from 'jspdf';
+import { data } from 'cypress/types/jquery'
 
 interface Props {
   title: string,
@@ -77,10 +79,22 @@ const CustomTable = forwardRef(({
     })
   })
 
+  const exportPDF =() =>{
+    var doc = new jsPDF()
+    var col = ["Principal","Descripcion","Fecha","Porcentaje"]
+    var rows=[]
+    var  datos= getData
+      
+    
+
+
+  }
+
   if (edit ) {
     return (
       <MaterialTable
         title=""
+        
         columns={columns}
         data={getData}
         tableRef={ref}
@@ -162,9 +176,10 @@ const CustomTable = forwardRef(({
         data={getData}
         columns={columns}
         tableRef={ref}
-        // parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
+        parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
         actions={actions}
         options={{
+          defaultExpanded: true ,
           search: false,
           exportButton: true,
           actionsColumnIndex: -1,
@@ -180,15 +195,17 @@ const CustomTable = forwardRef(({
             fontSize: '14px',
             textAlign: 'center',
           },
+
         }}
+
         components={{
           Toolbar: (props:any) => (
             <div className="flex flex-row justify-between">
               <div className="p-4">
-                <SearchInput
+                {/* <SearchInput
                   value={props.searchText}
                   onChanged={props.onSearchChanged}
-                />
+                /> */}
               </div>
               <div id="custom-table-buttons-container" className="flex flex-row grow justify-end">
                 <MTableToolbar {...props} className="flex" />

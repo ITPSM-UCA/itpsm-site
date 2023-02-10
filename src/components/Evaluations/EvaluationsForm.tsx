@@ -65,10 +65,14 @@ const EvaluationsForm = ({
   const stored = JSON.parse(localStorage.getItem('appState') ?? ' ')
   //intento5
   const [tabIndex, setTabIndex] = useState(0);
+  const [EvaluationsDontExist, setEvaluationsDontExist] = useState(true);
 
   const onSetEvaluationToSubject = async (formData: any) => {
     console.log("fordata",formData)
     setLoading(true)
+    formData.description= formData.subdescription
+    formData.date=formData.subdate
+    formData.percentage = formData.subpercentage
 
     const response = await createEvaluation(formData)
     if (response.errors) {
@@ -84,8 +88,11 @@ const EvaluationsForm = ({
 
   const onSetsubEvaluationToSubject = async (formData: any) => {
     formData.sub_eval =true
+    formData.name= formData.subname
+    formData.description= formData.subdescription
+    formData.date=formData.subdate
+    formData.percentage = formData.subpercentage
     console.log("sub-fordata",formData)
-    
     
 
     setLoading(true)
@@ -239,6 +246,7 @@ const EvaluationsForm = ({
   }
   
   const fetchData = async (query: any) => {
+    setEvaluationsDontExist(true)
     const customQuery = {
       query: [{
         field: 's.id',
@@ -266,6 +274,7 @@ const EvaluationsForm = ({
 
       if (element.level==1) {
         console.log("entrando en evaluacion")
+        setEvaluationsDontExist(false)
         console.log("eval", element)
         evalu.push(element)
       }else{
@@ -522,12 +531,14 @@ const EvaluationsForm = ({
       )
       &&(
         <div>
-          <h1>Evaluaciones tabs</h1>
+          {/* <h1>Evaluaciones tabs</h1> */}
           
           <Tabs id="controlled-tabs" selectedTabClassName="bg-white"  defaultIndex={tabIndex}>
             <TabList>
             <Tab>Evaluaciones</Tab>
-            <Tab>Subevaluaciones</Tab>
+            <Tab
+            disabled={EvaluationsDontExist}
+            >Subevaluaciones</Tab>
             </TabList>
             
             <TabPanel>
@@ -568,7 +579,7 @@ const EvaluationsForm = ({
         <div className="w-1/4 p-2">
           <CustomInput
             type="text"
-            name="description"
+            name="subdescription"
             label="Descripcion"
             error={errors?.description}
             disabled={isSubmitting}
@@ -579,7 +590,7 @@ const EvaluationsForm = ({
         <div className="w-1/4 p-2">
           <CustomInput
             type="date"
-            name="date"
+            name="subdate"
             label="Fecha de evaluacion"
             error={errors?.birth_date}
             disabled={isSubmitting}
@@ -590,7 +601,7 @@ const EvaluationsForm = ({
         <div className="w-1/4 p-2">
           <CustomInput
             type="number"
-            name="percentage"
+            name="subpercentage"
             label="Porcentaje"
             error={errors?.percentage}
             disabled={isSubmitting}
@@ -667,7 +678,7 @@ const EvaluationsForm = ({
         <div className="w-1/4 p-2">
           <CustomInput
             type="text"
-            name="name"
+            name="subname"
             label="Nombre de Actividad"
             error={errors?.name}
             disabled={isSubmitting}
