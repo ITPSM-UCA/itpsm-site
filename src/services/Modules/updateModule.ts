@@ -1,4 +1,3 @@
-import { any } from 'cypress/types/bluebird'
 import apiInstance from 'instances/apiInstance'
 import { onErrorHandler } from 'utils/alerts'
 
