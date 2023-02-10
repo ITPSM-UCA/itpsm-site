@@ -120,7 +120,7 @@ const ModulesForm = ({
                     <legend className="font-medium text-indigo-600">Datos</legend>
                     <div className="w-1/2 p-2">
                         <CustomInput type="number" name="code" label="Código"
-                            error={ errors?.code } disabled={ isSubmitting } register={ register }
+                            error={ errors?.code } disabled={ isSubmitting } register={ register } isReadOnly={ data.id ? true : false }
                             placeholder="200058"/>
                     </div>
                     <div className="w-1/2 p-2">
