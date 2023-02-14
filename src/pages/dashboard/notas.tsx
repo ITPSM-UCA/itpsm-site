@@ -13,13 +13,14 @@ const Enrollment: NextPage = () => {
   const [Evaluations, setEvaluations] = useState<any[]>([])
 
   async function evaluationsbycycles(formData: any) {
-    console.log(formData.code)
-
     const response = await getSubjects(formData.code)
     const response2 = await getEvaluationsStudent(formData.code)
+
     setSubjects(response)
     setEvaluations(response2)
-    console.log(response)
+
+    console.log(response, response2)
+    console.log(Subjects, Evaluations)
     if (response.error) {
 
     }
@@ -32,7 +33,8 @@ const Enrollment: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
-        <GradesForm fetchdata={evaluationsbycycles} />
+        <GradesForm fetchData={evaluationsbycycles} />
+
         {Subjects.map((j) => (
           <GradesEvaluations subjectsByCycles={Evaluations.filter((e) => e.section_id == j.code)} subjectName={j.curriculum_subject_label} />
         ))}

@@ -11,13 +11,7 @@ import BodyLoadingButton from 'components/UI/BodyLoadingButton'
 import { createStudent, updateStudent } from 'services/Students'
 import PhoneNumberInput from 'components/UI/Form/PhoneNumberInput'
 import {
-  genders,
-  homeArea,
-  bloodTypes,
-  STATUS_LABEL,
-  relationships,
-  studentsStatus,
-  highSchoolTypes,
+  bloodTypes, genders, highSchoolTypes, homeArea, relationships, STATUS_LABEL, studentsStatus,
 } from 'utils/constants/Constants'
 import CurriculaRegistration from './CurriculaRegistration'
 
@@ -73,7 +67,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
 
   const onSubmit = async (formData: any) => {
     setLoading(true)
-
+    console.log(formData)
     const functionToExecute = !empty(formData?.id) ? updateStudent : createStudent
     const response = await functionToExecute(formData)
 
@@ -168,7 +162,7 @@ const StudentForm = ({ data, toggleForm }: Props) => {
               <CustomCombobox
                 name="is_live_in_rural_area"
                 control={control}
-                placeholder="Urbana"
+                placeholder=""
                 initialValue={() => getInitialValue('rural_area', data)}
                 label="Área del domicilio"
                 error={errors?.is_live_in_rural_area}
@@ -550,30 +544,61 @@ const schema = yup.object().shape({
   birth_date: yup.string(),
   address: yup.string().required('Campo obligatorio'),
   phone_number: yup.string().nullable().matches(/^\d{4}-\d{4}$/, { message: 'Formato incorrecto', excludeEmptyString: true }),
-  home_phone_number: yup.string().nullable().matches(/^\d{4}-\d{4}$/, { message: 'Formato incorrecto', excludeEmptyString: true }),
-  gender: yup.string().required('Campo obligatorio'),
-  relationship: yup.string().required('Campo obligatorio'),
-  status: yup.string().required('Campo obligatorio'),
+  home_phone_number: yup.string()
+    .nullable()
+    .matches(/^\d{4}-\d{4}$/, {
+      message: 'Formato incorrecto',
+      excludeEmptyString: true,
+    }),
+  gender: yup.string()
+    .required('Campo obligatorio'),
+  relationship: yup.string()
+    .required('Campo obligatorio'),
+  status: yup.string()
+    .required('Campo obligatorio'),
   blood_type: yup.string(),
-  mother_name: yup.string().nullable(),
-  mother_phone_number: yup.string().nullable(),
-  father_name: yup.string().nullable(),
-  father_phone_number: yup.string().nullable(),
-  emergency_contact_name: yup.string().nullable(),
-  emergency_contact_phone: yup.string().nullable(),
-  diseases: yup.string().nullable(),
-  allergies: yup.string().nullable(),
-  entry_date: yup.number().typeError('Campo obligatorio').min(2010, 'Año mínimo 2010'),
-  entry_period: yup.number().typeError('Campo obligatorio').positive('Periodo no valido').max(2, 'Periodo entre 1 y 2'),
-  date_high_school_degree: yup.number().typeError('Campo obligatorio').min(1980, 'Año mínimo 1980'),
-  municipality_id: yup.string().required('Campo obligatorio'),
-  department_id: yup.string().required('Campo obligatorio'),
-  country_id: yup.string().required('Campo obligatorio'),
-  medicines: yup.string().nullable(),
-  is_live_in_rural_area: yup.boolean().nullable(),
-  is_private_high_school: yup.boolean().nullable(),
-  high_school_name: yup.string().nullable(),
-  high_school_option: yup.string().nullable(),
+  mother_name: yup.string()
+    .nullable(),
+  mother_phone_number: yup.string()
+    .nullable(),
+  father_name: yup.string()
+    .nullable(),
+  father_phone_number: yup.string()
+    .nullable(),
+  emergency_contact_name: yup.string()
+    .nullable(),
+  emergency_contact_phone: yup.string()
+    .nullable(),
+  diseases: yup.string()
+    .nullable(),
+  allergies: yup.string()
+    .nullable(),
+  entry_date: yup.number()
+    .typeError('Campo obligatorio')
+    .min(2010, 'Año mínimo 2010'),
+  entry_period: yup.number()
+    .typeError('Campo obligatorio')
+    .positive('Periodo no valido')
+    .max(2, 'Periodo entre 1 y 2'),
+  date_high_school_degree: yup.number()
+    .typeError('Campo obligatorio')
+    .min(1980, 'Año mínimo 1980'),
+  municipality_id: yup.string()
+    .required('Campo obligatorio'),
+  department_id: yup.string()
+    .required('Campo obligatorio'),
+  country_id: yup.string()
+    .required('Campo obligatorio'),
+  medicines: yup.string()
+    .nullable(),
+  is_live_in_rural_area: yup.number()
+    .nullable(),
+  is_private_high_school: yup.number()
+    .nullable(),
+  high_school_name: yup.string()
+    .nullable(),
+  high_school_option: yup.string()
+    .nullable(),
 })
 
 const getInitialValue = (field: string, data:any) => {

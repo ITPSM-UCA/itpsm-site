@@ -7,10 +7,10 @@ import { getPeriods } from '../../services/Evaluation'
 
 interface Props {
 
-  fetchdata: (formData: any) => void,
+  fetchdata: (e: any, formData: any) => void,
 }
-const GradesForm = ({ fetchdata }: Props) => {
 
+const GradesForm = ({ fetchData }: Props) => {
   const {
     register,
     handleSubmit,
@@ -39,34 +39,36 @@ const GradesForm = ({ fetchdata }: Props) => {
     console.log(periods)
   }
 
-  const fetchData = async () => {
+  const fetchPeriods = async () => {
     const stored = JSON.parse(localStorage.getItem('appState') ?? ' ')
     const response = await getPeriods(stored.attributes.system_reference_id)
     transformData(response)
   }
   useEffect(() => {
-    fetchData()
+    fetchPeriods()
   }, [])
 
   return (
     <form
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit(fetchdata)}
+      onSubmit={handleSubmit(fetchData)}
     >
+
       {periods.length > 0
         && (
-        <CustomCombobox
-          name="code"
-          control={control}
-          placeholder="Ciclo 01-2022"
-          label="Código"
-          error={errors}
-          options={periods}
-          setValue={setValue}
-          clearErrors={clearErrors}
-          initialValue={{}}
-        />
+          <CustomCombobox
+            name="code"
+            control={control}
+            placeholder="Ciclo 01-2022"
+            label="Código"
+            error={errors?.code}
+            options={periods}
+            setValue={setValue}
+            clearErrors={clearErrors}
+            initialValue={{}}
+          />
+
         )}
       <button
         type="submit"
@@ -78,8 +80,7 @@ const GradesForm = ({ fetchdata }: Props) => {
 
   )
 }
-const schema = yup.object().shape({
-  code: yup.string().required('Este campo es obligatorio.'),
-})
+const schema = yup.object()
+  .shape({})
 
 export default GradesForm

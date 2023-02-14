@@ -53,8 +53,11 @@ const Subjects = ({ subjects }: any) => (
               </dl>
             </td>
             <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{curricula?.teacher_name}</td>
-            <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{curricula?.final_score}</td>
-            <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.is_approved ? 'Aprobado' : 'Reprobado'}</td>
+            <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">
+              {curricula?.final_score > 0 ? parseFloat(curricula?.final_score)
+                .toFixed(2) : ''}
+            </td>
+            <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.final_score > 0 ? (curricula?.is_approved ? 'Aprobado' : 'Reprobado') : ''}</td>
             <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{curricula?.enrollment}</td>
           </tr>
         ))}

@@ -37,7 +37,6 @@ const CustomCombobox = ({
   placeholder,
   initialValue,
 }: Props) => {
- 
   const [query, setQuery] = useState('')
   const [selectedItem, setSelectedItem] = useState(initialValue)
   const [filteredData, setFilteredData] = useState(options)
@@ -53,6 +52,7 @@ const CustomCombobox = ({
   }
 
   const onSelectOption = (item: Option, onBlur: any) => {
+    console.log(item)
     setSelectedItem(item)
 
     setValue(name, item?.value)
