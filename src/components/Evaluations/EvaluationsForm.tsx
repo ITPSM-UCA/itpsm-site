@@ -301,9 +301,24 @@ const EvaluationsForm = ({
             </DialogContent>
             <DialogActions>
 
-              <button onClick={() => aprobar('A')}>Aprobar</button>
-              <button onClick={() => aprobar('R')}>Rechazar</button>
-              <button onClick={handleClickOpen}>Cancelar</button>
+              <button
+                onClick={() => aprobar('A')}
+                className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-red-700 focus:outline-none gap-x-2"
+              >
+                Aprobar
+              </button>
+              <button
+                onClick={() => aprobar('R')}
+                className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-black focus:outline-none"
+              >
+                Rechazar
+              </button>
+              <button
+                onClick={handleClickOpen}
+                className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+              >
+                Cancelar
+              </button>
             </DialogActions>
           </Dialog>
         </>
