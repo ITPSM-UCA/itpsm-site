@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import CustomInput from 'components/UI/Form/CustomInput'
 import { useState } from 'react'
 import Loader from 'components/UI/Loader'
+import 'react-tabs/style/react-tabs.css';
 
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import {
@@ -532,7 +533,18 @@ const EvaluationsForm = ({
       &&(
         <div>
           {/* <h1>Evaluaciones tabs</h1> */}
-          
+          <div className="flex justify-between">
+            <h1 className="text-2xl font-semibold text-gray-900">{data.curriculum_subject_label}</h1>
+            <button
+            type="button"
+            onClick={onCloseForm}
+            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+            >
+            Atras
+            </button>
+          </div>
+
+
           <Tabs id="controlled-tabs" selectedTabClassName="bg-white"  defaultIndex={tabIndex}>
             <TabList>
             <Tab>Evaluaciones</Tab>
@@ -548,16 +560,16 @@ const EvaluationsForm = ({
     onSubmit={handleSubmit(onSetEvaluationToSubject)}
   >
     <div className="flex justify-between">
-      <h1 className="text-2xl font-semibold text-gray-900">{data.curriculum_subject_label}</h1>
+      {/* <h1 className="text-2xl font-semibold text-gray-900">{data.curriculum_subject_label}</h1> */}
 
       <div className="flex gap-x-4">
-        <button
+        {/* <button
           type="button"
           onClick={onCloseForm}
           className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
         >
           Atras
-        </button>
+        </button> */}
 
       </div>
     </div>
@@ -658,16 +670,15 @@ const EvaluationsForm = ({
     onSubmit={handleSubmit(onSetsubEvaluationToSubject)}
   >
     <div className="flex justify-between">
-      <h1 className="text-2xl font-semibold text-gray-900">{data.curriculum_subject_label}</h1>
-
+      
       <div className="flex gap-x-4">
-        <button
+        {/* <button
           type="button"
           onClick={onCloseForm}
           className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
         >
           Atras
-        </button>
+        </button> */}
 
       </div>
     </div>
