@@ -95,9 +95,10 @@ const columns = [
 ]
 
 const initialData = {
-  code: '',
+  code: '1',
   year: new Date().getFullYear(),
   status: 'E',
+  label: 'Ciclo 01',
 }
 
 export default withAuth(Curricula)

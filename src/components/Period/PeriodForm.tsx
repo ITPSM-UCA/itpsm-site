@@ -180,7 +180,7 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
 }
 
 const schema = yup.object().shape({
-  code: yup.string().required('Este campo es obligatorio.'),
+  code: yup.number().required('Este campo es obligatorio.'),
   year: yup.number().required('Este campo es obligatorio.').positive().integer(),
   status: yup.string().required('Este campo es obligatorio.'),
 })
