@@ -17,7 +17,6 @@ interface Props {
 }
 
 const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
-
   const {
     register,
     handleSubmit,
@@ -32,49 +31,41 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
     defaultValues: data,
     resolver: yupResolver(schema),
   })
- 
+
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
   const [cancelation, setcancelation] = useState(false)
 
   const onCreatePeriod = async (formData: any) => {
     setLoading(true)
-    
-    if(cancelation && confirm("Desea cerrar el ciclo?")){
 
-      formData={...formData,status:"C"}
+    if (cancelation && confirm('Desea cerrar el ciclo?')) {
+      formData = { ...formData, status: 'C' }
       const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
       const response = await functionToExecute(formData)
-      
-    if (response.errors) {
-      setLoading(false)
-      
-    }else{
-      const successMessage = !empty(formData?.id) ? 'Ciclo de estudio actualizado correctamente.' : 'Ciclo de estudio creado correctamente.'
-      showMessage('¡Exito!', successMessage)
-      toggleForm()
+
+      if (response.errors) {
+        setLoading(false)
+      } else {
+        const successMessage = !empty(formData?.id) ? 'Ciclo de estudio actualizado correctamente.' : 'Ciclo de estudio creado correctamente.'
+        showMessage('¡Exito!', successMessage)
+        toggleForm()
+      }
     }
+    else if (!cancelation) {
+      const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
+      const response = await functionToExecute(formData)
+
+      if (response.errors) {
+        setLoading(false)
+      } else {
+        const successMessage = !empty(formData?.id) ? 'Ciclo de estudio actualizado correctamente.' : 'Ciclo de estudio creado correctamente.'
+        showMessage('¡Exito!', successMessage)
+        toggleForm()
+      }
     }
-   else if(!cancelation){
-    const functionToExecute = !empty(formData?.id) ? updatePeriod : createPeriod
-   const response = await functionToExecute(formData)
-   
-   if (response.errors) {
-    setLoading(false)
-    
-  }else{
-    const successMessage = !empty(formData?.id) ? 'Ciclo de estudio actualizado correctamente.' : 'Ciclo de estudio creado correctamente.'
-    showMessage('¡Exito!', successMessage)
-    toggleForm()
-  }
-   }
-
-
-
-    
 
     setLoading(false)
-    
   }
 
   const onCloseForm = () => {
@@ -112,18 +103,21 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
           >
             Atras
           </button>
-          { data?.id &&
+          { data?.id
+            && (
             <button
-                  onClick={() => setcancelation(true)}
-                  type="submit"
-                  className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-900 focus:outline-none gap-x-2">
-                 Cerrar Ciclo
-                </button>
-          }
-          
+              onClick={() => setcancelation(true)}
+              type="submit"
+              className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-900 focus:outline-none gap-x-2"
+            >
+              Cerrar Ciclo
+            </button>
+            )}
+
           <button
             type="submit"
-            className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2">
+            className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2"
+          >
             {buttonText}
           </button>
         </div>
@@ -159,7 +153,6 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
           </div>
           <div className="w-1/4 p-2">
             { data.status !== 'C' && (
-              <>
               <CustomCombobox
                 name="status"
                 control={control}
@@ -171,13 +164,14 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
                 clearErrors={clearErrors}
                 initialValue={() => getInitialValue('status', data)}
               />
-
-               
-              </>
             )}
             { data.status === 'C'
-            && <div style={{marginTop:'4vh'}}>Estado: <span style={{color:'red'}}>Cerrado</span> </div>
-            }
+            && (
+            <div style={{ marginTop: '4vh' }}>
+              Estado:
+              <span style={{ color: 'red' }}>Cerrado</span>
+            </div>
+            )}
           </div>
         </fieldset>
       </div>
@@ -186,7 +180,7 @@ const PeriodForm = ({ data, clearData, toggleForm }: Props) => {
 }
 
 const schema = yup.object().shape({
-  code: yup.number().required('Este campo es obligatorio.'),
+  code: yup.string().required('Este campo es obligatorio.'),
   year: yup.number().required('Este campo es obligatorio.').positive().integer(),
   status: yup.string().required('Este campo es obligatorio.'),
 })
