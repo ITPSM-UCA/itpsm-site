@@ -79,16 +79,16 @@ const CustomTable = forwardRef(({
     })
   })
 
-  const exportPDF =() =>{
-    var doc = new jsPDF()
-    var col = ["Principal","Descripcion","Fecha","Porcentaje"]
-    var rows=[]
-    var  datos= getData
+  // const exportPDF =() =>{
+  //   var doc = new jsPDF()
+  //   var col = ["Principal","Descripcion","Fecha","Porcentaje"]
+  //   var rows=[]
+  //   var  datos= getData
       
     
 
 
-  }
+  // }
 
   if (edit ) {
     return (
