@@ -1,116 +1,52 @@
-  describe('Evaluations Page', () => {
+describe('Evaluations Page', () => {
   it('Login Successful', () => {
     cy.visit('/login')
     cy.get('input[name=email]')
-      .type('zack.wuckert@rowe.biz')
+      .type('gulgowski.javonte@hotmail.com')
     cy.get('input[name=password]')
-      .type('FAQVQZHX')
+      .type('6BZKYGN3')
     cy.get('button[type=submit]')
       .click()
     cy.get('h4')
       .should('contain', 'Bienvenido')
   })
-  it('Secciones Table Load', () => {
+
+  it('Configuracion de evaluaciones', () => {
     cy.visit('/login')
     cy.get('input[name=email]')
-      .type('zack.wuckert@rowe.biz')
+      .type('gulgowski.javonte@hotmail.com')
     cy.get('input[name=password]')
-      .type('FAQVQZHX')
+      .type('6BZKYGN3')
     cy.get('button[type=submit]')
       .click()
     cy.get('h4')
       .should('contain', 'Bienvenido')
     cy.visit('/dashboard/mis-secciones')
-    cy.contains('Inglés técnico')
-  })
-  it('Evaluations form Load', () => {
-    cy.visit('/login')
-    cy.get('input[name=email]')
-      .type('zack.wuckert@rowe.biz')
-    cy.get('input[name=password]')
-      .type('FAQVQZHX')
-    cy.get('button[type=submit]')
+    cy.get('[index="0"] > .MuiTableCell-paddingNone > div > .MuiButtonBase-root > .MuiIconButton-label > .material-icons')
       .click()
-    cy.get('h4')
-      .should('contain', 'Bienvenido')
-    cy.visit('/dashboard/mis-secciones')
-    cy.wait(10000)
-    cy.contains('Inglés técnico')
-    cy.contains('span[class="material-icons MuiIcon-root"]', 'edit')
+    cy.get(':nth-child(2) > :nth-child(1) > .mt-1 > .appearance-none')
+      .clear('P')
+    cy.get(':nth-child(2) > :nth-child(1) > .mt-1 > .appearance-none')
+      .type('PARCIAL FINAL')
+    cy.get(':nth-child(3) > :nth-child(1) > .mt-1 > .appearance-none')
+      .clear()
+    cy.get(':nth-child(3) > :nth-child(1) > .mt-1 > .appearance-none')
+      .type('PARCIAL')
+    cy.get(':nth-child(4) > :nth-child(1) > .mt-1 > .appearance-none')
+      .clear()
+    cy.get(':nth-child(4) > :nth-child(1) > .mt-1 > .appearance-none')
+      .type('1998-12-12')
+    cy.get(':nth-child(5) > :nth-child(1) > .mt-1 > .appearance-none')
+      .clear()
+    cy.get(':nth-child(5) > :nth-child(1) > .mt-1 > .appearance-none')
+      .type('100')
+    cy.get('.self-end > .inline-flex > span')
+      .click()
+    cy.get('.max-w-7xl > :nth-child(1)')
       .click()
   })
-  it('Evaluations form use', () => {
-    cy.visit('http://localhost:3000/login');
 
-
-    /* ==== Generated with Cypress Studio ==== */
-    cy.get('.space-y-6 > :nth-child(1) > .mt-1 > .appearance-none').clear('zack.wuckert@rowe.biz');
-    cy.get('.space-y-6 > :nth-child(1) > .mt-1 > .appearance-none').type('zack.wuckert@rowe.biz');
-    cy.get('.relative > :nth-child(1) > .mt-1 > .appearance-none').clear('FAQVQZHX');
-    cy.get('.relative > :nth-child(1) > .mt-1 > .appearance-none').type('FAQVQZHX');
-    cy.get(':nth-child(4) > .w-full').click();
-    cy.wait(4000);
-    cy.get('[href="/dashboard/mis-secciones"] > span').click();
-    cy.wait(4000);
-    cy.get('div > .MuiButtonBase-root > .MuiIconButton-label > .material-icons').click();
-    cy.wait(4000);
-    cy.get(':nth-child(2) > :nth-child(1) > .mt-1 > .appearance-none').clear('te');
-    cy.get(':nth-child(2) > :nth-child(1) > .mt-1 > .appearance-none').type('test1');
-    cy.get(':nth-child(3) > :nth-child(1) > .mt-1 > .appearance-none').clear('te');
-    cy.get(':nth-child(3) > :nth-child(1) > .mt-1 > .appearance-none').type('test1');
-    cy.get(':nth-child(4) > :nth-child(1) > .mt-1 > .appearance-none').clear('0002-03-03');
-    cy.get(':nth-child(4) > :nth-child(1) > .mt-1 > .appearance-none').type('2023-03-03');
-    cy.get(':nth-child(5) > :nth-child(1) > .mt-1 > .appearance-none').clear('1');
-    cy.get(':nth-child(5) > :nth-child(1) > .mt-1 > .appearance-none').type('10');
-    cy.get('.self-end > .inline-flex > span').click();
-    cy.wait(4000);
-    cy.get('#tab\\:r1\\:1').click();
-    cy.wait(4000);
-    cy.get(':nth-child(2) > :nth-child(1) > .mt-1 > .appearance-none').clear('te');
-    cy.get(':nth-child(2) > :nth-child(1) > .mt-1 > .appearance-none').type('test2');
-    cy.get(':nth-child(3) > :nth-child(1) > .mt-1 > .appearance-none').clear('te');
-    cy.get(':nth-child(3) > :nth-child(1) > .mt-1 > .appearance-none').type('test2');
-    cy.get(':nth-child(4) > :nth-child(1) > .mt-1 > .appearance-none').clear('0002-03-03');
-    cy.get(':nth-child(4) > :nth-child(1) > .mt-1 > .appearance-none').type('2023-03-03');
-    cy.get(':nth-child(5) > :nth-child(1) > .mt-1 > .appearance-none').clear('1');
-    cy.get(':nth-child(5) > :nth-child(1) > .mt-1 > .appearance-none').type('10');
-    cy.get('.h-5').click();
-    cy.wait(4000);
-    cy.get('#headlessui-combobox-option-\\:r9\\: > .block').click();
-    cy.wait(4000);
-    cy.get('.self-end > .inline-flex > span').click();
-    cy.wait(4000);
-    /* ==== End Cypress Studio ==== */
-  })
-  it('Evaluations approval', () => {
-    // cy.visit('/login')
-    // cy.get('input[name=email]')
-    //   .type('zack.wuckert@rowe.biz')
-    // cy.get('input[name=password]')
-    //   .type('FAQVQZHX')
-    // cy.get('button[type=submit]')
-    //   .click()
-    // cy.get('h4')
-    //   .should('contain', 'Bienvenido')
-    // cy.visit('/dashboard/mis-secciones')
-    // cy.wait(10000)
-    // cy.contains('Inglés técnico')
-    // cy.contains('span[class="material-icons MuiIcon-root"]', 'edit')
-    //   .click()
-    // cy.get('input[name=name]')
-    //   .type('test')
-    // cy.get('input[name=description]')
-    //   .type('test')
-    // cy.get('input[name=date]')
-    //   .type('2022-12-11')
-    // cy.get('input[name=percentage]')
-    //   .type('2')
-    // cy.contains('Asociar Evaluacion')
-    //   .click()
-    // cy.contains('Solicitar Aprobacion')
-    //   .click()
-  })
-  it('Evaluations admin approval', () => {
+  it('Aprobacion de plan', () => {
     cy.visit('/login')
     cy.get('input[name=email]')
       .type('admin@itpsm.edu.sv')
@@ -121,9 +57,68 @@
     cy.get('h4')
       .should('contain', 'Bienvenido')
     cy.visit('/dashboard/aprobaciones')
-    cy.wait(10000)
-    cy.contains('Inglés técnico')
-    cy.contains('span[class="material-icons MuiIcon-root"]', 'edit')
+
+    cy.get('[index="0"] > .MuiTableCell-paddingNone > div > .MuiButtonBase-root > .MuiIconButton-label > .material-icons')
+      .click()
+    cy.get('.border-transparent')
+      .click()
+    cy.get('.MuiFormControl-root')
+      .click()
+    cy.get('.MuiDialogContent-root')
+      .click()
+    cy.get('#comments')
+      .clear('A')
+    cy.get('#comments')
+      .type('Aprobado')
+    cy.get('.MuiDialogActions-root > :nth-child(1)')
+      .click()
+    cy.get('.max-w-7xl > .bg-white')
+      .click()
+  })
+  it('Publicacion de evaluaciones', () => {
+    cy.visit('/login')
+    cy.get('input[name=email]')
+      .type('gulgowski.javonte@hotmail.com')
+    cy.get('input[name=password]')
+      .type('6BZKYGN3')
+    cy.get('button[type=submit]')
+      .click()
+    cy.get('h4')
+      .should('contain', 'Bienvenido')
+    cy.visit('/dashboard/mis-secciones')
+
+    cy.get('[index="0"] > .MuiTableCell-paddingNone > div > .MuiButtonBase-root > .MuiIconButton-label > .material-icons')
+      .click()
+    cy.get('.border-transparent')
+      .click()
+    cy.get('.max-w-7xl > .bg-white')
+      .click()
+  })
+  it('Rechazo de plan', () => {
+    cy.visit('/login')
+    cy.get('input[name=email]')
+      .type('admin@itpsm.edu.sv')
+    cy.get('input[name=password]')
+      .type('password')
+    cy.get('button[type=submit]')
+      .click()
+    cy.get('h4')
+      .should('contain', 'Bienvenido')
+    cy.visit('/dashboard/aprobaciones')
+
+    cy.get('[index="0"] > .MuiTableCell-paddingNone > div > .MuiButtonBase-root > .MuiIconButton-label > .material-icons')
+      .click()
+    cy.get('.border-transparent')
+      .click()
+    cy.get('.MuiDialogContent-root')
+      .click()
+    cy.get('#comments')
+      .clear('tes')
+    cy.get('#comments')
+      .type('test')
+    cy.get('.MuiDialogActions-root > :nth-child(2)')
+      .click()
+    cy.get('.max-w-7xl > .bg-white')
       .click()
   })
 })
