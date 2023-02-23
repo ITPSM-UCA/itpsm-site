@@ -176,7 +176,7 @@ const CustomTable = forwardRef(({
         data={getData}
         columns={columns}
         tableRef={ref}
-        parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
+        // parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
         actions={actions}
         options={{
           defaultExpanded: true ,
