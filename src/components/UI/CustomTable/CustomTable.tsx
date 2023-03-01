@@ -17,6 +17,7 @@ interface Props {
   onDeleteClickedAction?: any,
   onRefreshTableClicked?: () => void,
   bulkedit?: any,
+  searchFieldRegex?: RegExp
 }
 
 const CustomTable = forwardRef(({
@@ -29,6 +30,7 @@ const CustomTable = forwardRef(({
   onRefreshTableClicked,
   onDeleteClickedAction,
   bulkedit,
+  searchFieldRegex
 }:Props, ref) => {
   const actions = []
 
@@ -56,13 +58,16 @@ const CustomTable = forwardRef(({
       onClick: onEditClickedAction,
     })
   }
-  if (onDeleteClickedAction && onDeleteClickedAction !== {}) {
+  if (onDeleteClickedAction) {
     actions.push({
       icon: 'delete',
       tooltip: 'Borrar registro',
       onClick: onDeleteClickedAction,
     })
   }
+
+  if(!searchFieldRegex) 
+    searchFieldRegex = /^.*$/
 
   const getData = (query:Query<object>) : Promise<QueryResult<object>> => new Promise((resolve) => {
     fetchData(query).then((result:any) => {
@@ -113,6 +118,7 @@ const CustomTable = forwardRef(({
                 <SearchInput
                   value={props.searchText}
                   onChanged={props.onSearchChanged}
+                  applyRegex={searchFieldRegex}
                 />
               </div>
               <div id="custom-table-buttons-container" className="flex flex-row grow justify-end">
@@ -182,6 +188,7 @@ const CustomTable = forwardRef(({
               <SearchInput
                 value={props.searchText}
                 onChanged={props.onSearchChanged}
+                applyRegex={searchFieldRegex}
               />
             </div>
             <div id="custom-table-buttons-container" className="flex flex-row grow justify-end">

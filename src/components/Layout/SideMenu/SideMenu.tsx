@@ -2,7 +2,8 @@ import { useRouter } from 'next/router'
 import { MdSchool } from 'react-icons/md'
 import { GiTeacher } from 'react-icons/gi'
 import { HiOutlineUsers } from 'react-icons/hi'
-import { AiOutlineCalendar, AiTwotoneSchedule } from 'react-icons/ai'
+import { AiTwotoneSchedule, AiOutlineCalendar } from 'react-icons/ai'
+import { VscFileSubmodule } from 'react-icons/vsc'
 
 import MenuItem from './MenuItem'
 import UserInfo from '../User/UserInfo'
@@ -51,6 +52,8 @@ const getIcon = (icon:string) => {
       return AiOutlineCalendar
     case 'HiOutlineUsers':
       return HiOutlineUsers
+    case 'VscFileSubmodule':
+      return VscFileSubmodule
     default:
       return MdSchool
   }
