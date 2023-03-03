@@ -332,6 +332,13 @@ const EvaluationsForm = ({
   let buttonText = <span>Asociar Evaluacion</span>
   let buttonText2 = <span>Asociar Subevaluacion</span>
 
+  const divFormStyle = {
+    backgroundColor: "#eee",
+    padding: "10px",
+    borderRadius:10,
+  };
+
+
   if (loading) {
     buttonText = (
       <>
@@ -532,7 +539,7 @@ const EvaluationsForm = ({
         
       )
       &&(
-        <div>
+        <div >
           {/* <h1>Evaluaciones tabs</h1> */}
           <div className="flex justify-between">
             <h1 className="text-2xl font-semibold text-gray-900">{data.curriculum_subject_label}</h1>
@@ -544,7 +551,7 @@ const EvaluationsForm = ({
             Atras
             </button>
           </div>
-
+          <div style={divFormStyle}>
 
           <Tabs id="controlled-tabs" selectedTabClassName="bg-white"  defaultIndex={tabIndex}>
             <TabList>
@@ -560,7 +567,7 @@ const EvaluationsForm = ({
     autoComplete="off"
     onSubmit={handleSubmit(onSetEvaluationToSubject)}
   >
-    <div className="flex justify-between">
+    <div className="flex justify-between" >
       {/* <h1 className="text-2xl font-semibold text-gray-900">{data.curriculum_subject_label}</h1> */}
 
       <div className="flex gap-x-4">
@@ -577,7 +584,7 @@ const EvaluationsForm = ({
 
     <div>
       <fieldset className="flex flex-wrap border rounded-md border-solid border-gray-300 p-3 mb-2">
-        <legend className="font-medium text-indigo-600">Crear Evaluaciones</legend>
+        {/* <legend className="font-medium text-indigo-600">Crear Evaluaciones</legend> */}
         <div className="w-1/4 p-2">
           <CustomInput
             type="text"
@@ -686,7 +693,7 @@ const EvaluationsForm = ({
 
     <div>
       <fieldset className="flex flex-wrap border rounded-md border-solid border-gray-300 p-3 mb-2">
-        <legend className="font-medium text-indigo-600">Crear Subevaluaciones</legend>
+        {/* <legend className="font-medium text-indigo-600">Crear Subevaluaciones</legend> */}
         <div className="w-1/4 p-2">
           <CustomInput
             type="text"
@@ -774,7 +781,7 @@ const EvaluationsForm = ({
             </TabPanel>
           </Tabs>
 
-
+          </div>
         </div>
 
       )
