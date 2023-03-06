@@ -10,7 +10,7 @@ interface Props {
   fetchdata: (e: any, formData: any) => void,
 }
 
-const GradesForm = ({ fetchData }: Props) => {
+const GradesForm = ({ fetchdata }: Props) => {
   const {
     register,
     handleSubmit,
@@ -52,7 +52,7 @@ const GradesForm = ({ fetchData }: Props) => {
     <form
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit(fetchData)}
+      onSubmit={handleSubmit(fetchdata)}
     >
 
       {periods.length > 0
@@ -62,7 +62,7 @@ const GradesForm = ({ fetchData }: Props) => {
             control={control}
             placeholder="Ciclo 01-2022"
             label="Código"
-            error={errors?.code}
+            error={errors}
             options={periods}
             setValue={setValue}
             clearErrors={clearErrors}
