@@ -189,6 +189,7 @@ const GradesForm = ({
         <CustomTable
           edit
           fetchData={fetchData}
+          collapsable={false}
           ref={tableRef}
           columns={columns}
           title="Catedráticos"

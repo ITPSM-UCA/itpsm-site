@@ -20,7 +20,8 @@ const ModulesTable = ({
 
         <div>
             <CustomTable
-                edit={ false }
+                collapsable={false}
+                edit={ false}
                 fetchData={ fetchData }
                 ref={ tableRef }
                 columns={ columns }
