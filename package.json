@@ -23,6 +23,7 @@
     "material-table": "1.69.3",
     "next": "^12.1.5",
     "next-i18next": "^10.3.0",
+    "papaparse": "^5.4.0",
     "react": "^18.0.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.0.0",
@@ -31,8 +32,10 @@
     "react-icons": "^4.3.1",
     "react-loading-overlay": "^1.0.1",
     "react-number-format": "^4.9.3",
+    "react-papaparse": "^4.1.0",
     "react-redux": "^7.2.6",
     "react-spinners": "^0.13.8",
+    "react-widgets": "^5.8.4",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "yup": "^0.32.11"
