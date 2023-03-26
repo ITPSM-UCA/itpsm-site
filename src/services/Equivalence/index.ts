@@ -1,7 +1,9 @@
-import getCurricula from './getEquivalence'
+import getEquivalence from './getEquivalence'
 import createEquivalence from './CreateEquivalence'
+import GetEquivalenceByStudentId from './GetEquivalenceByStudentId'
 
 export {
-  getCurricula,
+  getEquivalence,
   createEquivalence,
+  GetEquivalenceByStudentId
 }

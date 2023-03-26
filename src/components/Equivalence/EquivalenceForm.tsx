@@ -18,6 +18,7 @@ import {
 import CurriculaDataForm from 'components/Equivalence/CurriculaDataForm'
 import 'react-tabs/style/react-tabs.css';
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import EquivalenceDataForm from './EquivalenceDataForm'
 
 interface Props {
   data: any
@@ -542,7 +543,8 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
                     </form>
                     </TabPanel>
                     </Tabs>
-                </div>    
+                </div>
+                {!empty(currentStudentID) && (<EquivalenceDataForm data={dataForSubjectRegistration} />)}    
                 
             </div>
     </>
