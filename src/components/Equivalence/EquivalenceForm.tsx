@@ -19,6 +19,9 @@ import CurriculaDataForm from 'components/Equivalence/CurriculaDataForm'
 import 'react-tabs/style/react-tabs.css';
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import EquivalenceDataForm from './EquivalenceDataForm'
+import { redirect } from 'next/dist/server/api-utils'
+
+import { useRouter } from 'next/router'
 
 interface Props {
   data: any
@@ -39,6 +42,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
     defaultValues: data,
     resolver: yupResolver(schema),
   })
+  let router= useRouter()
   const countries = useSelector((state: any) => state.config.countries)
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
@@ -48,6 +52,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
   const currentEntryYear = watch('entry_date')
   const [municipaltiesOptions, setMunicipaltiesOptions] = useState([])
   const [departmentsOptions, setDepartmentsOptions] = useState([])
+  const [EligibleforEquivalence, setEligibleforEquivalence] = useState(true)
   const [dataForSubjectRegistration, setDataForSubjectRegistration] = useState({
     student_id: currentStudentID, entry_year: currentEntryYear, graduation_year: currentEntryYear + 3, cum: 0, curriculum_id: '',
   })
@@ -64,7 +69,10 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
 
   const [curriculaOptions, setCurriculaOptions] = useState<any[]>([])
   const curriculas = useSelector((state: any) => state.config.curricula)
-
+  const [pendingSubjects, setpendingSubjects] = useState([])
+  const [pendingSubjectsOptions, setpendingSubjectsOptions] = useState<any[]>([])
+  var pendingSubjectList =[]
+  
 
 
   useEffect(() => {
@@ -77,17 +85,6 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
     }
   }, [curriculas])
 
-  const curriculumSubjects = useSelector((state: any) => state.config.curriculum_subjects)
-
-  const curriculumSubjectsList = transformCurriculumSubjects(curriculumSubjects)
-  
-  const [pendingSubjects, setpendingSubjects] = useState([])
-  const [pendingSubjectsOptions, setpendingSubjectsOptions] = useState<any[]>([])
-  var pendingSubjectList =[]
-
-  
-  const [refresh, setRefresh]= useState(false)
-  
   useEffect(()=>{
     let exampledata:any = [];
     console.log(currentStudentID);
@@ -111,7 +108,12 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
 
       setpendingSubjectsOptions(transformPendingCurriculumSubjects(exampledata))
       pendingSubjectList=transformPendingCurriculumSubjects(exampledata);
-
+      // console.log(pendingSubjectList.lenght())
+      if(pendingSubjectList.length==0){
+        setEligibleforEquivalence(false)
+        showMessage("Error","No tiene una carrera seleccionada el estudiante")
+        router.push('/dashboard/equivalencias')
+      }
       // console.log(pendingSubjectsOptions, "postprocesado")
       return true;
     } 
@@ -121,21 +123,35 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
 
   },[])
 
-  useEffect(() => {
-    console.log(pendingSubjects, "cafeconleche1");
-    console.log(pendingSubjectsOptions, "cafeconleche2");
-  }, [pendingSubjects, pendingSubjectsOptions]);
+  const curriculumSubjects = useSelector((state: any) => state.config.curriculum_subjects)
+
+  const curriculumSubjectsList = transformCurriculumSubjects(curriculumSubjects)
+
+  const curriculumSubjectsList2 = transformPendingCurriculumSubjects(pendingSubjects)
+  
+
+
+  
+  const [refresh, setRefresh]= useState(false)
+  
+
 
   useEffect(() => {
-    if (!empty([pendingSubjects])) {
-      const subjectsArray = [pendingSubjects].map((s: any) => ({
-        value: s?.id,
-        label: s?.name,
-      }))
-      // setCurriculaOptions(curriculasArray)
-      setpendingSubjectsOptions(subjectsArray)
-    }
-  }, [pendingSubjects])
+    console.log(pendingSubjects, "pending");
+    console.log(pendingSubjectsOptions, "pendingSubjectsOptiosn");
+    console.log(curriculaOptions,"pepe")
+  }, [pendingSubjects, pendingSubjectsOptions,curriculaOptions]);
+
+  // useEffect(() => {
+  //   if (!empty([pendingSubjects])) {
+  //     const subjectsArray = [pendingSubjects].map((s: any) => ({
+  //       value: s?.id,
+  //       label: s?.name,
+  //     }))
+  //     // setCurriculaOptions(curriculasArray)
+  //     setpendingSubjectsOptions(subjectsArray)
+  //   }
+  // }, [pendingSubjects])
   
 
 
@@ -421,7 +437,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
                       placeholder="Seleccionar Materia ..."
                       label="Modulo"
                       error={errors?.curriculum_subject_id}
-                      options={pendingSubjectsOptions}
+                      options={curriculumSubjectsList}
                       setValue={setValue}
                       clearErrors={clearErrors}
                       initialValue={{}}
@@ -573,69 +589,74 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
 }
 
 const schema = yup.object().shape({
-  carnet: yup.string(),
-  name: yup.string().required('Campo obligatorio'),
-  last_name: yup.string().required('Campo obligatorio'),
-  email: yup.string().required('Campo obligatorio').email('Dirección de correo no válida.'),
-  institutional_email: yup.string().email('Dirección de correo no válida.'),
-  birth_date: yup.string(),
-  address: yup.string().required('Campo obligatorio'),
-  phone_number: yup.string().nullable().matches(/^\d{4}-\d{4}$/, { message: 'Formato incorrecto', excludeEmptyString: true }),
-  home_phone_number: yup.string()
-    .nullable()
-    .matches(/^\d{4}-\d{4}$/, {
-      message: 'Formato incorrecto',
-      excludeEmptyString: true,
-    }),
-  gender: yup.string()
-    .required('Campo obligatorio'),
-  relationship: yup.string()
-    .required('Campo obligatorio'),
-  status: yup.string()
-    .required('Campo obligatorio'),
-  blood_type: yup.string(),
-  mother_name: yup.string()
-    .nullable(),
-  mother_phone_number: yup.string()
-    .nullable(),
-  father_name: yup.string()
-    .nullable(),
-  father_phone_number: yup.string()
-    .nullable(),
-  emergency_contact_name: yup.string()
-    .nullable(),
-  emergency_contact_phone: yup.string()
-    .nullable(),
-  diseases: yup.string()
-    .nullable(),
-  allergies: yup.string()
-    .nullable(),
-  entry_date: yup.number()
+    score: yup.number()
     .typeError('Campo obligatorio')
-    .min(2010, 'Año mínimo 2010'),
-  entry_period: yup.number()
-    .typeError('Campo obligatorio')
-    .positive('Periodo no valido')
-    .max(2, 'Periodo entre 1 y 2'),
-  date_high_school_degree: yup.number()
-    .typeError('Campo obligatorio')
-    .min(1980, 'Año mínimo 1980'),
-  municipality_id: yup.string()
-    .required('Campo obligatorio'),
-  department_id: yup.string()
-    .required('Campo obligatorio'),
-  country_id: yup.string()
-    .required('Campo obligatorio'),
-  medicines: yup.string()
-    .nullable(),
-  is_live_in_rural_area: yup.number()
-    .nullable(),
-  is_private_high_school: yup.number()
-    .nullable(),
-  high_school_name: yup.string()
-    .nullable(),
-  high_school_option: yup.string()
-    .nullable(),
+    .min(6,'Nota mínima es 6'),
+    institution: yup.string().required('Campo obligatorio'),
+    subjectname: yup.string().required('Campo obligatorio'),
+  // carnet: yup.string(),
+  // name: yup.string().required('Campo obligatorio'),
+  // last_name: yup.string().required('Campo obligatorio'),
+  // email: yup.string().required('Campo obligatorio').email('Dirección de correo no válida.'),
+  // institutional_email: yup.string().email('Dirección de correo no válida.'),
+  // birth_date: yup.string(),
+  // address: yup.string().required('Campo obligatorio'),
+  // phone_number: yup.string().nullable().matches(/^\d{4}-\d{4}$/, { message: 'Formato incorrecto', excludeEmptyString: true }),
+  // home_phone_number: yup.string()
+  //   .nullable()
+  //   .matches(/^\d{4}-\d{4}$/, {
+  //     message: 'Formato incorrecto',
+  //     excludeEmptyString: true,
+  //   }),
+  // gender: yup.string()
+  //   .required('Campo obligatorio'),
+  // relationship: yup.string()
+  //   .required('Campo obligatorio'),
+  // status: yup.string()
+  //   .required('Campo obligatorio'),
+  // blood_type: yup.string(),
+  // mother_name: yup.string()
+  //   .nullable(),
+  // mother_phone_number: yup.string()
+  //   .nullable(),
+  // father_name: yup.string()
+  //   .nullable(),
+  // father_phone_number: yup.string()
+  //   .nullable(),
+  // emergency_contact_name: yup.string()
+  //   .nullable(),
+  // emergency_contact_phone: yup.string()
+  //   .nullable(),
+  // diseases: yup.string()
+  //   .nullable(),
+  // allergies: yup.string()
+  //   .nullable(),
+  // entry_date: yup.number()
+  //   .typeError('Campo obligatorio')
+  //   .min(2010, 'Año mínimo 2010'),
+  // entry_period: yup.number()
+  //   .typeError('Campo obligatorio')
+  //   .positive('Periodo no valido')
+  //   .max(2, 'Periodo entre 1 y 2'),
+  // date_high_school_degree: yup.number()
+  //   .typeError('Campo obligatorio')
+  //   .min(1980, 'Año mínimo 1980'),
+  // municipality_id: yup.string()
+  //   .required('Campo obligatorio'),
+  // department_id: yup.string()
+  //   .required('Campo obligatorio'),
+  // country_id: yup.string()
+  //   .required('Campo obligatorio'),
+  // medicines: yup.string()
+  //   .nullable(),
+  // is_live_in_rural_area: yup.number()
+  //   .nullable(),
+  // is_private_high_school: yup.number()
+  //   .nullable(),
+  // high_school_name: yup.string()
+  //   .nullable(),
+  // high_school_option: yup.string()
+  //   .nullable(),
 })
 
 const getInitialValue = (field: string, data:any) => {
