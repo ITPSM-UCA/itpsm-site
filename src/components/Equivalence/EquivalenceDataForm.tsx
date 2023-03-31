@@ -28,8 +28,8 @@ const EquivalenceDataForm = ({ data }: any) => {
   const { errors, isSubmitting } = formState
   const [loading, setLoading] = useState(false)
   const curriculas = useSelector((state: any) => state.config.curricula)
-  const [studentCurriculas, setStudentCurriculas] = useState([])
-  const [Equivalences, setEquivalences] = useState([])
+  const [studentCurriculas, setStudentCurriculas] = useState([{}])
+  const [Equivalences, setEquivalences] = useState<any[]>([])
   const currentCurriculum = watch('curriculum_id')
   const currentEntryYear = watch('entry_year')
   const [curriculaOptions, setCurriculaOptions] = useState<any[]>([])
@@ -54,10 +54,17 @@ const EquivalenceDataForm = ({ data }: any) => {
   const getEquivalences = async () => {
     const response = await GetEquivalenceByStudentId(data.student_id)
     let responsearray:any=[]
-    responsearray.push(response)
-    setEquivalences(responsearray.attributes)
+    console.log(response.attributes,"respuesta")
+    console.log(Array.isArray(response.attributes),"respuesta")
+    
+    responsearray.push(response.attributes)
+    console.log(responsearray,"respuesta")
+    console.log(Array.isArray(response.attributes),"respuesta")
+
+
+    setEquivalences(responsearray)
     console.log(Equivalences,"Equivalencias")
-    console.log(Array.isArray(Equivalences),"esarray")
+    // console.log(Array.isArray(Equivalences),"esarray")
   }
 
   useEffect(() => {
@@ -102,6 +109,9 @@ const EquivalenceDataForm = ({ data }: any) => {
     setValue('curriculum_id', '')
     getCurriculas()
   }
+  useEffect(() => {
+    console.log(Equivalences, "cafeconleche");
+  }, [Equivalences]);
 
 //   let buttonText = <span>Inscribir a carrera</span>
 
@@ -133,41 +143,16 @@ const EquivalenceDataForm = ({ data }: any) => {
                 >
                   Institución
                 </th>
-                {/* <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  Nivel
-                </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  Cum
-                </th>
-                <th scope="col" className="relative py-3.5 pl-3 text-left pr-4 sm:pr-6">
-                  Estado
-                </th> */}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {Equivalences?.map((key:any)=>(
-                <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{key}</td>
-                
+              {Equivalences && Equivalences.map((e:any)=>(
+                <tr>
+                <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{e.name}</td>
+                <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{e.name}</td>
+                <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{e.institution}</td>
+                </tr>
               ))}
-              {/* {Equivalences} */}
-              {/* {Equivalences.map((equivalence: any) => (
-                <tr key={equivalence?.attributes?.id}>
-                  <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-                    {equivalence?.attributes?.name}
-                    <dl className="font-normal lg:hidden">
-                      <dt className="sr-only">Año de entrada</dt>
-                      <dd className="mt-1 truncate text-gray-700">{equivalence?.attributes?.AcademicHistory_id}</dd>
-                      <dt className="sr-only sm:hidden">Año esperado de graduación</dt>
-                      <dd className="mt-1 truncate text-gray-500 sm:hidden">{equivalence?.attributes?.AcademicHistory_id}</dd>
-                    </dl>
-                  </td>
-                  <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{equivalence?.attributes?.entry_year}</td>
-                  <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{equivalence?.attributes?.graduation_year}</td>
-                  <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{equivalence?.attributes?.level}</td>
-                  <td className="px-3 py-4 text-sm text-center text-gray-500">{equivalence?.attributes?.cum.toFixed(2)}</td>
-                  <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{getStatus(equivalence?.attributes?.status)}</td>
-                </tr> 
-               ))} */}
             </tbody>
           </table>
         </div>

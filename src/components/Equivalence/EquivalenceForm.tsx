@@ -94,23 +94,25 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
 
     const fecthpendingsubjects =async () => {
       const data = await getSubjectsPendingSubjectsByStudentID(currentStudentID)
-      console.log(data,"dentro")
+       console.log(data,"dentro")
+       console.log(Array.isArray(data),"dentro")
+       setpendingSubjects(data)
       // exampledata=data
       let int =0
       data.forEach((e:any)=> {
         int=int +1
-        console.log(int)
-        console.log(e)
+        // console.log(int)
+        // console.log(e)
         exampledata.push(e);
       });
      
       // setpendingSubjects()
-      console.log(exampledata, "dentro y fyuera")
+      // console.log(exampledata, "dentro y fyuera")
 
       setpendingSubjectsOptions(transformPendingCurriculumSubjects(exampledata))
       pendingSubjectList=transformPendingCurriculumSubjects(exampledata);
 
-      console.log(pendingSubjectsOptions, "postprocesado")
+      // console.log(pendingSubjectsOptions, "postprocesado")
       return true;
     } 
     fecthpendingsubjects()
@@ -118,6 +120,24 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
     
 
   },[])
+
+  useEffect(() => {
+    console.log(pendingSubjects, "cafeconleche1");
+    console.log(pendingSubjectsOptions, "cafeconleche2");
+  }, [pendingSubjects, pendingSubjectsOptions]);
+
+  useEffect(() => {
+    if (!empty([pendingSubjects])) {
+      const subjectsArray = [pendingSubjects].map((s: any) => ({
+        value: s?.id,
+        label: s?.name,
+      }))
+      // setCurriculaOptions(curriculasArray)
+      setpendingSubjectsOptions(subjectsArray)
+    }
+  }, [pendingSubjects])
+  
+
 
   // const selectChange = (event: React.ChangeEvent<>) => {
   //   const value = event.target.value;
@@ -135,7 +155,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
   // }, [currentCountry])
 
   const onSetInnerEquivalence= async(formData:any)=>{
-    console.log(formData)
+    // console.log(formData)
     setLoading(true);
     const customQuery = {
       query: [{
@@ -176,11 +196,11 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
       page: 0,
     }
     const curricula = await getCurriculaForStudent(query, customQuery)
-    console.log(curricula)
-    console.log(curricula[0].attributes.curricula_id)
+    // console.log(curricula)
+    // console.log(curricula[0].attributes.curricula_id)
     formData.curricula_id=curricula[0].attributes.curricula_id
     formData.IsInnerEquivalence=0
-    console.log(formData)
+    // console.log(formData)
     // const response = await getSubjectsPendingSubjectsByStudentID(formData.id)
     const response= await createEquivalence(formData)
 
@@ -188,9 +208,9 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
     // console.log(pendingSubjects)
     // console.log(response)
 
-    console.log(pendingSubjects)
-    console.log("materias a replicar")
-    console.log(curriculumSubjects)
+    // console.log(pendingSubjects)
+    // console.log("materias a replicar")
+    // console.log(curriculumSubjects)
     if (response.errors) {
         setLoading(false)
         return
@@ -401,7 +421,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
                       placeholder="Seleccionar Materia ..."
                       label="Modulo"
                       error={errors?.curriculum_subject_id}
-                      options={curriculumSubjectsList}
+                      options={pendingSubjectsOptions}
                       setValue={setValue}
                       clearErrors={clearErrors}
                       initialValue={{}}
