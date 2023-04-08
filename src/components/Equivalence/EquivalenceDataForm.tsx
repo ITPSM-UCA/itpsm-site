@@ -29,7 +29,7 @@ const EquivalenceDataForm = ({ data }: any) => {
   const [loading, setLoading] = useState(false)
   const curriculas = useSelector((state: any) => state.config.curricula)
   const [studentCurriculas, setStudentCurriculas] = useState([{}])
-  const [Equivalences, setEquivalences] = useState<any[]>([])
+  const [Equivalences, setEquivalences] = useState([{}])
   const currentCurriculum = watch('curriculum_id')
   const currentEntryYear = watch('entry_year')
   const [curriculaOptions, setCurriculaOptions] = useState<any[]>([])
@@ -54,10 +54,10 @@ const EquivalenceDataForm = ({ data }: any) => {
   const getEquivalences = async () => {
     const response = await GetEquivalenceByStudentId(data.student_id)
     let responsearray:any=[]
-    console.log(response.attributes,"respuesta")
+    console.log(response,"respuestaEquivalencias")
     console.log(Array.isArray(response.attributes),"respuesta")
     
-    responsearray.push(response.attributes)
+    responsearray.push(response)
     console.log(responsearray,"respuesta")
     console.log(Array.isArray(response.attributes),"respuesta")
 
@@ -89,29 +89,12 @@ const EquivalenceDataForm = ({ data }: any) => {
     if (!empty(currentEntryYear) && currentEntryYear.length === 4) setValue('graduation_year', customRound(currentEntryYear, 2) + 3)
   }, [currentEntryYear])
 
-  const onCurriculaRegistration = async (formData: any) => {
-    setLoading(true)
 
-    if(confirm("Desea inscribir al estudiante en la carrera de: ")){
-      const response: any = await curriculaRegistrationForStudent(formData)
 
-      if (response.error) {
-        setLoading(false)
-        return
-      }
-    }
-
-    setLoading(false)
-    const curriculaFiltered: any = curriculaOptions?.filter((value: any) => value.value !== currentCurriculum)
-    setCurriculaOptions(curriculaFiltered)
-    setValue('entry_year', '')
-    setValue('graduation_year', '')
-    setValue('curriculum_id', '')
-    getCurriculas()
-  }
   useEffect(() => {
-    console.log(Equivalences, "cafeconleche");
-  }, [Equivalences]);
+    console.log(Equivalences, "Equivalencias");
+    console.log(studentCurriculas, "StudentCurricula");
+  }, [Equivalences, studentCurriculas]);
 
 //   let buttonText = <span>Inscribir a carrera</span>
 
@@ -146,12 +129,35 @@ const EquivalenceDataForm = ({ data }: any) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {Equivalences && Equivalences.map((e:any)=>(
-                <tr>
-                <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{e.name}</td>
-                <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{e.name}</td>
-                <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{e.institution}</td>
+            {/* {studentCurriculas.map((curricula: any) => (
+                <tr key={curricula?.attributes?.student_carnet}>
+                  <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+                    {curricula?.attributes?.curricula_name}
+                    <dl className="font-normal lg:hidden">
+                      <dt className="sr-only">Año de entrada</dt>
+                      <dd className="mt-1 truncate text-gray-700">{curricula?.attributes?.entry_year}</dd>
+                      <dt className="sr-only sm:hidden">Año esperado de graduación</dt>
+                      <dd className="mt-1 truncate text-gray-500 sm:hidden">{curricula?.attributes?.graduation_year}</dd>
+                    </dl>
+                  </td>
+                  <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{curricula?.attributes?.entry_year}</td>
+                  <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{curricula?.attributes?.graduation_year}</td>
+                  <td className="hidden px-3 py-4 text-sm text-center text-gray-500 sm:table-cell">{curricula?.attributes?.level}</td>
+                  <td className="px-3 py-4 text-sm text-center text-gray-500">{curricula?.attributes?.cum.toFixed(2)}</td>
+                  <td className="px-3 py-4 text-sm text-center font-medium sm:pr-6">{getStatus(curricula?.attributes?.status)}</td>
                 </tr>
+              ))} */}
+              {Equivalences.map((equivalencias:any)=>(
+                // <dl className="font-normal lg:hidden">
+                // <dt className="sr-only">Año de entrada</dt>
+                // <dd className="mt-1 truncate text-gray-700">{Equivalences?.0?.name}</dd>
+                // </dl>
+                
+                <tr key={equivalencias?.attributes?.name}>
+                  <p>{equivalencias?.attributes?.name}</p>
+                <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">{equivalencias?.attributes?.name}</td>
+                </tr>
+
               ))}
             </tbody>
           </table>

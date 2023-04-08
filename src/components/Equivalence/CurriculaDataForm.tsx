@@ -65,32 +65,12 @@ const CurriculaDataForm = ({ data }: any) => {
     if (!empty(currentEntryYear) && currentEntryYear.length === 4) setValue('graduation_year', customRound(currentEntryYear, 2) + 3)
   }, [currentEntryYear])
 
-  const onCurriculaRegistration = async (formData: any) => {
-    setLoading(true)
 
-    if(confirm("Desea inscribir al estudiante en la carrera de: ")){
-      const response: any = await curriculaRegistrationForStudent(formData)
 
-      if (response.error) {
-        setLoading(false)
-        return
-      }
-    }
+  useEffect(() => {
+    console.log(studentCurriculas,"DataCurricula-Equivalence")
+  }, [studentCurriculas])
 
-    setLoading(false)
-    const curriculaFiltered: any = curriculaOptions?.filter((value: any) => value.value !== currentCurriculum)
-    setCurriculaOptions(curriculaFiltered)
-    setValue('entry_year', '')
-    setValue('graduation_year', '')
-    setValue('curriculum_id', '')
-    getCurriculas()
-  }
-
-//   let buttonText = <span>Inscribir a carrera</span>
-
-//   if (loading) {
-//     buttonText = <BodyLoadingButton />
-//   }
 
   if (empty(data.student_id)) return null
 

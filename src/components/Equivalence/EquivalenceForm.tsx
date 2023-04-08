@@ -20,7 +20,7 @@ import 'react-tabs/style/react-tabs.css';
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import EquivalenceDataForm from './EquivalenceDataForm'
 import { redirect } from 'next/dist/server/api-utils'
-
+import useSubjectByCurricula from 'hooks/Curricula/useSubjectByCurricula'
 import { useRouter } from 'next/router'
 
 interface Props {
@@ -42,6 +42,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
     defaultValues: data,
     resolver: yupResolver(schema),
   })
+  
   let router= useRouter()
   const countries = useSelector((state: any) => state.config.countries)
   const { errors, isSubmitting } = formState
@@ -65,14 +66,45 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
     value: subject?.id,
     label: subject?.name,
   }))  
-
-
+  console.log(currentStudentID,"id")
+  const [studentCurriculas, setStudentCurriculas] = useState([])
+  const [curriculasperStudent, setcurriculasperStudent] = useState<any[]>([])
   const [curriculaOptions, setCurriculaOptions] = useState<any[]>([])
   const curriculas = useSelector((state: any) => state.config.curricula)
   const [pendingSubjects, setpendingSubjects] = useState([])
   const [pendingSubjectsOptions, setpendingSubjectsOptions] = useState<any[]>([])
   var pendingSubjectList =[]
-  
+  const { subjectsByCycles, removeCurriculumSubject, setCurriculumSubject } = useSubjectByCurricula(data.id)
+
+  const getCurriculas = async () => {
+    const customQuery = {
+      query: [{
+        field: 'sc.student_id',
+        op: '=',
+        data: currentStudentID,
+      }],
+    }
+    const query = {
+      pageSize: 10,
+      page: 0,
+    }
+    const response = await getCurriculaForStudent(query, customQuery)
+    setStudentCurriculas(response)
+  }
+
+  useEffect(() => {
+    if (!empty(currentStudentID)) getCurriculas()
+  }, [currentStudentID])
+
+  useEffect(() => {
+    if (!empty(studentCurriculas)) {
+      const studentCurriculasArray = studentCurriculas.map((sc: any) => ({
+        value: sc?.attributes?.curricula_id,
+        label: sc?.attributes?.curricula_name,
+      }))
+      setcurriculasperStudent(studentCurriculasArray)
+    }
+  }, [studentCurriculas])
 
 
   useEffect(() => {
@@ -87,12 +119,12 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
 
   useEffect(()=>{
     let exampledata:any = [];
-    console.log(currentStudentID);
+    // console.log(currentStudentID);
 
     const fecthpendingsubjects =async () => {
       const data = await getSubjectsPendingSubjectsByStudentID(currentStudentID)
-       console.log(data,"dentro")
-       console.log(Array.isArray(data),"dentro")
+      //  console.log(data,"dentro")
+      //  console.log(Array.isArray(data),"dentro")
        setpendingSubjects(data)
       // exampledata=data
       let int =0
@@ -127,7 +159,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
 
   const curriculumSubjectsList = transformCurriculumSubjects(curriculumSubjects)
 
-  const curriculumSubjectsList2 = transformPendingCurriculumSubjects(pendingSubjects)
+  // const curriculumSubjectsList2 = transformPendingCurriculumSubjects(pendingSubjects)
   
 
 
@@ -137,41 +169,19 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
 
 
   useEffect(() => {
-    console.log(pendingSubjects, "pending");
+    // console.log(pendingSubjects, "pending");
     console.log(pendingSubjectsOptions, "pendingSubjectsOptiosn");
-    console.log(curriculaOptions,"pepe")
-  }, [pendingSubjects, pendingSubjectsOptions,curriculaOptions]);
+    console.log(studentCurriculas, "Curricula-PerStudent");
+    console.log(curriculasperStudent, "Curricula-PerStudentOptions");
+    // console.log(curriculaOptions,"pepe")
+  }, [pendingSubjects, pendingSubjectsOptions,curriculaOptions, curriculasperStudent]);
 
-  // useEffect(() => {
-  //   if (!empty([pendingSubjects])) {
-  //     const subjectsArray = [pendingSubjects].map((s: any) => ({
-  //       value: s?.id,
-  //       label: s?.name,
-  //     }))
-  //     // setCurriculaOptions(curriculasArray)
-  //     setpendingSubjectsOptions(subjectsArray)
-  //   }
-  // }, [pendingSubjects])
-  
-
-
-  // const selectChange = (event: React.ChangeEvent<>) => {
-  //   const value = event.target.value;
-  //   (value);
-  // };
-  
-  
-  // useEffect(() => {
-  //   if (!empty(currentCountry) && empty(data.department_id)) {
-  //     setDepartmentsOptions([])
-  //     setValue('department_id', '')
-  //   }
-  //   const departmentFiltered: any = countries?.find((value: any) => value.value === currentCountry)
-  //   setDepartmentsOptions(departmentFiltered?.departments)
-  // }, [currentCountry])
+  useEffect(() => {
+    console.log(studentCurriculas,"DataCurricula-Equivalence")
+  }, [studentCurriculas])
 
   const onSetInnerEquivalence= async(formData:any)=>{
-    // console.log(formData)
+    console.log(formData)
     setLoading(true);
     const customQuery = {
       query: [{
@@ -185,6 +195,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
       page: 0,
     }
     const curricula = await getCurriculaForStudent(query, customQuery)
+    formData.subjectname=formData.curriculum_subject_id.label
     formData.curricula_id=curricula[0].attributes.curricula_id
     formData.IsInnerEquivalence=1
     const response= await createEquivalence(formData)
@@ -195,9 +206,10 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
     showMessage('¡Exito!', 'Equivalencia Creada')
     setLoading(false)
   }
+
   const onSetEquivalence =  async (formData: any) => {
     
-    console.log(pendingSubjects)
+    // console.log(pendingSubjects)
     
     setLoading(true);
     const customQuery = {
@@ -421,6 +433,8 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
                         </TabList>
                     
                     <TabPanel>
+                      {
+                      !empty(pendingSubjectsOptions) &&
                 <form
                   noValidate
                   autoComplete="off"
@@ -437,7 +451,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
                       placeholder="Seleccionar Materia ..."
                       label="Modulo"
                       error={errors?.curriculum_subject_id}
-                      options={curriculumSubjectsList}
+                      options={pendingSubjectsOptions}
                       setValue={setValue}
                       clearErrors={clearErrors}
                       initialValue={{}}
@@ -491,8 +505,11 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
                     
                     </fieldset>
                     </form>
+                    }
                     </TabPanel>
                     <TabPanel>
+                      {
+                        !empty(curriculasperStudent) &&
                     <form
                     noValidate
                     autoComplete="off"
@@ -534,7 +551,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
                               initialValue={{}}
                               label="Plan de estudio"
                               error={errors?.curriculum_id}
-                              options={curriculaOptions}
+                              options={curriculasperStudent}
                               setValue={setValue}
                               clearErrors={clearErrors}
                               />
@@ -577,6 +594,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
                     
                     </fieldset>
                     </form>
+                    }
                     </TabPanel>
                     </Tabs>
                 </div>
@@ -589,11 +607,12 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
 }
 
 const schema = yup.object().shape({
-    score: yup.number()
-    .typeError('Campo obligatorio')
-    .min(6,'Nota mínima es 6'),
-    institution: yup.string().required('Campo obligatorio'),
-    subjectname: yup.string().required('Campo obligatorio'),
+    // score: yup.number()
+    // .typeError('Campo obligatorio')
+    // .min(6,'Nota mínima es 6'),
+    // institution: yup.string().required('Campo obligatorio'),
+    // subjectname: yup.string().required('Campo obligatorio'),
+
   // carnet: yup.string(),
   // name: yup.string().required('Campo obligatorio'),
   // last_name: yup.string().required('Campo obligatorio'),
