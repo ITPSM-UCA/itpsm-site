@@ -333,7 +333,7 @@ const EvaluationsForm = ({
   let buttonText2 = <span>Asociar Subevaluacion</span>
 
   const divFormStyle = {
-    backgroundColor: "#eee",
+
     padding: "10px",
     borderRadius:10,
   };
@@ -554,7 +554,7 @@ const EvaluationsForm = ({
         
       )
       &&(
-        <div >
+        <div className="border rounded-md border-solid border-gray-300 p-3 mb-2">
           {/* <h1>Evaluaciones tabs</h1> */}
           <div className="flex justify-between">
             <h1 className="text-2xl font-semibold text-gray-900">{data.curriculum_subject_label}</h1>
@@ -598,7 +598,7 @@ const EvaluationsForm = ({
     </div>
 
     <div>
-      <fieldset className="flex flex-wrap border rounded-md border-solid border-gray-300 p-3 mb-2">
+      <fieldset className="flex flex-wrap  p-3 mb-2">
         {/* <legend className="font-medium text-indigo-600">Crear Evaluaciones</legend> */}
         <div className="w-1/4 p-2">
           <CustomInput

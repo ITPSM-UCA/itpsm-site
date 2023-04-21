@@ -176,9 +176,9 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
     // console.log(curriculaOptions,"pepe")
   }, [pendingSubjects, pendingSubjectsOptions,curriculaOptions, curriculasperStudent]);
 
-  useEffect(() => {
-    console.log(studentCurriculas,"DataCurricula-Equivalence")
-  }, [studentCurriculas])
+  // useEffect(() => {
+  //   console.log(studentCurriculas,"DataCurricula-Equivalence")
+  // }, [studentCurriculas])
 
   const onSetInnerEquivalence= async(formData:any)=>{
     console.log(formData)
@@ -236,8 +236,8 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
     // console.log(pendingSubjects)
     // console.log(response)
 
-    // console.log(pendingSubjects)
-    // console.log("materias a replicar")
+    console.log(pendingSubjects)
+    console.log("materias a replicar")
     // console.log(curriculumSubjects)
     if (response.errors) {
         setLoading(false)
@@ -253,6 +253,8 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
   if (loading) {
     EquivalenceButton = <BodyLoadingButton />
   }
+
+  
 
   return (
     <>
@@ -426,10 +428,10 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
                 <div className="border rounded-md border-solid border-gray-300 p-3 mb-2">
                     <Tabs>
                         <TabList>
-                            <Tab>Equivalencia Externa</Tab>
+                            <Tab> Externa</Tab>
                             <Tab
-                            disabled={false}
-                            >Equivalencia Interna</Tab>
+                            disabled={false} //TODO: AGREGAR CONDICIÓN DE DESHABILITADO. 
+                            > Interna</Tab>
                         </TabList>
                     
                     <TabPanel>
@@ -563,7 +565,7 @@ const EquivalenceV2Form = ({ data, toggleForm }: Props) => {
                               placeholder="Seleccionar Materia ..."
                               label="Modulo"
                               error={errors?.curriculum_subject_id}
-                              options={curriculumSubjectsList}
+                              options={pendingSubjectsOptions}
                               setValue={setValue}
                               clearErrors={clearErrors}
                               initialValue={{}}

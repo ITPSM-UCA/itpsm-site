@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getInfo } from '../../services/Students'
+import { GetEquivalenceForStudentHistory } from 'services/Equivalence'
+import EquivalenceDTFormForStudents from './EquivalenceDTFormForStudents'
+import { customRound, empty } from 'utils/helpers'
 
 interface Props {
   career: string
@@ -19,12 +22,17 @@ const AcademicInformation = ({ career }: Props) => {
   const fetchData = async () => {
     const stored = JSON.parse(localStorage.getItem('appState') ?? ' ')
     const response = await getInfo(stored.attributes.system_reference_id)
-    console.log(response)
+    console.log(response,"Respuesta")
     setInfo(response.attributes)
   }
   useEffect(() => {
     fetchData()
   }, [])
+  const currentStudentID = 5
+
+  const [dataForSubjectRegistration, setDataForSubjectRegistration] = useState({
+    student_id: 5, entry_year: 5, graduation_year: 5 + 3, cum: 0, curriculum_id: '',
+  })
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-5">{name}</h1>
@@ -69,6 +77,9 @@ const AcademicInformation = ({ career }: Props) => {
           </div>
         </div>
       </section>
+      <div>
+      
+      </div>
     </div>
 
   )

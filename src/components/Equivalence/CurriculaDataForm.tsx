@@ -67,9 +67,9 @@ const CurriculaDataForm = ({ data }: any) => {
 
 
 
-  useEffect(() => {
-    console.log(studentCurriculas,"DataCurricula-Equivalence")
-  }, [studentCurriculas])
+  // useEffect(() => {
+  //   console.log(studentCurriculas,"DataCurricula-Equivalence")
+  // }, [studentCurriculas])
 
 
   if (empty(data.student_id)) return null

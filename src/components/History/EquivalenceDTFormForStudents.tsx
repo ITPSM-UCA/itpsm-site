@@ -8,12 +8,12 @@ import { curriculaRegistrationForStudent, getCurriculaForStudent } from 'service
 import CustomCombobox from 'components/UI/Form/CustomCombobox'
 import { useSelector } from 'react-redux'
 import BodyLoadingButton from 'components/UI/BodyLoadingButton'
-import {GetEquivalenceByStudentId} from 'services/Equivalence'
+import {GetEquivalenceByStudentId, GetEquivalenceForStudentHistory} from 'services/Equivalence'
 import { eq } from 'cypress/types/lodash'
 import equivalencias from 'pages/dashboard/equivalencias'
 import { json } from 'stream/consumers'
 
-const EquivalenceDataForm = ({ data }: any) => {
+const EquivalenceDTFormForStudents = ({ data }: any) => {
   const {
     register,
     handleSubmit,
@@ -54,7 +54,7 @@ const EquivalenceDataForm = ({ data }: any) => {
   }
 
   const getEquivalences = async () => {
-    const response = await GetEquivalenceByStudentId(data.student_id)
+    const response = await GetEquivalenceForStudentHistory(data.student_id)
     console.log(Array.isArray(response.attributes),"es array o no")
     
     let responsearray= response.attributes
@@ -202,7 +202,7 @@ const getStatus = (status:string) => {
   }
 }
 
-export default EquivalenceDataForm
+export default EquivalenceDTFormForStudents
 
 
 
