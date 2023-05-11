@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LoginForm from 'components/Auth/LoginForm'
-import LoaderOverlay from 'components/UI/LoaderOverlay'
+
 import Loader from 'components/UI/Loader'
 
 const Login: NextPage = () => {
