@@ -36,13 +36,13 @@ const DashboardMenu = () => {
   }
 
   return (
-    <div class="d-flex flex-wrap">
+    <div className="d-flex flex-wrap">
       {menu.map((item) => (
         <div>
         <Card style={{ width: '18rem' } } >
           <Card.Body>
           {/* <Icon variant='top' src={getIcon(item.icon)}></Icon> */}
-          <div class="d-flex justify-content-start">
+          <div className="d-flex justify-content-start">
           {Iconos(item.icon)}
           <Card.Title>{item.name}</Card.Title>
           </div>

@@ -88,9 +88,9 @@ const GradesForm = ({
     }
   }
   const saveGrades = async (data:any) => {
-    console.log('hi')
-    console.log(data)
-    console.log(Object.keys(data))
+    // console.log('hi')
+    // console.log(data)
+    // console.log(Object.keys(data))
     const rows = Object.keys(data)
     const datatransfer: any[] = []
     rows.forEach((valor) => {
@@ -116,9 +116,9 @@ const GradesForm = ({
   const deleteRowAction = (event: any, rowData: any) => {
     event.stopPropagation()
     if (confirm('Desea borrar esta actividad')) {
-      console.log(rowData)
+      // console.log(rowData)
       const response = deleteEvaluation(rowData.id)
-      console.log(response)
+      // console.log(response)
       refreshTableAction()
     }
   }
@@ -161,7 +161,7 @@ const GradesForm = ({
   }
   const shareGrades = async () => {
     const response = await publishGrades(data.id)
-    console.log(response)
+    // console.log(response)
     if (response?.error) {
       setLoading(false)
       return

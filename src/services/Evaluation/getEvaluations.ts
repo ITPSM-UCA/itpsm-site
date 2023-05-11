@@ -24,7 +24,7 @@ const getEvaluations = async (query:any, customQuery:any = null) => {
       url += `&sortColumn=${query.orderBy.field}`
     }
     const response = await apiInstance.get(url)
-
+    console.log(customQuery)
     const rows:any = []
 
     response.data.data.forEach((period:any) => {

@@ -70,7 +70,7 @@ const EvaluationsForm = ({
   const [EvaluationsDontExist, setEvaluationsDontExist] = useState(true);
 
   const onSetEvaluationToSubject = async (formData: any) => {
-    console.log("fordata",formData)
+    // console.log("fordata",formData)
     setLoading(true)
     formData.description= formData.subdescription
     formData.date=formData.subdate
@@ -81,7 +81,7 @@ const EvaluationsForm = ({
       setLoading(false)
       return
     }
-    console.log('h')
+    // console.log('h')
     showMessage('¡Exito!', 'Actividad Creada')
 
     refreshTableAction()
@@ -94,7 +94,7 @@ const EvaluationsForm = ({
     formData.description= formData.subdescription
     formData.date=formData.subdate
     formData.percentage = formData.subpercentage
-    console.log("sub-fordata",formData)
+    // console.log("sub-fordata",formData)
     
 
     setLoading(true)
@@ -104,7 +104,7 @@ const EvaluationsForm = ({
       setLoading(false)
       return
     }
-    console.log('h')
+    // console.log('h')
     showMessage('¡Exito!', 'Actividad Creada')
 
     refreshTableAction()
@@ -112,7 +112,7 @@ const EvaluationsForm = ({
   }
 
   const publish = async () => {
-    console.log(data)
+    // console.log(data)
     // eslint-disable-next-line no-restricted-globals
     if (confirm('Desea publicar actividades')) {
       setLoading(true)
@@ -130,7 +130,7 @@ const EvaluationsForm = ({
     }
   }
   const aprobar = async (result: string) => {
-    console.log(data, result)
+    // console.log(data, result)
     const comment = (document.getElementById('comments') as HTMLInputElement).value
     let status = 0;
     (result == 'A') ? status = 2 : result == 'R' ? status = 3 : null
@@ -166,7 +166,7 @@ const EvaluationsForm = ({
   }
   const refreshTableAction = () => {
     setEvaluations([])
-    console.log(tableRef)
+    // console.log(tableRef)
 
     if (tableRef.current) {
       tableRef.current.onQueryChange()
@@ -176,9 +176,9 @@ const EvaluationsForm = ({
   const deleteRowAction = (event: any, rowData: any) => {
     event.stopPropagation()
     if (confirm('Desea borrar esta actividad')) {
-      console.log(rowData)
+      // console.log(rowData)
       const response = deleteEvaluation(rowData.id)
-      console.log(response)
+      // console.log(response)
       refreshTableAction()
     }
   }
@@ -189,7 +189,7 @@ const EvaluationsForm = ({
       label: e.name,
     }))
     setEvaluations(ac)
-    console.log(evaluations)
+    // console.log(evaluations)
 
     let suma = 0
     const sumas2: number[] = []
@@ -221,9 +221,9 @@ const EvaluationsForm = ({
     //   })
       
     // })
-    console.log("sumas eval",suma)
-    console.log(sumas2.some((element) => element < 100))
-    console.log("sumas subeval",sumas2)
+    // console.log("sumas eval",suma)
+    // console.log(sumas2.some((element) => element < 100))
+    // console.log("sumas subeval",sumas2)
     if (suma === 100 && !sumas2.some((element) => element < 100)) {
       setRequest(true)
     }
@@ -261,7 +261,7 @@ const EvaluationsForm = ({
       page,
       records,
     } = await getEvaluations(query, customQuery)
-    console.log("lineas")
+    // console.log("lineas")
     
 
     let evalu:any =[]
@@ -269,24 +269,24 @@ const EvaluationsForm = ({
     //colocamos la infomrracion recibida de la api entre evaluaciones y subevaluaciones
     //rowdata es es data anidada
     let rowdata= rows
-    console.log(rowdata)
+    // console.log(rowdata)
     rowdata.forEach((element : any) => {
-      console.log(element)
-      console.log(element.id)
+      // console.log(element)
+      // console.log(element.id)
 
       if (element.level==1) {
-        console.log("entrando en evaluacion")
+        // console.log("entrando en evaluacion")
         setEvaluationsDontExist(false)
-        console.log("eval", element)
+        // console.log("eval", element)
         evalu.push(element)
       }else{
         subeval.push(element)
       }
       element.parentId=null
       if (element.level==2) {
-        console.log("agregando ParentId")
+        // console.log("agregando ParentId")
         element.parentId=element.principal_id
-        console.log("nuevas evaluaciones", element)
+        // console.log("nuevas evaluaciones", element)
       }
     });
 
@@ -294,7 +294,7 @@ const EvaluationsForm = ({
 
     evalu.forEach((e:any) => {
       e.subevaluation=[]
-      console.log("id", e.id)
+      // console.log("id", e.id)
       let idaux= parseInt(e.id)
       e.id = idaux
       // console.log("nuevaeval",e)
@@ -306,20 +306,17 @@ const EvaluationsForm = ({
         }
       });
     });
-    
 
-    
-
-    //ahora recorremos este objeto de evaluaciones y verificamos si tiene subevaluaciones
-    console.log("Evaluaciones nueva", evalu)
-    console.log("Evaluaciones finales", rows)
+    // //ahora recorremos este objeto de evaluaciones y verificamos si tiene subevaluaciones
+    // console.log("Evaluaciones nueva", evalu)
+    // console.log("Evaluaciones finales", rows)
     // rows=rowdata
     let sumeval=0
     let sumsubeval=0
     evalu.forEach((e:any)=>{
       e.subevaluation
     })
-    console.log("Evaluaciones finales2", rows)
+    // console.log("Evaluaciones finales2", rows)
     transformData(rows)
     /// updatecolumns(rows)
     return {

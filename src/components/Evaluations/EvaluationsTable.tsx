@@ -37,9 +37,9 @@ const EvaluationsForm = ({  clearData,toggleForm,fetchData,  tableRef,columns,ed
   const deleteRowAction = (event:any, rowData:any) => {
     event.stopPropagation();
     if(confirm("Desea borrar esta actividad")){
-      console.log(rowData)
+      // console.log(rowData)
       const response = deleteEvaluation(rowData.id)
-      console.log(response)
+      // console.log(response)
       refreshTableAction()
     }
     
