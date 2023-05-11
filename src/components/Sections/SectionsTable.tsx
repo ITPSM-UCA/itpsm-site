@@ -29,6 +29,7 @@ const SectionsTable = ({
       <CustomTable
        edit={false}
         fetchData={fetchData}
+        collapsable={false}
         ref={tableRef}
         columns={columns}
         title="Estudiantes"

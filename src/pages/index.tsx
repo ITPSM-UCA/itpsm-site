@@ -30,6 +30,9 @@ const Home: NextPage = () => {
         <Link href="/login">
           <a className="font-medium text-indigo-600 hover:text-indigo-500">Sign in</a>
         </Link>
+        <body>
+          
+        </body>
       </main>
       <footer className="flex items-center justify-center w-full h-24 border-t">
         <a
