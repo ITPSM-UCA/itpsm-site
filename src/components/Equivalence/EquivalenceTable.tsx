@@ -88,7 +88,7 @@ const EquivalenceV2Table = ({
         <p>Autocomplete de Carreras</p>
         <p>Autocomplete de Años de ingreso</p>
       </div> */}
-      <h1 className="text-2xl font-semibold text-gray-900" >Seleeccionar un Alumno</h1>
+      <h1 className="text-2xl font-semibold text-gray-900" >Seleccionar un Alumno</h1>
       <div>
         <CustomTable
           edit={false}
