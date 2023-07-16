@@ -1,5 +1,7 @@
 # Build Stage
 FROM node:16-alpine AS BUILD_IMAGE
+ARG API_URL
+ENV NEXT_PUBLIC_API_URL=$API_URL
 WORKDIR /
 COPY package*.json ./
 COPY yarn.lock ./
