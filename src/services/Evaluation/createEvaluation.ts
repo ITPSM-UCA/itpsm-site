@@ -27,7 +27,11 @@ const createEvaluation = async (data: any) => {
     }
 
     console.log(data_to_send, url)
-    const response = await apiInstance.post(url, data_to_send)
+    const response = await apiInstance.post(url, data_to_send,{
+      headers:{
+        'Content-Type': 'application/json',
+      }
+    })
 
     return response.data.data
   }

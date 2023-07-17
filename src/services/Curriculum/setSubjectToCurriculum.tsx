@@ -6,7 +6,11 @@ const setSubjectToCurriculum = async (data: any) => {
   try {
     const url = `${apiInstance.defaults.baseURL}/curriculum-subjects`
 
-    response = await apiInstance.post(url, data)
+    response = await apiInstance.post(url, data,{
+      headers:{
+        'Content-Type': 'application/json',
+      }
+    })
 
     return response.data.data
   } catch (error: any) {

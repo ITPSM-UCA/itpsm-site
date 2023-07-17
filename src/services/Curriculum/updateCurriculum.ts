@@ -7,7 +7,11 @@ const updateCurriculum = async (data: any) => {
     const url = `${apiInstance.defaults.baseURL}/curricula/${data.id}`
     const transformData = { ...data, is_active: Number(data.is_active), is_approved: Number(data.is_approved) }
 
-    response = await apiInstance.put(url, transformData)
+    response = await apiInstance.put(url, transformData,{
+      headers:{
+        'Content-Type': 'application/json',
+      }
+    })
 
     return response.data.data
   } catch (error: any) {

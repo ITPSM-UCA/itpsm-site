@@ -5,7 +5,11 @@ const deleteCurriculumSubject = async (id:number) => {
   try {
     const url = `${apiInstance.defaults.baseURL}/curriculum-subjects/${id}`
 
-    const response = await apiInstance.delete(url)
+    const response = await apiInstance.delete(url, {
+      headers:{
+        'Content-Type': 'application/json',
+      }
+    })
 
     return response.data.data
   }

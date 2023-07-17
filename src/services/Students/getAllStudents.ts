@@ -5,7 +5,11 @@ const getAllStudents = async () => {
   try {
     const url = `${apiInstance.defaults.baseURL}/allstudents?`
 
-    const response = await apiInstance.get(url)
+    const response = await apiInstance.get(url,{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
     return response.data
   } catch (error: any) {

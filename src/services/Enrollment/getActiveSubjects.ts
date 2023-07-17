@@ -4,8 +4,12 @@ import { onErrorHandler } from 'utils/alerts'
 const getActiveSubjects = async () => {
   let response
   try {
-    response = await apiInstance.get('/enrollment/active-subjects')
-    console.log(response)
+    response = await apiInstance.get('/enrollment/active-subjects',{
+      headers:{
+        'Content-Type': 'application/json',
+      }
+    })
+    // console.log(response)
     response = response.data
     return response.data
   } catch (error:any) {

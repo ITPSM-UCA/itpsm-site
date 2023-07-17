@@ -8,7 +8,11 @@ const allTeachers = async () => {
    
 
    
-    const response = await apiInstance.get(url)
+    const response = await apiInstance.get(url,{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
     const rows:any = []
 

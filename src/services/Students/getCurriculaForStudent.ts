@@ -12,7 +12,11 @@ const getCurriculaForStudent = async (query: any, customQuery: any = null) => {
       url += `&query=${JSON.stringify(customQuery)}`
     }
 
-    response = await apiInstance.get(url)
+    response = await apiInstance.get(url,{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
     response = response.data
     return response.data

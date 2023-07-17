@@ -5,7 +5,11 @@ const getApprovedSujects = async () => {
   try {
     const url = `${apiInstance.defaults.baseURL}/enrollment/approved-subjects`
 
-    response = await apiInstance.get(url)
+    response = await apiInstance.get(url,{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
     response = response.data
 

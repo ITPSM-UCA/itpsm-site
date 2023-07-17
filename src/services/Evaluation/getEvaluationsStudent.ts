@@ -5,7 +5,13 @@ const getSubjects = async (data: any) => {
   try {
     const url = `${apiInstance.defaults.baseURL}/evaluations/student/${data}`
 
-    const response = await apiInstance.get(url, data)
+    const response = await apiInstance.get(url, {
+      params: data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
     return response.data.data.attributes
   }
   catch (error:any) {
