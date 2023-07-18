@@ -21,7 +21,11 @@ const getCurriculaByModuleId = async (materialTableQuery: any, id: number) => {
             url += `&sortColumn=${materialTableQuery.orderBy.field}`
         }
 
-        const rows: any[] = [], response = await apiInstance.get(url)
+        const rows: any[] = [], response = await apiInstance.get(url,{
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
 
         response.data.data.forEach((subject: any) => {
             rows.push({ id: id, ...subject.attributes })

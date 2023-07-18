@@ -5,7 +5,11 @@ const publishResult = async (data: any) => {
   try {
     const url = `${apiInstance.defaults.baseURL}/comments/${data}`
 
-    const response = await apiInstance.get(url)
+    const response = await apiInstance.get(url,{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
     return response.data
   } catch (error: any) {
     console.log(error)

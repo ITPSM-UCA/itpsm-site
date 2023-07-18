@@ -6,7 +6,11 @@ const RequestAprobacion = async (data: any) => {
   try {
     const url = `${apiInstance.defaults.baseURL}/requestAprobacion/${data.id}`
 
-    const response = await apiInstance.put(url)
+    const response = await apiInstance.put(url,{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
     return response.data.data
   } catch (error: any) {
     onErrorHandler(error.response)

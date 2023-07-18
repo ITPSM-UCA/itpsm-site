@@ -5,7 +5,11 @@ const getConfigurations = async () => {
   try {
     const url = `${apiInstance.defaults.baseURL}/initial-config`
 
-    response = await apiInstance.get(url)
+    response = await apiInstance.get(url,{
+      headers:{
+        'Content-Type': 'application/json',
+      }
+    })
 
     response = response.data
 

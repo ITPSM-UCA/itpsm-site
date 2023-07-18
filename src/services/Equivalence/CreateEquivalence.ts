@@ -7,7 +7,11 @@ const createEquivalence = async (data: any) => {
     const url = `${apiInstance.defaults.baseURL}/equivalence`
     // const transformData = { ...data, is_active: Number(data.is_active), is_approved: Number(data.is_approved) }
 
-    response = await apiInstance.post(url, data)
+    response = await apiInstance.post(url, data,{
+      headers:{
+        'Content-Type': 'application/json',
+      }
+    })
 
     return response.data.data
   } catch (error: any) {

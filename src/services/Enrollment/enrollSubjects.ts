@@ -12,7 +12,11 @@ const enrollSubjects = async (subjects:any) => {
         id_schedule:item.id_schedule
       })),
     }
-    const response = await apiInstance.post('/enrollment/enroll-subjects', data)
+    const response = await apiInstance.post('/enrollment/enroll-subjects', data,{
+      headers:{
+        'Content-Type': 'application/json',
+      }
+    })
     return response.data.data
   }
   catch (error:any) {

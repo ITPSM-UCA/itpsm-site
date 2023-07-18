@@ -5,7 +5,11 @@ const deletePeriodSubject = async (subject:number, period: number, code: number)
   try {
     const url = `${apiInstance.defaults.baseURL}/sections/${subject}_${period}_${code}`
 
-    const response = await apiInstance.delete(url)
+    const response = await apiInstance.delete(url,{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
     return response.data.data
   }

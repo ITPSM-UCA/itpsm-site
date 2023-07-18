@@ -21,7 +21,11 @@ const getModules = async (materialTableQuery: any) => {
             url += `&sortColumn=${materialTableQuery.orderBy.field}`
         }
 
-        const rows: any[] = [], response = await apiInstance.get(url)
+        const rows: any[] = [], response = await apiInstance.get(url,{
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
 
         response.data.data.forEach((subject: any) => {
             rows.push({ id: subject.id, ...subject.attributes })

@@ -7,7 +7,11 @@ const createCareer = async (data: any) => {
     const url = `${apiInstance.defaults.baseURL}/careers`
     const transformData = { ...data }
 
-    response = await apiInstance.post(url, transformData)
+    response = await apiInstance.post(url, transformData,{
+      headers:{
+        'Content-Type': 'application/json',
+      }
+    })
 
     return response.data.data
   } catch (error: any) {

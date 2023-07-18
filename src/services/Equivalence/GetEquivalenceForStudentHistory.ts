@@ -18,7 +18,11 @@ const GetEquivalenceForStudentHistory = async (id:number) => {
     // if (query?.orderBy) {
     //   url += `&sortColumn=${query.orderBy.field}`
     // }
-    let response = await apiInstance.get(url)
+    let response = await apiInstance.get(url,{
+      headers:{
+        'Content-Type': 'application/json',
+      }
+    })
 
     const rows:any = []
 

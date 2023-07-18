@@ -6,7 +6,11 @@ const RequestAprobacion = async (id: any) => {
   try {
     const url = `${apiInstance.defaults.baseURL}/curriculum-subjects/getsubjectsbystudentid/${id}`
 
-    const response = await apiInstance.get(url)
+    const response = await apiInstance.get(url,{
+      headers:{
+        'Content-Type': 'application/json',
+      }
+    })
     console.log(response.data.data.data,"respeusta")
     return response.data.data
   } catch (error: any) {

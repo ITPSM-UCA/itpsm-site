@@ -6,7 +6,11 @@ const getInfoForStudent = async (data: any) => {
   try {
     const url = `${apiInstance.defaults.baseURL}/student-curricula/${data}`
 
-    response = await apiInstance.get(url)
+    response = await apiInstance.get(url,{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
     response = response.data
     return response.data

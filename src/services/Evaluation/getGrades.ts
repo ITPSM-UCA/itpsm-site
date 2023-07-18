@@ -23,7 +23,11 @@ const getGrades = async (query:any, customQuery:any = null) => {
     if (query?.orderBy) {
       url += `&sortColumn=${query.orderBy.field}`
     }
-    const response = await apiInstance.get(url)
+    const response = await apiInstance.get(url,{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
     const rows:any = []
 
