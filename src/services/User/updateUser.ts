@@ -5,7 +5,12 @@ const updateUser = async (data: any) => {
   try {
     const url = `${apiInstance.defaults.baseURL}/users/${data?.id}`
 
-    const response = await apiInstance.put(url, data)
+    const response = await apiInstance.put(url, {
+      body:data,
+      headers: {
+      'Content-Type': 'application/json'
+      }      
+    })
     return response.data.data
   }
   catch (error:any) {
