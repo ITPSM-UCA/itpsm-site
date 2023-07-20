@@ -8,7 +8,7 @@ const instance = axios.create({
   baseURL: API_URL,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
-    'Content-Type': 'application/vnd.api+json',
+    'Content-Type': 'application/json',
   },
 })
 
