@@ -5,7 +5,7 @@ const createUser = async (data: any) => {
   try {
     const url = `${apiInstance.defaults.baseURL}/users`
 
-    const response = await apiInstance.post(url, data)
+    const response = await apiInstance.post(url, JSON.stringify(data))
     return response.data.data
   }
   catch (error:any) {
