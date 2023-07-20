@@ -5,7 +5,7 @@ const updateTeacher = async (data:any) => {
   try {
     const url = `${apiInstance.defaults.baseURL}/teachers/${data.id}`
 
-    const response = await apiInstance.put(url, data)
+    const response = await apiInstance.put(url, JSON.stringify(data))
     return response.data.data
   }
   catch (error:any) {
