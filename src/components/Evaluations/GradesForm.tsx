@@ -67,7 +67,7 @@ const GradesForm = ({
 
   const publish = async () => {
     console.log(data)
-    if (confirm('Desea publicar actividades')) {
+    if (confirm('¿Desea publicar las notas?')) {
       setLoading(true)
 
       const response = await publishEvaluation(data.code)
@@ -88,7 +88,6 @@ const GradesForm = ({
     }
   }
   const saveGrades = async (data:any) => {
-    console.log('hi')
     console.log(data)
     console.log(Object.keys(data))
     const rows = Object.keys(data)
@@ -113,11 +112,11 @@ const GradesForm = ({
     setLoading(false)
   }
 
-  const deleteRowAction = (event: any, rowData: any) => {
+  const deleteRowAction = async (event: any, rowData: any) => {
     event.stopPropagation()
-    if (confirm('Desea borrar esta actividad')) {
+    if (confirm('¿Desea borrar esta actividad?')) {
       console.log(rowData)
-      const response = deleteEvaluation(rowData.id)
+      const response = await deleteEvaluation(rowData.id)
       console.log(response)
       refreshTableAction()
     }
@@ -170,21 +169,23 @@ const GradesForm = ({
   }
   return (
     <>
-      <button
-        type="button"
-        onClick={onCloseForm}
-        className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
-      >
-        Atras
-      </button>
-      <button
-        type="button"
-        onClick={shareGrades}
-        className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2"
-      >
-        Publicar
-      </button>
-      <h1>{`${data?.description} de ${data?.materia} seccion ${data?.code}`}</h1>
+      <div className="flex justify-between mb-12">
+        <h1 className="text-2xl font-semibold text-gray-900">{`${data?.materia} - Sección ${data?.code}`}</h1>
+        <div className="flex gap-x-4">
+          <button
+            type="button"
+            onClick={onCloseForm}
+            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
+            Atrás
+          </button>
+          <button
+            type="button"
+            onClick={shareGrades}
+            className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none gap-x-2">
+            Publicar
+          </button>    
+        </div>
+      </div>
       <div>
         <CustomTable
           edit
@@ -247,6 +248,7 @@ const columns = [
     title: 'Nota',
     field: 'score',
     type: 'numeric',
+    validate: (rowData: any) => rowData.score < 0 ? { isValid: true, helperText: 'La nota debe ser mayor a 0' } : true
   },
 
 ]

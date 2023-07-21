@@ -5,11 +5,7 @@ const deleteEvaluation = async (id:number) => {
   try {
     const url = `${apiInstance.defaults.baseURL}/evaluations/${id}`
 
-    const response = await apiInstance.delete(url,{
-      headers:{
-        'Content-Type': 'application/json',
-      }
-    })
+    const response = await apiInstance.delete(url)
 
     return response.data.data
   }
