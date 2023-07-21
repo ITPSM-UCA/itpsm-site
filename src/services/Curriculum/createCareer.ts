@@ -1,4 +1,5 @@
 import apiInstance from 'instances/apiInstance'
+import { json } from 'stream/consumers'
 import { onErrorHandler } from 'utils/alerts'
 
 const createCareer = async (data: any) => {
@@ -7,11 +8,7 @@ const createCareer = async (data: any) => {
     const url = `${apiInstance.defaults.baseURL}/careers`
     const transformData = { ...data }
 
-    response = await apiInstance.post(url, transformData,{
-      headers:{
-        'Content-Type': 'application/json',
-      }
-    })
+    response = await apiInstance.post(url, JSON.stringify(data))
 
     return response.data.data
   } catch (error: any) {
