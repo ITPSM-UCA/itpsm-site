@@ -5,7 +5,7 @@ const updateModule = async (data: any) => {
     try {
         const { code, name } = data
         const url = `${apiInstance.defaults.baseURL}/subjects/${data.id}`
-        const response = await apiInstance.put(url, { code: code.toString(), name })
+        const response = await apiInstance.put(url, JSON.stringify({ code: code.toString(), name }))
         
         console.log(response)
         return response.data.data;

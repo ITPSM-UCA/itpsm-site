@@ -68,19 +68,21 @@ const EvaluationsForm = ({  clearData,toggleForm,fetchData,  tableRef,columns,ed
   }
   return (
     <>
-  
-    <div>
-        <CustomTable
-         edit={false}
-          fetchData={fetchData}
-          collapsable={false}
-          ref={tableRef}
-          columns={columns}
-          title="Catedráticos"
-          onEditClickedAction={editRowAction}
-          onRefreshTableClicked={refreshTableAction}
-          //onDeleteClickedAction={deleteRowAction}
-        />
+      <div className="flex justify-between mb-12">
+            <h1 className="text-2xl font-semibold text-gray-900">Evaluaciones</h1>
+      </div>
+      <div>
+          <CustomTable
+          edit={false}
+            fetchData={fetchData}
+            collapsable={false}
+            ref={tableRef}
+            columns={columns}
+            title="Evaluaciones"
+            onEditClickedAction={editRowAction}
+            onRefreshTableClicked={refreshTableAction}
+            //onDeleteClickedAction={deleteRowAction}
+          />
       </div>
     </>
   )
