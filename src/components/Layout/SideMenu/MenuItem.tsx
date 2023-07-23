@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router';
 
 interface Props {
   label: string,
@@ -7,17 +8,22 @@ interface Props {
   isActive: boolean,
 }
 
+
+
 const MenuItem = ({
   Icon,
   label,
   isActive,
   redirectTo,
 }:Props) => {
+  const router = useRouter();
+  const href = '/' + redirectTo;
+
   const className = isActive ? `${baseClassName} bg-gray-100 text-gray-900` : `${baseClassName} text-gray-500 hover:bg-gray-50 hover:text-gray-900`
   const iconClassName = isActive ? `${baseIconClassName} text-gray-500` : `${baseIconClassName} text-gray-400 group-hover:text-gray-500`
 
   return (
-    <Link href={redirectTo}>
+    <Link href={href}>
       <a className={className}>
         <Icon className={iconClassName} />
         <span>{label}</span>
